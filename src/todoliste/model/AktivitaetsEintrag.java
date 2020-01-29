@@ -16,7 +16,6 @@ public class AktivitaetsEintrag {
      * Konstruktor, der alle Werte mit leeren Werten initialisiert
      */
 
-
     public AktivitaetsEintrag() {
         this.erstellungsDatum = "";
         this.aktivitaetsName = "";
@@ -54,16 +53,24 @@ public class AktivitaetsEintrag {
         setStatus(status);
     }
 
-    // getErstellungsDatum ruf die aktualle zeit und date
+    /**
+     * Gibt den Wert des ErstellungsDatum zurück
+     * @return erstellungsDatum  String des aktualla ErstellungsDatum(zeit und datum)
+     */
     public String getErstellungsDatum() {
         this.erstellungsDatum = date();
        return erstellungsDatum;
     }
 
+
     public void setErstellungsDatum(String erstellungsDatum) {
         this.erstellungsDatum = erstellungsDatum;
     }
 
+    /**
+     * Gibt den Wert des AktivitaetsName zurück
+     * @return aktivitaetsName  String des AktivitaetsName
+     */
     public String getAktivitaetsName() {
         return aktivitaetsName;
     }
@@ -76,6 +83,10 @@ public class AktivitaetsEintrag {
         }
     }
 
+    /**
+     * Gibt den Wert des StartDatum zurück
+     * @return startDatum  String des StartDatum
+     */
     public String getStartDatum() {
         return startDatum;
     }
@@ -84,6 +95,10 @@ public class AktivitaetsEintrag {
         this.startDatum = startDatum;
     }
 
+    /**
+     * Gibt den Wert des EndDatum zurück
+     * @return endDatum  String des EndDatum
+     */
     public String getEndDatum() {
         return endDatum;
     }
@@ -92,14 +107,19 @@ public class AktivitaetsEintrag {
         this.endDatum = endDatum;
     }
 
+    /**
+     * Gibt den Wert des VerbrauchteZeit zurück
+     * @return verbrauchteZeit  String des VerbrauchteZeit
+     */
     public String getVerbrauchteZeit() {
         return verbrauchteZeit;
     }
 
     /**
      *
-     * @param verbrauchteZeit muss ein positive wert sein  und nicht null auch nicht character oder
-     *                        besonders type
+     * @param verbrauchteZeit muss ein positive wert sein
+     *  und nicht null auch nicht character oder
+     *  besonders type
      */
     public void setVerbrauchteZeit(String verbrauchteZeit) {
         this.verbrauchteZeit = verbrauchteZeit;
@@ -107,6 +127,10 @@ public class AktivitaetsEintrag {
             throw  new IllegalArgumentException("Bitte beachten Sie dass die verbraucher Zeit nicht null odeer negative wert ist");
     }
 
+    /**
+     * Gibt den Wert des Kategorie zurück
+     * @return kategorie String des Kategorie
+     */
     public String getKategorie() {
         return kategorie;
     }
@@ -115,12 +139,17 @@ public class AktivitaetsEintrag {
      *
      * @param kategorie muss nicht null sein sonst bekommt man exception
      */
+
     public void setKategorie(String kategorie) {
         this.kategorie = kategorie;
         if (kategorie == null)
             throw new IllegalArgumentException("Sie haben keine Kategorie abgegeben , bitte geb mal die Kategorie ab");
     }
 
+    /**
+     * Gibt den Wert des Prioritaet zurück
+     * @return prioritaet String des Prioritaet
+     */
     public String getPrioritaet() {
         return prioritaet;
     }
@@ -137,6 +166,10 @@ public class AktivitaetsEintrag {
         this.prioritaet = prioritaet;
     }
 
+    /**
+     * Gibt den Wert des Statuszurück
+     * @return status String des Status
+     */
     public String getStatus() {
         return status;
     }
