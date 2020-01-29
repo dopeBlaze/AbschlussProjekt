@@ -189,5 +189,5 @@ public class AktivitaetsEintrag {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return dtf.format(LocalDateTime.now());
     }
-    
+
 }
