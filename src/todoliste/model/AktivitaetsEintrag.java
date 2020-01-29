@@ -60,14 +60,26 @@ public class AktivitaetsEintrag {
        return erstellungsDatum;
     }
 
+    /**
+     *
+     * @param erstellungsDatum Die zu setzende ersttellung atum
+     *@throws IllegalArgumentException wird geworfen, wenn die erstellungsDatum nicht numerischer Wert vorkommt
+     */
     public void setErstellungsDatum(String erstellungsDatum) {
         this.erstellungsDatum = erstellungsDatum;
+        if (erstellungsDatum == null)
+            throw new IllegalArgumentException("Die angegeben Datum ist ungültig");
     }
 
     public String getAktivitaetsName() {
         return aktivitaetsName;
     }
 
+    /**
+     *
+     * @param aktivitaetsName Die zu setzende aktivitaet
+     * @throws IllegalArgumentException wird geworfen, wenn die Aktivtat nicht numerischer Wert vorkommt
+     */
     public void setAktivitaetsName(String aktivitaetsName) {
         if (aktivitaetsName == null) {
             throw new IllegalArgumentException("Bitte Schreiben Sie die AktivitaetsName ");
@@ -80,6 +92,10 @@ public class AktivitaetsEintrag {
         return startDatum;
     }
 
+    /**
+     *
+     * @param startDatum Die zu setzende startDatum
+     */
     public void setStartDatum(String startDatum) {
         this.startDatum = startDatum;
     }
@@ -88,8 +104,15 @@ public class AktivitaetsEintrag {
         return endDatum;
     }
 
+    /**
+     *
+     * @param endDatum Die zu setzende endDatum
+     * @throws IllegalArgumentException wird geworfen, wenn die EndDatum nicht numerischer Wert vorkommt
+     */
     public void setEndDatum(String endDatum) {
         this.endDatum = endDatum;
+        if (endDatum == null)
+            throw new IllegalArgumentException("Die EndDatum ist ungültig");
     }
 
     public String getVerbrauchteZeit() {
@@ -100,6 +123,7 @@ public class AktivitaetsEintrag {
      *
      * @param verbrauchteZeit muss ein positive wert sein  und nicht null auch nicht character oder
      *                        besonders type
+     * @throws IllegalArgumentException wird geworfen, wenn die VerbrauchteZeit nicht numerischer Wert vorkommt.
      */
     public void setVerbrauchteZeit(String verbrauchteZeit) {
         this.verbrauchteZeit = verbrauchteZeit;
@@ -113,7 +137,8 @@ public class AktivitaetsEintrag {
 
     /**
      *
-     * @param kategorie muss nicht null sein sonst bekommt man exception
+     * @param kategorie Die zu setzende kategorie
+     * @throws IllegalArgumentException wird geworfen, wenn die kategorie nicht numerischer Wert vorkommt.
      */
     public void setKategorie(String kategorie) {
         this.kategorie = kategorie;
@@ -127,7 +152,8 @@ public class AktivitaetsEintrag {
 
     /**
      *
-     * @param prioritaet  muss kein null sein ,es muss ein werte
+     * @param prioritaet  Die zu setzende prioritaet
+     * @throws IllegalArgumentException wird geworfen, wenn die priorität nicht numerischer Wert vorkommt.
      */
 
 
@@ -143,7 +169,8 @@ public class AktivitaetsEintrag {
 
     /**
      *
-     * @param status  mustt nicht eine Null sein
+     * @param status  Die zu setzende Status
+     *@throws IllegalArgumentException wird geworfen, wenn die Status n nicht numerischer Wert vorkommt.
      */
     public void setStatus(String status) {
         if (status == null)
