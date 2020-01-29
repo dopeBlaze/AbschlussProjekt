@@ -116,6 +116,8 @@ public class AktivitaetsEintrag {
     }
 
     public void setStatus(String status) {
+        if (status == null)
+            throw new IllegalArgumentException("Du hast keine Status, es muss ein Statsu sein");
         this.status = status;
     }
 }
