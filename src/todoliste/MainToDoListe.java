@@ -20,7 +20,6 @@ public class MainToDoListe extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        AktivitaetsEintrag a=new AktivitaetsEintrag();
 
     }
 }

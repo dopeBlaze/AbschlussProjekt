@@ -17,7 +17,7 @@ public class AktivitaetsEintrag {
      */
 
     public AktivitaetsEintrag() {
-        this.erstellungsDatum = "";
+        this.erstellungsDatum = date();
         this.aktivitaetsName = "";
         this.startDatum = "";
         this.endDatum = "";
@@ -42,7 +42,7 @@ public class AktivitaetsEintrag {
      */
 
     public AktivitaetsEintrag(String aktivitaetsName, String startDatum, String endDatum, String verbrauchteZeit, String kategorie, String prioritaet, String status) {
-        setErstellungsDatum("");
+        this.erstellungsDatum = date();
         setAktivitaetsName(aktivitaetsName);
         setStartDatum(startDatum);
         setEndDatum(endDatum);
@@ -59,17 +59,6 @@ public class AktivitaetsEintrag {
      */
     public String getErstellungsDatum() {
         return erstellungsDatum;
-    }
-
-    /**
-     * @param erstellungsDatum Die zu setzende ersttellung atum
-     * @throws IllegalArgumentException wird geworfen, wenn die erstellungsDatum nicht numerischer Wert vorkommt
-     */
-
-    public void setErstellungsDatum(String erstellungsDatum) {
-        // this.erstellungsDatum = erstellungsDatum;
-        this.erstellungsDatum = date();
-
     }
 
     /**
