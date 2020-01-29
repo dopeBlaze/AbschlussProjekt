@@ -95,8 +95,8 @@ public class AktivitaetsEintrag {
      * @param startDatum Die zu setzende startDatum
      */
     public void setStartDatum(String startDatum) {
-        //this.startDatum = startDatum;
-        this.startDatum = date();
+       this.startDatum = startDatum;
+
     }
 
     /**
@@ -218,7 +218,7 @@ public class AktivitaetsEintrag {
      */
     // method calculate die aktualle date und zeit
     public String date() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:[SSSS]");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:[SSS]");
         return dtf.format(LocalDateTime.now());
     }
 
