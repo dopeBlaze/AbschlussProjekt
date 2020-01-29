@@ -31,7 +31,7 @@ public class SqlStatements {
             + "FOREIGN KEY (aktivitaetsname_id) REFERENCES aktivitaetsname(id), "
             + "FOREIGN KEY (kategorie_id) REFERENCES kategorie(id), "
             + "FOREIGN KEY (prioritaet_id) REFERENCES prioritaet(id), "
-            + "FOREIGN KEY (status_id) REFERENCES status(id), "
+            + "FOREIGN KEY (status_id) REFERENCES status(id)"
             + ");";
     public static final String ACTIVATE_FOREIGN_KEYS = "PRAGMA foreign_keys = ON;";
 
@@ -44,12 +44,12 @@ public class SqlStatements {
             + "t.verbrauchtezeit AS VerbrauchteZeit, "
             + "k.kategoriename AS Kategorie, "
             + "p.prioritaetname AS Prioritaet, "
-            + "s.statusname AS Status, "
-            + " FROM table_todoliste t "
+            + "s.statusname AS Status "
+            + "FROM table_todoliste t "
             + "INNER JOIN table_aktivitaetsname a ON t.aktivitaetsname_id = a.id "
             + "INNER JOIN table_kategorie k ON t.kategorie_id = k.id "
             + "INNER JOIN table_prioritaet p ON t.prioritaet_id = p.id "
-            + "INNER JOIN table_status s ON t.status_id = s.id ";
+            + "INNER JOIN table_status s ON t.status_id = s.id;";
 
 
     /*
@@ -108,14 +108,15 @@ public class SqlStatements {
             +   "INSERT INTO table_status (statusname) SELECT NEW.Status WHERE NOT EXISTS (SELECT 1 FROM table_status WHERE statusname = NEW.Status);\n"
             +   "\n"
             +   "UPDATE table_todoliste SET "
-            +   "erstellungsdatum = NEW.ErstellungsDatum WHERE erstellungsdatum = OLD.ErstellungsDatum, "
+            +   "erstellungsdatum = NEW.ErstellungsDatum, "
             +   "aktivitaetsname_id = (SELECT id FROM table_aktivitaetsname WHERE aktivitaetsname = NEW.Aktivitaetsname), "
             +   "startdatum = NEW.StartDatum, "
             +   "enddatum = NEW.EndDatum, "
             +   "verbrauchtezeit = NEW.VerbrauchteZeit, "
             +   "kategorie_id = (SELECT id FROM table_kategorie WHERE kategoriename = NEW.Kategorie), "
             +   "prioritaet_id = (SELECT id FROM table_prioritaet WHERE prioritaetname = NEW.Prioritaet), "
-            +   "status_id = (SELECT id FROM table_status WHERE statusname = NEW.Status);"
+            +   "status_id = (SELECT id FROM table_status WHERE statusname = NEW.Status)"
+            +   "WHERE erstellungsdatum = OLD.ErstellungsDatum;"
             +   "\n"
             +   "\n"
             +   "DELETE FROM table_aktivitaetsname WHERE id NOT IN (SELECT aktivitaetsname_id FROM table_todoliste);\n"
