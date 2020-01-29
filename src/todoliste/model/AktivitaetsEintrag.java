@@ -229,7 +229,7 @@ public class AktivitaetsEintrag {
      */
     // method calculate die aktualle date und zeit
     public String date() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:[SSSS]");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:[SSS]");
         return dtf.format(LocalDateTime.now());
     }
 
