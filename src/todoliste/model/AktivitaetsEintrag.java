@@ -1,6 +1,9 @@
 package todoliste.model;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Attribute erstellungsDatum [Dateformat], aktivitaetsName [String], startDatum [DateFormat], endDatum [DateFormat], verbrauchteZeit [String], kategorie [String], prioritaet [String], status [String]
  */
@@ -51,8 +54,9 @@ public class AktivitaetsEintrag {
         setStatus(status);
     }
 
-
+    // getErstellungsDatum ruf die aktualle zeit und date
     public String getErstellungsDatum() {
+        this.erstellungsDatum = date();
        return erstellungsDatum;
     }
 
@@ -147,7 +151,10 @@ public class AktivitaetsEintrag {
         this.status = status;
     }
 
-
-
+    // method calculate die aktualle date und zeit
+    public String date(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        return dtf.format(LocalDateTime.now());
+    }
 
 }
