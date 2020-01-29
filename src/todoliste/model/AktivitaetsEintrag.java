@@ -92,23 +92,44 @@ public class AktivitaetsEintrag {
         return verbrauchteZeit;
     }
 
+    /**
+     *
+     * @param verbrauchteZeit muss ein positive wert sein  und nicht null auch nicht character oder
+     *                        besonders type
+     */
     public void setVerbrauchteZeit(String verbrauchteZeit) {
         this.verbrauchteZeit = verbrauchteZeit;
+        if (verbrauchteZeit == null || Integer.parseInt(verbrauchteZeit) >= 0  )
+            throw  new IllegalArgumentException("Bitte beachten Sie dass die verbraucher Zeit nicht null odeer negative wert ist");
     }
 
     public String getKategorie() {
         return kategorie;
     }
 
+    /**
+     *
+     * @param kategorie muss nicht null sein sonst bekommt man exception
+     */
     public void setKategorie(String kategorie) {
         this.kategorie = kategorie;
+        if (kategorie == null)
+            throw new IllegalArgumentException("Sie haben keine Kategorie abgegeben , bitte geb mal die Kategorie ab");
     }
 
     public String getPrioritaet() {
         return prioritaet;
     }
 
+    /**
+     *
+     * @param prioritaet  muss kein null sein ,es muss ein werte
+     */
+
+
     public void setPrioritaet(String prioritaet) {
+        if (prioritaet == null)
+            throw new IllegalArgumentException("Es gab kein Status abgegeben, bitte geb mal die Priorität ab");
         this.prioritaet = prioritaet;
     }
 
@@ -116,7 +137,13 @@ public class AktivitaetsEintrag {
         return status;
     }
 
+    /**
+     *
+     * @param status  mustt nicht eine Null sein
+     */
     public void setStatus(String status) {
+        if (status == null)
+            throw new IllegalArgumentException("Du hast keine Status, es muss ein Statsu sein");
         this.status = status;
     }
 
