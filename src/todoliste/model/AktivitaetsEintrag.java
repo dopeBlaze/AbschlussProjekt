@@ -106,8 +106,8 @@ public class AktivitaetsEintrag {
      * @param startDatum Die zu setzende startDatum
      */
     public void setStartDatum(String startDatum) {
-        //this.startDatum = startDatum;
-        this.startDatum = date();
+       this.startDatum = startDatum;
+
     }
 
     /**
