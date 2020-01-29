@@ -57,7 +57,7 @@ public class AktivitaetsEintrag {
      * Gibt den Wert des ErstellungsDatum zurück
      * @return erstellungsDatum  String des aktualla ErstellungsDatum(zeit und datum)
      */
-    public String getErstellungsDatum() {
+    public  String getErstellungsDatum() {
         this.erstellungsDatum = date();
        return erstellungsDatum;
     }
@@ -189,5 +189,5 @@ public class AktivitaetsEintrag {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return dtf.format(LocalDateTime.now());
     }
-
+    
 }
