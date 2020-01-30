@@ -9,6 +9,5 @@ public class AktivitaetsEintrag {
      * Konstruktor
      */
     public AktivitaetsEintrag(){
-
     }
 }
