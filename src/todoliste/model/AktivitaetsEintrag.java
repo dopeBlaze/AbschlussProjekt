@@ -1,27 +1,23 @@
 package todoliste.model;
 
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 /**
- * Attribute erstellungsDatum [Dateformat], aktivitaetsName [String], startDatum [DateFormat], endDatum [DateFormat], verbrauchteZeit [String], kategorie [String], prioritaet [String], status [String]
+ * Klassen Model fuer die Aktivitaeten
  */
 public class AktivitaetsEintrag {
 
-
-    private String aktivitaetsName, kategorie, prioritaet, status;
-    private LocalDateTime erstellungsDatum, startDatum, endDatum;
+    private String erstellungsDatum, aktivitaetsName, startDatum, endDatum, kategorie, prioritaet, status;
     private int verbrauchteZeit;
-    /**
-     * Konstruktor, der alle Werte mit leeren Werten initialisiert
-     */
 
+    /**
+     * Konstruktor, der alle Attribute mit leeren Werten initialisiert
+     * Wichtig: Dieser Konstruktor wird nie benutzt, da niemals leere Werte uebermittelt werden
+     */
     public AktivitaetsEintrag() {
-        this.erstellungsDatum = LocalDateTime.now();
+        this.erstellungsDatum = "";
         this.aktivitaetsName = "";
-        this.startDatum = LocalDateTime.now();
-        this.endDatum = LocalDateTime.now();
+        this.startDatum = "";
+        this.endDatum = "";
         this.verbrauchteZeit = 0;
         this.kategorie = "";
         this.prioritaet = "";
@@ -29,10 +25,10 @@ public class AktivitaetsEintrag {
     }
 
     /**
-     * Überladener Konstruktor
-     * Initialisiert alle Werte mit leeren Werten und setzt dann die übergebenen Werte,
-     * sofern sie ungleich null sind.
+     * Ueberladener Konstruktor
+     * Initialisiert den Konstruktor mit den uebergebenen Parametern, sofern sie ungleich null sind.
      *
+     * @param erstellungsDatum zu setzendes ErstellungsDatum
      * @param aktivitaetsName zu setzender AktivitaetsName
      * @param startDatum      zu setzender StartDatum
      * @param endDatum        zu setzender EndDatum
@@ -42,8 +38,8 @@ public class AktivitaetsEintrag {
      * @param status          zu setzender Status
      */
 
-    public AktivitaetsEintrag(String aktivitaetsName, LocalDateTime startDatum, LocalDateTime endDatum, int verbrauchteZeit, String kategorie, String prioritaet, String status) {
-        this.erstellungsDatum = LocalDateTime.now();
+    public AktivitaetsEintrag(String erstellungsDatum, String aktivitaetsName, String startDatum, String endDatum, int verbrauchteZeit, String kategorie, String prioritaet, String status) {
+        setErstellungsDatum(erstellungsDatum);
         setAktivitaetsName(aktivitaetsName);
         setStartDatum(startDatum);
         setEndDatum(endDatum);
@@ -54,172 +50,186 @@ public class AktivitaetsEintrag {
     }
 
     /**
-     * Gibt den Wert des ErstellungsDatum zurück
+     * Gibt den Wert vom ErstellungsDatum zurueck
      *
-     * @return erstellungsDatum  LocalDateTime des aktualla ErstellungsDatum(zeit und datum)
+     * @return erstellungsDatum String vom aktuellen ErstellungsDatum
      */
-    public LocalDateTime getErstellungsDatum() {
+    public String getErstellungsDatum() {
         return erstellungsDatum;
     }
 
     /**
-     * Gibt den Wert des AktivitaetsName zurück
+     * Setzt das ErstellungsDatum auf den uebergebenen Wert
      *
-     * @return aktivitaetsName  String des AktivitaetsName
+     * @param erstellungsDatum das zu setzende ErstellungsDatum
+     * @throws IllegalArgumentException wird geworfen, wenn das ErstellungsDatum keinen Wert uebermittelt bekommt
+     */
+    public void setErstellungsDatum(String erstellungsDatum) {
+        if (erstellungsDatum == null) {
+            throw new IllegalArgumentException("ErstellungsDatum fehlt!");
+        } else {
+            this.erstellungsDatum = erstellungsDatum;
+        }
+    }
+
+    /**
+     * Gibt den Wert von AktivitaetsName zurueck
+     *
+     * @return aktivitaetsName String von AktivitaetsName
      */
     public String getAktivitaetsName() {
         return aktivitaetsName;
     }
 
     /**
-     * @param aktivitaetsName Die zu setzende aktivitaet
-     * @throws IllegalArgumentException wird geworfen, wenn die Aktivtat nicht numerischer Wert vorkommt
+     * Setzt den AktivitaetsNamen auf den uebergebenen Wert
+     *
+     * @param aktivitaetsName der zu setzende AktivitaetsName
+     * @throws IllegalArgumentException wird geworfen, wenn der AktivitaetsName keinen Wert uebermittelt bekommt
      */
     public void setAktivitaetsName(String aktivitaetsName) {
         if (aktivitaetsName == null) {
-            throw new IllegalArgumentException("Bitte Schreiben Sie die AktivitaetsName ");
+            throw new IllegalArgumentException("AktivitaetsName fehlt!");
         } else {
             this.aktivitaetsName = aktivitaetsName;
         }
     }
 
     /**
-     * Gibt den Wert des StartDatum zurück
+     * Gibt den Wert vom StartDatum zurueck
      *
-     * @return startDatum  String des StartDatum
+     * @return startDatum String vom StartDatum
      */
-    public LocalDateTime getStartDatum() {
+    public String getStartDatum() {
         return startDatum;
     }
 
     /**
-     * @param startDatum Die zu setzende startDatum
+     * Setzt das StartDatum auf den uebergebenen Wert
+     *
+     * @param startDatum das zu setzende StartDatum
+     * @throws IllegalArgumentException wird geworfen, wenn das StartDatum keinen Wert uebermittelt bekommt
      */
-    public void setStartDatum(LocalDateTime startDatum) {
-       this.startDatum = startDatum;
-
+    public void setStartDatum(String startDatum) {
+        if (startDatum == null) {
+            throw new IllegalArgumentException("StartDatum fehlt!");
+        } else {
+            this.startDatum = startDatum;
+        }
     }
 
     /**
-     * Gibt den Wert des EndDatum zurück
+     * Gibt den Wert vom EndDatum zurueck
      *
-     * @return endDatum  String des EndDatum
+     * @return endDatum String vom EndDatum
      */
-    public LocalDateTime getEndDatum() {
+    public String getEndDatum() {
         return endDatum;
     }
 
     /**
-     * @param endDatum Die zu setzende endDatum
-     * @throws IllegalArgumentException wird geworfen, wenn die EndDatum nicht numerischer Wert vorkommt
+     * Setzt das EndDatum auf den uebergebenen Wert
+     *
+     * @param endDatum das zu setzende EndDatum
+     * @throws IllegalArgumentException wird geworfen, wenn das EndDatum keinen Wert uebermittelt bekommt
      */
-    public void setEndDatum(LocalDateTime endDatum) {
+    public void setEndDatum(String endDatum) {
         if (endDatum == null) {
-            throw new IllegalArgumentException("Die EndDatum ist ungültig");
+            throw new IllegalArgumentException("EndDatum fehlt!");
         } else {
             this.endDatum = endDatum;
         }
     }
 
     /**
-     * Gibt den Wert des VerbrauchteZeit zurück
+     * Gibt den Wert von VerbrauchteZeit zurueck
      *
-     * @return verbrauchteZeit  String des VerbrauchteZeit
+     * @return verbrauchteZeit int von VerbrauchteZeit
      */
     public int getVerbrauchteZeit() {
         return verbrauchteZeit;
     }
 
     /**
+     * Setzt die VerbrauchteZeit auf den uebergebenen Wert
      *
-     * @param verbrauchteZeit muss ein positive Wert sein und auch nicht character oder
-     *                        besonders type
-     * @throws IllegalArgumentException wird geworfen, wenn die VerbrauchteZeit nicht numerischer Wert vorkommt.
+     * @param verbrauchteZeit die zu setzende VerbrauchteZeit
+     * @throws IllegalArgumentException wird geworfen, wenn die VerbrauchteZeit einen negativen Wert uebermittelt bekommt
      */
     public void setVerbrauchteZeit(int verbrauchteZeit) {
         if (verbrauchteZeit < 0) {
-            throw new IllegalArgumentException("Bitte beachten Sie, dass die verbrauchte Zeit keine negativen Wert enthält");
+            throw new IllegalArgumentException("Die verbrauchte Zeit enthaelt einen negativen Wert!");
         } else {
             this.verbrauchteZeit = verbrauchteZeit;
         }
     }
 
     /**
-     * Gibt den Wert des Kategorie zurück
+     * Gibt den Wert von Kategorie zurueck
      *
-     * @return kategorie String des Kategorie
+     * @return kategorie String von Kategorie
      */
     public String getKategorie() {
         return kategorie;
     }
 
     /**
-     * @param kategorie Die zu setzende kategorie
-     * @throws IllegalArgumentException wird geworfen, wenn die kategorie nicht numerischer Wert vorkommt.
+     * Setzt die Kategorie auf den uebergebenen Wert
+     *
+     * @param kategorie die zu setzende Kategorie
+     * @throws IllegalArgumentException wird geworfen, wenn die Kategorie keinen Wert uebermittelt bekommt
      */
-
     public void setKategorie(String kategorie) {
         if (kategorie == null) {
-            throw new IllegalArgumentException("Sie haben keine Kategorie abgegeben , bitte geb mal die Kategorie ab");
+            throw new IllegalArgumentException("Kategorie fehlt!");
         } else {
             this.kategorie = kategorie;
         }
     }
 
     /**
-     * Gibt den Wert des Prioritaet zurück
+     * Gibt den Wert von Prioritaet zurueck
      *
-     * @return prioritaet String des Prioritaet
+     * @return prioritaet String von Prioritaet
      */
     public String getPrioritaet() {
         return prioritaet;
     }
 
     /**
-     * @param prioritaet Die zu setzende prioritaet
-     * @throws IllegalArgumentException wird geworfen, wenn die priorität nicht numerischer Wert vorkommt.
+     * Setzt die Prioritaet auf den uebergebenen Wert
+     *
+     * @param prioritaet die zu setzende Prioritaet
+     * @throws IllegalArgumentException wird geworfen, wenn die Prioritaet keinen Wert uebermittelt bekommt
      */
-
-
     public void setPrioritaet(String prioritaet) {
         if (prioritaet == null) {
-            throw new IllegalArgumentException("Es gab kein Status abgegeben, bitte geb mal die Priorität ab");
+            throw new IllegalArgumentException("Prioritaet fehlt!");
         } else {
             this.prioritaet = prioritaet;
         }
     }
 
     /**
-     * Gibt den Wert des Statuszurück
+     * Gibt den Wert von Status zurueck
      *
-     * @return status String des Status
+     * @return status String von Status
      */
     public String getStatus() {
         return status;
     }
 
     /**
-     * @param status Die zu setzende Status
-     * @throws IllegalArgumentException wird geworfen, wenn die Status n nicht numerischer Wert vorkommt.
+     * Setzt den Status auf den uebergebenen Wert
+     *
+     * @param status der zu setzende Status
+     * @throws IllegalArgumentException wird geworfen, wenn der Status keinen Wert uebermittelt bekommt
      */
     public void setStatus(String status) {
         if (status == null) {
-            throw new IllegalArgumentException("Du hast keine Status, es muss ein Statsu sein");
+            throw new IllegalArgumentException("Status fehlt!");
         } else {
             this.status = status;
         }
     }
-
-    /**
-     * Gibt den Wert des DateTimeFormatter
-     *
-     * @return LocalDateTime String des DateTimeFormatter
-     */
-    // method calculate die aktualle date und zeit
-    public String date() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:[SSS]");
-        return dtf.format(LocalDateTime.now());
-    }
-
-
 }
