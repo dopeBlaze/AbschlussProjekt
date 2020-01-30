@@ -3,7 +3,7 @@ package todoliste.datenbank.connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SQLiteDatenbankverbindung extends AllgemeineDatenbankverbindung{
+public class SQLiteDatenbankverbindung extends AllgemeineDatenbankverbindung {
 
     private final String DBFILE;
 
