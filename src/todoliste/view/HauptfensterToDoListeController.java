@@ -92,6 +92,17 @@ public class HauptfensterToDoListeController {
         alert.setHeaderText(null);
         alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
         Optional<ButtonType> op = alert.showAndWait();
+
+        // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
+        if (op.isPresent() && op.get() == ButtonType.OK) {
+
+            // Aktuellen Eintrag löschen
+            HauptfensterToDoListeController.remove(angzeigteAktivitaet);
+
+
+            // Aktuellen Aktivitaet anzeigen
+            anzeigen();
+        }
     }
 
     @FXML
