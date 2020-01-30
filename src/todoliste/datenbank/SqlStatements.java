@@ -108,7 +108,6 @@ public class SqlStatements {
             +   "INSERT INTO table_status (statusname) SELECT NEW.Status WHERE NOT EXISTS (SELECT 1 FROM table_status WHERE statusname = NEW.Status);\n"
             +   "\n"
             +   "UPDATE table_todoliste SET "
-            +   "erstellungsdatum = NEW.ErstellungsDatum, "
             +   "aktivitaetsname_id = (SELECT id FROM table_aktivitaetsname WHERE aktivitaetsname = NEW.Aktivitaetsname), "
             +   "startdatum = NEW.StartDatum, "
             +   "enddatum = NEW.EndDatum, "
