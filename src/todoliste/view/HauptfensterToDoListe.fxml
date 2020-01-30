@@ -11,22 +11,22 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="854.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView layoutX="12.0" layoutY="201.0" prefHeight="348.0" prefWidth="591.0">
+      <TableView fx:id="tvHauptfenster" layoutX="12.0" layoutY="201.0" prefHeight="348.0" prefWidth="591.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="btnStart" layoutX="627.0" layoutY="238.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="60.0" text="Start" />
-      <Button fx:id="btnPause" layoutX="687.0" layoutY="238.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="57.0" text="Pause" />
-      <Button fx:id="btnErledigt" layoutX="744.0" layoutY="238.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="60.0" text="Erledigt" />
-      <Button fx:id="btnWochenberichtAnzeigen" layoutX="656.0" layoutY="56.0" mnemonicParsing="false" text=" Wochenbericht anzeigen" />
-      <Button fx:id="btnAktivitätsnameBearbeiten" layoutX="656.0" layoutY="363.0" mnemonicParsing="false" text="Aktivitäsname bearbeiten" />
-      <Button fx:id="btnEintragBearbeiten" layoutX="675.0" layoutY="404.0" mnemonicParsing="false" text="Eintrag bearbeiten" />
-      <Button fx:id="btnLoeschen" layoutX="774.0" layoutY="520.0" mnemonicParsing="false" text="Löschen" />
-      <Button fx:id="btnNeuerEintrag" layoutX="612.0" layoutY="520.0" mnemonicParsing="false" text="Neuer Eintrag" />
-      <Button fx:id="btnVorherigerKalendertag" layoutX="348.0" layoutY="167.0" mnemonicParsing="false" text="&lt;" />
-      <Button fx:id="btnNächsterKalendertag" layoutX="568.0" layoutY="167.0" mnemonicParsing="false" text="&gt;" />
+      <Button fx:id="btnStart" layoutX="627.0" layoutY="238.0" mnemonicParsing="false" onAction="#starteZeiterfassung" prefHeight="67.0" prefWidth="60.0" text="Start" />
+      <Button fx:id="btnPause" layoutX="687.0" layoutY="238.0" mnemonicParsing="false" onAction="#pausiereZeiterfassung" prefHeight="67.0" prefWidth="57.0" text="Pause" />
+      <Button fx:id="btnErledigt" layoutX="744.0" layoutY="238.0" mnemonicParsing="false" onAction="#erledigtZeiterfassung" prefHeight="67.0" prefWidth="60.0" text="Erledigt" />
+      <Button fx:id="btnWochenberichtAnzeigen" layoutX="656.0" layoutY="56.0" mnemonicParsing="false" onAction="#anzeigenWochenbericht" text=" Wochenbericht anzeigen" />
+      <Button fx:id="btnAktivitaetsnameBearbeiten" layoutX="656.0" layoutY="363.0" mnemonicParsing="false" onAction="#bearbeiteAktivitaetsname" text="Aktivitäsname bearbeiten" />
+      <Button fx:id="btnEintragBearbeiten" layoutX="675.0" layoutY="404.0" mnemonicParsing="false" onAction="#bearbeiteEintrag" text="Eintrag bearbeiten" />
+      <Button fx:id="btnLoeschen" layoutX="774.0" layoutY="520.0" mnemonicParsing="false" onAction="#loescheAktivitaet" text="Löschen" />
+      <Button fx:id="btnNeuerEintrag" layoutX="612.0" layoutY="520.0" mnemonicParsing="false" onAction="#hinzufuegenNeuerEintrag" text="Neuer Eintrag" />
+      <Button fx:id="btnVorherigerKalendertag" layoutX="348.0" layoutY="167.0" mnemonicParsing="false" onAction="#waehleVorherigenKalendertag" text="&lt;" />
+      <Button fx:id="btnNaechsterKalendertag" layoutX="568.0" layoutY="167.0" mnemonicParsing="false" onAction="#waehleNaechstenKalendertag" text="&gt;" />
       <Label layoutX="447.0" layoutY="150.0" text="Kalender" />
       <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="262.0" layoutY="39.0" prefHeight="35.0" prefWidth="197.0" text="ToDo Liste" textAlignment="CENTER" underline="true">
          <effect>
@@ -42,7 +42,7 @@
          </font>
       </Label>
       <DatePicker fx:id="btnCalPick" layoutX="380.0" layoutY="167.0" prefHeight="25.0" prefWidth="181.0" />
-      <Button fx:id="btnProgrammBeenden" layoutX="671.0" layoutY="477.0" mnemonicParsing="false" text="Programm beenden" />
+      <Button fx:id="btnProgrammBeenden" layoutX="671.0" layoutY="477.0" mnemonicParsing="false" onAction="#beendeProgramm" text="Programm beenden" />
    </children>
    <effect>
       <Blend mode="MULTIPLY" />
