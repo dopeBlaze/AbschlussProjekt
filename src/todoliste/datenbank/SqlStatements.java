@@ -77,9 +77,6 @@ public class SqlStatements {
             +   "BEGIN\n"
             +   "\n"
             +   "INSERT INTO table_aktivitaetsname (aktivitaetsname) SELECT NEW.AktivitaetsName WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = NEW.AktivitaetsName);\n"
-            +   "INSERT INTO table_kategorie (kategoriename) SELECT NEW.Kategorie WHERE NOT EXISTS (SELECT 1 FROM table_kategorie WHERE kategoriename = NEW.Kategorie);\n"
-            +   "INSERT INTO table_prioritaet (prioritaetname) SELECT NEW.Prioritaet WHERE NOT EXISTS (SELECT 1 FROM table_prioritaet WHERE prioritaetname = NEW.Prioritaet);\n"
-            +   "INSERT INTO table_status (statusname) SELECT NEW.Status WHERE NOT EXISTS (SELECT 1 FROM table_status WHERE statusname = NEW.Status);\n"
             +   "\n"
             +   "INSERT INTO table_todoliste (erstellungsdatum, aktivitaetsname_id, startdatum, enddatum, verbrauchtezeit, kategorie_id, prioritaet_id, status_id) "
             +       "SELECT "
@@ -100,9 +97,6 @@ public class SqlStatements {
             +   "DELETE FROM table_todoliste WHERE erstellungsdatum = OLD.ErstellungsDatum;\n"
             +   "\n"
             +   "DELETE FROM table_aktivitaetsname WHERE id NOT IN (SELECT aktivitaetsname_id FROM table_todoliste);\n"
-            +   "DELETE FROM table_kategorie WHERE id NOT IN (SELECT kategorie_id FROM table_todoliste);\n"
-            +   "DELETE FROM table_prioritaet WHERE id NOT IN (SELECT prioritaet_id FROM table_todoliste);\n"
-            +   "DELETE FROM table_status WHERE id NOT IN (SELECT status_id FROM table_todoliste);\n"
             +   "\n"
             +   "END;";
 
@@ -110,9 +104,6 @@ public class SqlStatements {
             +   "BEGIN\n"
             +   "\n"
             +   "INSERT INTO table_aktivitaetsname (aktivitaetsname) SELECT NEW.AktivitaetsName WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = NEW.AktivitaetsName);\n"
-            +   "INSERT INTO table_kategorie (kategoriename) SELECT NEW.Kategorie WHERE NOT EXISTS (SELECT 1 FROM table_kategorie WHERE kategoriename = NEW.Kategorie);\n"
-            +   "INSERT INTO table_prioritaet (prioritaetname) SELECT NEW.Prioritaet WHERE NOT EXISTS (SELECT 1 FROM table_prioritaet WHERE prioritaetname = NEW.Prioritaet);\n"
-            +   "INSERT INTO table_status (statusname) SELECT NEW.Status WHERE NOT EXISTS (SELECT 1 FROM table_status WHERE statusname = NEW.Status);\n"
             +   "\n"
             +   "UPDATE table_todoliste SET "
             +   "aktivitaetsname_id = (SELECT id FROM table_aktivitaetsname WHERE aktivitaetsname = NEW.AktivitaetsName), "
@@ -126,9 +117,6 @@ public class SqlStatements {
             +   "\n"
             +   "\n"
             +   "DELETE FROM table_aktivitaetsname WHERE id NOT IN (SELECT aktivitaetsname_id FROM table_todoliste);\n"
-            +   "DELETE FROM table_kategorie WHERE id NOT IN (SELECT kategorie_id FROM table_todoliste);\n"
-            +   "DELETE FROM table_prioritaet WHERE id NOT IN (SELECT prioritaet_id FROM table_todoliste);\n"
-            +   "DELETE FROM table_status WHERE id NOT IN (SELECT status_id FROM table_todoliste);\n"
             +   "\n"
             +   "END;";
 
