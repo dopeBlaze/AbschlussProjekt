@@ -90,11 +90,22 @@ public class Datenbank extends SQLiteDatenbankverbindung {
 
                 result = result && execute(SqlStatements.ACTIVATE_FOREIGN_KEYS);
 
+                result = result && execute(SqlStatements.INSERT_INTO_TABLE_KATEGORIE);
+                result = result && execute(SqlStatements.INSERT_INTO_TABLE_PRIORITAET);
+                result = result && execute(SqlStatements.INSERT_INTO_TABLE_STATUS);
+
                 result = result && execute(SqlStatements.CREATE_VIEW_TODOLISTE);
+                result = result && execute(SqlStatements.CREATE_VIEW_AKTIVITAETSNAME);
+                result = result && execute(SqlStatements.CREATE_VIEW_KATEGORIE);
+                result = result && execute(SqlStatements.CREATE_VIEW_PRIORITAET);
+                result = result && execute(SqlStatements.CREATE_VIEW_STATUS);
 
                 result = result && execute(SqlStatements.CREATE_TRIGGER_TODOLISTE_INS);
                 result = result && execute(SqlStatements.CREATE_TRIGGER_TODOLISTE_DEL);
                 result = result && execute(SqlStatements.CREATE_TRIGGER_TODOLISTE_UPD);
+                result = result && execute(SqlStatements.CREATE_TRIGGER_AKTIVITAETSNAME_INS);
+                result = result && execute(SqlStatements.CREATE_TRIGGER_AKTIVITAETSNAME_DEL);
+                result = result && execute(SqlStatements.CREATE_TRIGGER_AKTIVITAETSNAME_UPD);
 
                 System.out.println("Upgrade auf DB-Version 1 durchgeführt.");
                 // KEIN break!!!! Wir wollen, dass die Datenbank immer auf die aktuelle Version upgedatet wird.
