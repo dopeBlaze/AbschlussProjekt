@@ -19,6 +19,11 @@ public class MainToDoListe extends Application {
 
 
     public static void main(String[] args) {
+
+        ///////////////////////
+        AktivitaetsEintrag a = new AktivitaetsEintrag(); // Testobjekt
+        System.out.println(a.getErstellungsDatum());
+        ///////////////////////
         launch(args);
 
     }

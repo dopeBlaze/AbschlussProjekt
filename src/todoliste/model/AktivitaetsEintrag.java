@@ -10,18 +10,19 @@ import java.time.format.DateTimeFormatter;
 public class AktivitaetsEintrag {
 
 
-    private String erstellungsDatum, aktivitaetsName, startDatum, endDatum, verbrauchteZeit, kategorie, prioritaet, status;
-
+    private String aktivitaetsName, kategorie, prioritaet, status;
+    private LocalDateTime erstellungsDatum, startDatum, endDatum;
+    private int verbrauchteZeit;
     /**
      * Konstruktor, der alle Werte mit leeren Werten initialisiert
      */
 
     public AktivitaetsEintrag() {
-        this.erstellungsDatum = date();
+        this.erstellungsDatum = LocalDateTime.now();
         this.aktivitaetsName = "";
-        this.startDatum = "";
-        this.endDatum = "";
-        this.verbrauchteZeit = "";
+        this.startDatum = LocalDateTime.now();
+        this.endDatum = LocalDateTime.now();
+        this.verbrauchteZeit = 0;
         this.kategorie = "";
         this.prioritaet = "";
         this.status = "";
@@ -41,8 +42,8 @@ public class AktivitaetsEintrag {
      * @param status          zu setzender Status
      */
 
-    public AktivitaetsEintrag(String aktivitaetsName, String startDatum, String endDatum, String verbrauchteZeit, String kategorie, String prioritaet, String status) {
-        this.erstellungsDatum = date();
+    public AktivitaetsEintrag(String aktivitaetsName, LocalDateTime startDatum, LocalDateTime endDatum, int verbrauchteZeit, String kategorie, String prioritaet, String status) {
+        this.erstellungsDatum = LocalDateTime.now();
         setAktivitaetsName(aktivitaetsName);
         setStartDatum(startDatum);
         setEndDatum(endDatum);
@@ -55,9 +56,9 @@ public class AktivitaetsEintrag {
     /**
      * Gibt den Wert des ErstellungsDatum zurück
      *
-     * @return erstellungsDatum  String des aktualla ErstellungsDatum(zeit und datum)
+     * @return erstellungsDatum  LocalDateTime des aktualla ErstellungsDatum(zeit und datum)
      */
-    public String getErstellungsDatum() {
+    public LocalDateTime getErstellungsDatum() {
         return erstellungsDatum;
     }
 
@@ -87,14 +88,14 @@ public class AktivitaetsEintrag {
      *
      * @return startDatum  String des StartDatum
      */
-    public String getStartDatum() {
+    public LocalDateTime getStartDatum() {
         return startDatum;
     }
 
     /**
      * @param startDatum Die zu setzende startDatum
      */
-    public void setStartDatum(String startDatum) {
+    public void setStartDatum(LocalDateTime startDatum) {
        this.startDatum = startDatum;
 
     }
@@ -104,7 +105,7 @@ public class AktivitaetsEintrag {
      *
      * @return endDatum  String des EndDatum
      */
-    public String getEndDatum() {
+    public LocalDateTime getEndDatum() {
         return endDatum;
     }
 
@@ -112,7 +113,7 @@ public class AktivitaetsEintrag {
      * @param endDatum Die zu setzende endDatum
      * @throws IllegalArgumentException wird geworfen, wenn die EndDatum nicht numerischer Wert vorkommt
      */
-    public void setEndDatum(String endDatum) {
+    public void setEndDatum(LocalDateTime endDatum) {
         if (endDatum == null) {
             throw new IllegalArgumentException("Die EndDatum ist ungültig");
         } else {
@@ -125,21 +126,19 @@ public class AktivitaetsEintrag {
      *
      * @return verbrauchteZeit  String des VerbrauchteZeit
      */
-    public String getVerbrauchteZeit() {
+    public int getVerbrauchteZeit() {
         return verbrauchteZeit;
     }
 
     /**
-     * @param verbrauchteZeit muss ein positive wert sein
-     *                        und nicht null auch nicht character oder
-     *                        besonders type
-     * @param verbrauchteZeit muss ein positive wert sein  und nicht null auch nicht character oder
+     *
+     * @param verbrauchteZeit muss ein positive Wert sein und auch nicht character oder
      *                        besonders type
      * @throws IllegalArgumentException wird geworfen, wenn die VerbrauchteZeit nicht numerischer Wert vorkommt.
      */
-    public void setVerbrauchteZeit(String verbrauchteZeit) {
-        if (verbrauchteZeit == null || Integer.parseInt(verbrauchteZeit) >= 0) {
-            throw new IllegalArgumentException("Bitte beachten Sie dass die verbraucher Zeit nicht null odeer negative wert ist");
+    public void setVerbrauchteZeit(int verbrauchteZeit) {
+        if (verbrauchteZeit < 0) {
+            throw new IllegalArgumentException("Bitte beachten Sie, dass die verbrauchte Zeit keine negativen Wert enthält");
         } else {
             this.verbrauchteZeit = verbrauchteZeit;
         }
