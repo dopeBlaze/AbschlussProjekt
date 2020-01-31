@@ -94,14 +94,14 @@ public class HauptfensterToDoListeController {
         Optional<ButtonType> op = alert.showAndWait();
 
         // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
-        if (op.isPresent() && op.get() == ButtonType.OK) {
+       if (op.isPresent() && op.get() == ButtonType.OK) {
 
             // Aktuellen Eintrag löschen
-     //       HauptfensterToDoListeController.remove(angzeigteAktivitaet);
+         //   HauptfensterToDoListeController.remove(angzeigteAktivitaet);
 
 
             // Aktuellen Aktivitaet anzeigen
-       //     anzeigen();
+          //  anzeigen();
         }
     }
 
