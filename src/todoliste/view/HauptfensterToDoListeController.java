@@ -27,17 +27,7 @@ public class HauptfensterToDoListeController {
     private ObservableList<AktivitaetsEintrag> tableData;
     private FilteredList<AktivitaetsEintrag> tableFilteredData;
 
-    @FXML
-    void initialize() {
-        assert tvHauptfenster != null : "fx:id=\"tvHauptfenster\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
 
-        // Daten für die Tabelle laden
-        tableData = AktivitaetsEintragBean.getAktivitaeten();
-
-        // Initialisierung der Tabelleneingenschaften
-        initTable();
-        initContextMenu();
-    }
 
     @FXML
     private Button btnStart;
@@ -125,15 +115,15 @@ public class HauptfensterToDoListeController {
 
             // Eintrag aus der Datenbank löschen
             //TODO Methode delete in Beans hinterlegen
-            if (!AktivitaetsEintragBean.delete(zuLoeschen)) {
+           // if (!AktivitaetsEintragBean.delete(zuLoeschen)) {
                 // Fehlermeldung ausgeben
-                alertAnzeigen("Fehler beim Löschen", "Die aktuelle Aktivität konnte aus der Datenbank nicht gelöscht werden, da sie bereits verwendet wurde.");
+              //  alertAnzeigen("Fehler beim Löschen", "Die aktuelle Aktivität konnte aus der Datenbank nicht gelöscht werden, da sie bereits verwendet wurde.");
 
                 // Löschen abbrechen
                 return;
             }
             // Eintrag entfernen
-            aktivitaeten.remove(zuLoeschen);
+          // aktivitaeten.remove(zuLoeschen);
 
             // Wenn der letzte Eintrag in der Aktivitaetenliste gelöscht wird, muss ein neuer leerer Eintrag generiert werden
             if (aktivitaeten.size() == 0) {
@@ -150,19 +140,19 @@ public class HauptfensterToDoListeController {
 
 
             
-        }
+        
 
 
 
-    private void alertAnzeigen(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+//    private void alertAnzeigen(String title, String message) {
+//        Alert alert = new Alert(Alert.AlertType.ERROR);
+//        alert.setTitle(title);
+//        alert.setHeaderText(null);
+//        alert.setContentText(message);
+//        alert.showAndWait();
+//    }
 
-}
+
 
     @FXML
     void pausiereZeiterfassung(ActionEvent event) {
