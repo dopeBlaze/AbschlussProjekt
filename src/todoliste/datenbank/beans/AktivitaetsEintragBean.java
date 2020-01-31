@@ -21,6 +21,7 @@ public class AktivitaetsEintragBean {
     private static PreparedStatement pstmtDeleteAktivitaetsNamen;
 
     private static HashMap<AktivitaetsEintrag, String> idListe;
+    private static HashMap<Integer, String> idListeName;
 
     /**
      * Initialisierungsblock
@@ -41,6 +42,7 @@ public class AktivitaetsEintragBean {
         pstmtDeleteAktivitaetsNamen = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
 
         idListe = new HashMap<>();
+        idListeName = new HashMap<>();
     }
 
     /**
@@ -178,79 +180,73 @@ public class AktivitaetsEintragBean {
      * @return Liste mit allen AktivitaetsNamen
      * @throws IllegalArgumentException wird geworfen, wenn intern eine SQL- oder ClassNotFoundException aufgetreten ist.
      */
-    /*public static ArrayList<> getAktivitaetsNamen() {
+    public static ArrayList<String> getAktivitaetsNamen() {
         ArrayList<String> result = null;
 
         try {
             // Datenbankabfrage ausführen
             ResultSet rs = pstmtSelectAktivitaetsNamen.executeQuery();
+            String eintrag;
+            int i = 0;
 
             // Result initialisieren
             result = new ArrayList<>();
 
             // Zurücksetzen der idListe
-            idListe.clear();
+            idListeName.clear();
 
             // Alle Datensätze abfragen und passend dazu neue Einträge generieren
             while (rs.next()) {
-                //String eintrag = new AktivitaetsEintrag(
-                        //TODO weiterschreiben
-                        //rs.getString("AktivitaetsName")
-                //);
-                //result.add(eintrag);
 
-                // Objekt der idListe hinzufügen
-                //idListe.put(eintrag, eintrag.getErstellungsDatum());
+                eintrag = rs.getString("AktivitaetsName");
+                result.add(eintrag);
+
+                //Objekt der idListeName hinzufügen
+                idListeName.put(i, eintrag);
+                i++;
             }
 
         } catch (SQLException ignored) {}
 
         return result;
-    }*/
+    }
 
     /**
-     * Speichert einen übergebenen AktivitaetsEintrag in der Datenbank. Ob der Eintrag
-     * in der ToDoListe schon vorhanden ist oder nicht, also ob ein update oder ein
+     * Speichert einen übergebenen AktivitaetsNamen in der Datenbank. Ob der Eintrag
+     * in der AktivitaetsNamenTabelle schon vorhanden ist oder nicht, also ob ein update oder ein
      * insert-Befehl für die Datenbank ausgeführt werden muss, ist für den Aufruf von der GUI
      * irrelevant. Dies findet diese Methode heraus.
      *
-     * @param zuSpeichern AktivitaetsEintrag, der gespeichert werden soll
+     * @param zuSpeichern AktivitaetsNamen, der gespeichert werden soll
      * @return true, wenn die Speicherung erfolgreich war, false andernfalls
      */
-    /*public static boolean saveAktivitaetsNamen(AktivitaetsEintrag zuSpeichern) {
+    public static boolean saveAktivitaetsNamen(String zuSpeichern) {
         boolean result = false;
 
         try {
             PreparedStatement pstmt;
 
             // Entscheiden, ob INSERT oder UPDATE
-            String id = idListe.get(zuSpeichern);
+            String id = idListeName.get(zuSpeichern);
 
             if (id == null) {
                 // INSERT
-                pstmt = pstmtInsertAktivitaet;
+                pstmt = pstmtInsertAktivitaetsNamen;
             } else {
                 // UPDATE
-                pstmt = pstmtUpdateAktivitaet;
-                pstmt.setString(9, id);
+                pstmt = pstmtUpdateAktivitaetsNamen;
+                pstmt.setString(2, id);
             }
 
             // Das PreparedStatement mit Informationen füttern
-            pstmt.setString(1, zuSpeichern.getErstellungsDatum());
-            pstmt.setString(2, zuSpeichern.getAktivitaetsName());
-            pstmt.setString(3, zuSpeichern.getStartDatum());
-            pstmt.setString(4, zuSpeichern.getEndDatum());
-            pstmt.setInt(5, zuSpeichern.getVerbrauchteZeit());
-            pstmt.setString(6, zuSpeichern.getKategorie());
-            pstmt.setString(7, zuSpeichern.getPrioritaet());
-            pstmt.setString(8, zuSpeichern.getStatus());
+            pstmt.setString(1, zuSpeichern);
 
             // Ausführen von Insert oder Update
             pstmt.executeUpdate();
             result = true;
 
             // Neuen oder geänderten Datensatz in der idListe aktualisieren
-            idListe.put(zuSpeichern, zuSpeichern.getErstellungsDatum());
+            //idListeName.put(zuSpeichern, zuSpeichern);
 
             Datenbank.getInstance().commit();
 
@@ -263,7 +259,7 @@ public class AktivitaetsEintragBean {
         }
 
         return result;
-    }*/
+    }
 
     /**
      * Löscht einen übergebenen TelefonbuchEintrag aus der Datenbank

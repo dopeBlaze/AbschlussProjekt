@@ -2,6 +2,7 @@ package todoliste;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ParallelCamera;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,7 +32,7 @@ public class MainToDoListe extends Application {
 
       
         ///////////////////////
-        AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Einkaufen", "2020-01-31", "2020-01-31", 0, "Privat", "normal", "nicht gestartet"); // Testobjekt
+        /*AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Einkaufen", "2020-01-31", "2020-01-31", 0, "Privat", "normal", "nicht gestartet"); // Testobjekt
         AktivitaetsEintragBean.saveAktivitaet(a);
         AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Arbeiten", "2020-01-31", "2020-01-31", 0, "Arbeit", "niedrig", "nicht gestartet"); // Testobjekt
         AktivitaetsEintragBean.saveAktivitaet(b);
@@ -42,13 +43,24 @@ public class MainToDoListe extends Application {
 
         b.setAktivitaetsName("Schlafen");
         AktivitaetsEintragBean.saveAktivitaet(b);
+        */
 
         ArrayList<AktivitaetsEintrag> ar = AktivitaetsEintragBean.getAktivitaeten();
 
         for (AktivitaetsEintrag array: ar) {
             //array.setAktivitaetsName("Warten");
             //AktivitaetsEintragBean.saveAktivitaet(array);
+            if (array.getErstellungsDatum().equals("2020-01-31T14:10:09.841996800")){
+                AktivitaetsEintragBean.deleteAktivitaet(array);
+            }
             System.out.println(array.getErstellungsDatum() + " " + array.getAktivitaetsName());
+        }
+
+        ArrayList<String> arName = AktivitaetsEintragBean.getAktivitaetsNamen();
+        for (String array: arName) {
+            //array.setAktivitaetsName("Warten");
+            //AktivitaetsEintragBean.saveAktivitaet(array);
+            System.out.println(array);
         }
         ///////////////////////
 
