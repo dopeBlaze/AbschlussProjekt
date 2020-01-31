@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.stage.Stage;
+
 
 public class ZeigeInfoFensterController {
 
@@ -40,14 +42,20 @@ public class ZeigeInfoFensterController {
     private TableColumn<?, ?> tcLable;
 
     @FXML
-    void abbruchButtonInfo(ActionEvent event) {
+    void abbruchButtonInfo() {
+
+        Stage stage = (Stage) btAbbruch.getScene().getWindow();
+        stage.close();
 
     }
 
     @FXML
-    void obkButtonInfo(ActionEvent event) {
+    void obkButtonInfo() {
+        Stage stage = (Stage) btOk.getScene().getWindow();
+        stage.close();
 
     }
+
 
     @FXML
     void initialize() {

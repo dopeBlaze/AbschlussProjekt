@@ -18,12 +18,12 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <LineChart fx:id="lcWochenbericht" layoutX="14.0" layoutY="180.0" prefHeight="445.0" prefWidth="499.0">
+      <LineChart fx:id="lcWochenbericht" layoutX="14.0" layoutY="180.0" prefHeight="445.0" prefWidth="499.0" title="Ihre Wochenbericht">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <CategoryAxis prefHeight="33.0" prefWidth="442.0" side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" />
+          <NumberAxis fx:id="yAxis" side="LEFT" />
         </yAxis>
       </LineChart>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="549.0" layoutY="152.0" prefHeight="17.0" prefWidth="437.0" text="Highscore" textAlignment="CENTER" textFill="#e87e7e">
@@ -33,8 +33,8 @@
       <Button fx:id="btnOK" layoutX="445.0" layoutY="639.0" mnemonicParsing="false" onAction="#bestätigeOK" prefHeight="43.0" prefWidth="155.0" text="OK" />
       <TableView layoutX="543.0" layoutY="190.0" prefHeight="409.0" prefWidth="447.0">
         <columns>
-            <TableColumn prefWidth="223.0" text="Aktivität" />
-            <TableColumn prefWidth="223.0" text="Gesamtzeit" />
+            <TableColumn fx:id="tcAktivität" prefWidth="223.0" text="Aktivität" />
+            <TableColumn fx:id="tcGesamtzeit" prefWidth="223.0" text="Gesamtzeit" />
         </columns>
       </TableView>
       <Label fx:id="lDatum" layoutX="485.0" layoutY="103.0" text="Datum" />
