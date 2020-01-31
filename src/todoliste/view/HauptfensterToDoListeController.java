@@ -139,8 +139,8 @@ public class HauptfensterToDoListeController {
             //HauptfensterToDoListeController.remove(angzeigteAktivitaet);
 
 
-            
-        
+
+
 
 
 
