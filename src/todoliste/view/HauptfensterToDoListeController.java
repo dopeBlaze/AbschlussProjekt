@@ -1,11 +1,17 @@
 package todoliste.view;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import todoliste.datenbank.beans.AktivitaetsEintragBean;
+import todoliste.model.AktivitaetsEintrag;
 
 public class HauptfensterToDoListeController {
 
@@ -16,7 +22,22 @@ public class HauptfensterToDoListeController {
     private URL location;
 
     @FXML
-    private TableView<?> tvHauptfenster;
+    private TableView<AktivitaetsEintrag> tvHauptfenster;
+
+    private ObservableList<AktivitaetsEintrag> tableData;
+    private FilteredList<AktivitaetsEintrag> tableFilteredData;
+
+    @FXML
+    void initialize() {
+        assert tvHauptfenster != null : "fx:id=\"tvHauptfenster\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
+
+        // Daten für die Tabelle laden
+        tableData = AktivitaetsEintragBean.getAktivitaeten();
+
+        // Initialisierung der Tabelleneingenschaften
+        initTable();
+        initContextMenu();
+    }
 
     @FXML
     private Button btnStart;
@@ -53,6 +74,9 @@ public class HauptfensterToDoListeController {
 
     @FXML
     private Button btnProgrammBeenden;
+
+    private ArrayList<AktivitaetsEintrag> aktivitaeten;
+    private int angezeigteAktivitaet;
 
     @FXML
     void anzeigenWochenbericht(ActionEvent event) {
@@ -96,14 +120,49 @@ public class HauptfensterToDoListeController {
         // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
         if (op.isPresent() && op.get() == ButtonType.OK) {
 
-            // Aktuellen Eintrag löschen
-            HauptfensterToDoListeController.remove(angzeigteAktivitaet);
+            // Aktuellen Eintrag herausfinden
+            AktivitaetsEintrag zuLoeschen = aktivitaeten.get(angezeigteAktivitaet);
 
+            // Eintrag aus der Datenbank löschen
+            //TODO Methode delete in Beans hinterlegen
+            if (!AktivitaetsEintragBean.delete(zuLoeschen)) {
+                // Fehlermeldung ausgeben
+                alertAnzeigen("Fehler beim Löschen", "Die aktuelle Aktivität konnte aus der Datenbank nicht gelöscht werden, da sie bereits verwendet wurde.");
 
-            // Aktuellen Aktivitaet anzeigen
-            anzeigen();
+                // Löschen abbrechen
+                return;
+            }
+            // Eintrag entfernen
+            aktivitaeten.remove(zuLoeschen);
+
+            // Wenn der letzte Eintrag in der Aktivitaetenliste gelöscht wird, muss ein neuer leerer Eintrag generiert werden
+            if (aktivitaeten.size() == 0) {
+                aktivitaeten.add(new AktivitaetsEintrag());
+            }
+
         }
+
+
+
+
+            // Aktuellen Eintrag löschen
+            //HauptfensterToDoListeController.remove(angzeigteAktivitaet);
+
+
+            
+        }
+
+
+
+    private void alertAnzeigen(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
+
+}
 
     @FXML
     void pausiereZeiterfassung(ActionEvent event) {
@@ -143,3 +202,6 @@ public class HauptfensterToDoListeController {
 
     }
 }
+
+
+
