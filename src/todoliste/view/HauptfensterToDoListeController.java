@@ -97,11 +97,11 @@ public class HauptfensterToDoListeController {
         if (op.isPresent() && op.get() == ButtonType.OK) {
 
             // Aktuellen Eintrag löschen
-            HauptfensterToDoListeController.remove(angzeigteAktivitaet);
+     //       HauptfensterToDoListeController.remove(angzeigteAktivitaet);
 
 
             // Aktuellen Aktivitaet anzeigen
-            anzeigen();
+       //     anzeigen();
         }
     }
 

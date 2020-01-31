@@ -11,7 +11,7 @@ public class MainToDoListe extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("view/HauptfensterToDoListe.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/NeuerEintragToDoListe.fxml"));
         primaryStage.setTitle("ToDo Liste");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
