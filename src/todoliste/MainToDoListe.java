@@ -6,7 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import todoliste.datenbank.Datenbank;
+import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class MainToDoListe extends Application {
 
@@ -27,8 +31,25 @@ public class MainToDoListe extends Application {
 
       
         ///////////////////////
-        AktivitaetsEintrag a = new AktivitaetsEintrag(); // Testobjekt
-        System.out.println(a.getErstellungsDatum());
+        AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Einkaufen", "2020-01-31", "2020-01-31", 0, "Privat", "normal", "nicht gestartet"); // Testobjekt
+        AktivitaetsEintragBean.saveAktivitaet(a);
+        AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Arbeiten", "2020-01-31", "2020-01-31", 0, "Arbeit", "niedrig", "nicht gestartet"); // Testobjekt
+        AktivitaetsEintragBean.saveAktivitaet(b);
+        AktivitaetsEintrag c = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Arbeiten", "2020-01-31", "2020-01-31", 0, "Arbeit", "hoch", "nicht gestartet"); // Testobjekt
+        AktivitaetsEintragBean.saveAktivitaet(c);
+
+        AktivitaetsEintragBean.deleteAktivitaet(c);
+
+        b.setAktivitaetsName("Schlafen");
+        AktivitaetsEintragBean.saveAktivitaet(b);
+
+        ArrayList<AktivitaetsEintrag> ar = AktivitaetsEintragBean.getAktivitaeten();
+
+        for (AktivitaetsEintrag array: ar) {
+            //array.setAktivitaetsName("Warten");
+            //AktivitaetsEintragBean.saveAktivitaet(array);
+            System.out.println(array.getErstellungsDatum() + " " + array.getAktivitaetsName());
+        }
         ///////////////////////
 
         launch(args);
