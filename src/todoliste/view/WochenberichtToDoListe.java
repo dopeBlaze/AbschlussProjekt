@@ -1,8 +1,13 @@
 package todoliste.view;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
@@ -17,13 +22,7 @@ import javafx.stage.Stage;
 public class WochenberichtToDoListe implements Initializable {
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private LineChart<?, ?> lcWochenbericht;
+    private LineChart<String, Number> lcWochenbericht;
 
     @FXML
     private CategoryAxis xAxis;
@@ -64,13 +63,25 @@ public class WochenberichtToDoListe implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-      XYChart.Series series=new XYChart.Series();
-        series.getData().add(new XYChart.Data(1,23));
-        series.getData().add(new XYChart.Data(2,13));
-        series.getData().add(new XYChart.Data(3,43));
-        series.getData().add(new XYChart.Data(4,54));
-        series.getData().add(new XYChart.Data(5,55));
-        lcWochenbericht.getData().addAll(series);
+
+        int geamtZeit1 = 2, geamtZeit2 = 2, geamtZeit3 = 5, geamtZeit4 = 1, geamtZeit5 = 7, geamtZeit6 = 2, geamtZeit7 = 0;
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        ObservableList<XYChart.Data<String, Number>> data = FXCollections.observableArrayList();
+
+        data.add(new XYChart.Data(dtf.format(LocalDate.now().plusDays(-4)), geamtZeit1));
+        data.add(new XYChart.Data(dtf.format(LocalDate.now().plusDays(-3)), geamtZeit2));
+        data.add(new XYChart.Data(dtf.format(LocalDate.now().plusDays(-2)), geamtZeit3));
+        data.add(new XYChart.Data(dtf.format(LocalDate.now().plusDays(-1)), geamtZeit4));
+        data.add(new XYChart.Data(dtf.format(LocalDate.now()) , geamtZeit5));
+        data.add(new XYChart.Data(dtf.format(LocalDate.now().plusDays(1)), geamtZeit6));
+        data.add(new XYChart.Data(dtf.format(LocalDate.now().plusDays(2)), geamtZeit7));
+
+        SortedList<XYChart.Data<String, Number>> sortedData = new SortedList<>(data);
+
+        lcWochenbericht.getData().addAll(new XYChart.Series<>(sortedData));
+
     }
 
 }
