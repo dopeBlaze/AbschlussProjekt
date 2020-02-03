@@ -22,9 +22,9 @@ public class AktivitaetsEintragBean {
     private static PreparedStatement pstmtUpdateAktivitaet;
     private static PreparedStatement pstmtDeleteAktivitaet;
     private static PreparedStatement pstmtSelectAktivitaetsNamen;
-    private static PreparedStatement pstmtInsertAktivitaetsNamen;
-    private static PreparedStatement pstmtUpdateAktivitaetsNamen;
-    private static PreparedStatement pstmtDeleteAktivitaetsNamen;
+    private static PreparedStatement pstmtInsertAktivitaetsName;
+    private static PreparedStatement pstmtUpdateAktivitaetsName;
+    private static PreparedStatement pstmtDeleteAktivitaetsName;
 
     private static HashMap<AktivitaetsEintrag, String> idListe;
     private static HashMap<AktivitaetsEintrag, String> idListeName;
@@ -45,9 +45,9 @@ public class AktivitaetsEintragBean {
         pstmtSelectAktivitaetsNamen = Datenbank.getInstance().prepareStatement("SELECT AktivitaetsName FROM aktivitaetsname;");
         //pstmtInsertAktivitaetsNamen = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) VALUES (?);");
         // Einfuegen von doppelten UNIQUE Eintraegen wird abgefangen
-        pstmtInsertAktivitaetsNamen = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) SELECT AktivitaetsName FROM aktivitaetsname WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = ?);");
-        pstmtUpdateAktivitaetsNamen = Datenbank.getInstance().prepareStatement("UPDATE aktivitaetsname SET AktivitaetsName = ? WHERE AktivitaetsName = ?;");
-        pstmtDeleteAktivitaetsNamen = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
+        pstmtInsertAktivitaetsName = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) SELECT AktivitaetsName FROM aktivitaetsname WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = ?);");
+        pstmtUpdateAktivitaetsName = Datenbank.getInstance().prepareStatement("UPDATE aktivitaetsname SET AktivitaetsName = ? WHERE AktivitaetsName = ?;");
+        pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
 
         idListe = new HashMap<>();
         idListeName = new HashMap<>();
@@ -147,16 +147,16 @@ public class AktivitaetsEintragBean {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Speicher der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Speichern der Aktivitaet in die Datenbank");
         }
 
         return result;
     }
 
     /**
-     * Loescht einen uebergebenen TelefonbuchEintrag aus der Datenbank
+     * Loescht einen uebergebenen AktivitaetsEintrag aus der Datenbank
      *
-     * @param zuLoeschen TelefonbuchEintrag, der geloescht werden soll
+     * @param zuLoeschen AktivitaetsEintrag, der geloescht werden soll
      * @return true, wenn das Loeschen erfolgreich war, false andernfalls
      */
     public static boolean deleteAktivitaet(AktivitaetsEintrag zuLoeschen) {
@@ -224,10 +224,10 @@ public class AktivitaetsEintragBean {
      * insert-Befehl fuer die Datenbank ausgefuehrt werden muss, ist fuer den Aufruf von der GUI
      * irrelevant. Dies findet diese Methode heraus.
      *
-     * @param zuSpeichern Aktivitaetsname, der gespeichert werden soll
+     * @param zuSpeichern AktivitaetsName, der gespeichert werden soll
      * @return true, wenn die Speicherung erfolgreich war, false andernfalls
      */
-    public static boolean saveAktivitaetsNamen(AktivitaetsEintrag zuSpeichern) {
+    public static boolean saveAktivitaetsName(AktivitaetsEintrag zuSpeichern) {
         boolean result = false;
 
         try {
@@ -238,10 +238,11 @@ public class AktivitaetsEintragBean {
 
             if (id == null) {
                 // INSERT
-                pstmt = pstmtInsertAktivitaetsNamen;
+                pstmt = pstmtInsertAktivitaetsName;
             } else {
                 // UPDATE
-                pstmt = pstmtUpdateAktivitaetsNamen;
+                // Nutzerhinweis ob der neue Name schon vergeben ist uebernimmt der Controller
+                pstmt = pstmtUpdateAktivitaetsName;
                 pstmt.setString(2, id);
             }
 
@@ -270,12 +271,12 @@ public class AktivitaetsEintragBean {
     }
 
     /**
-     * Loescht einen uebergebenen Aktivitaetsnamen aus der Datenbank
+     * Loescht einen uebergebenen AktivitaetsNamen aus der Datenbank
      *
-     * @param zuLoeschen Aktivitaetsname, der geloescht werden soll
+     * @param zuLoeschen AktivitaetsName, der geloescht werden soll
      * @return true, wenn das Loeschen erfolgreich war, false andernfalls
      */
-    public static boolean deleteAktivitaetsNamen(AktivitaetsEintrag zuLoeschen) {
+    public static boolean deleteAktivitaetsName(AktivitaetsEintrag zuLoeschen) {
         // Ist der Eintrag ueberhaupt in der Datenbank?
         if (idListeName.get(zuLoeschen) == null) {
             // Der Eintrag ist nicht in der Datenbank enthalten und daher war das Loeschen erfolgreich
@@ -285,8 +286,8 @@ public class AktivitaetsEintragBean {
         boolean result = false;
 
         try {
-            pstmtDeleteAktivitaetsNamen.setString(1, zuLoeschen.getAktivitaetsName());
-            pstmtDeleteAktivitaetsNamen.executeUpdate();
+            pstmtDeleteAktivitaetsName.setString(1, zuLoeschen.getAktivitaetsName());
+            pstmtDeleteAktivitaetsName.executeUpdate();
             result = true;
 
             Datenbank.getInstance().commit();

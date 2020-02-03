@@ -58,7 +58,7 @@ public class MainToDoListe extends Application {
         AktivitaetsEintrag name = new AktivitaetsEintrag("Gehen2");
         try {
             // Fehler wenn Name doppelt gespeichert werden soll, da Unique
-            AktivitaetsEintragBean.saveAktivitaetsNamen(name);
+            AktivitaetsEintragBean.saveAktivitaetsName(name);
         } catch (IllegalArgumentException e){
             System.err.println("Fehler beim Speichern des AktivitaetsNamen in der Datenbank: " + e.getLocalizedMessage());
         }
@@ -69,7 +69,7 @@ public class MainToDoListe extends Application {
             //AktivitaetsEintragBean.saveAktivitaet(array);
             if (array.getAktivitaetsName().equals("Gehen2")){
                 array.setAktivitaetsName("Gehen");
-                AktivitaetsEintragBean.saveAktivitaetsNamen(array);
+                AktivitaetsEintragBean.saveAktivitaetsName(array);
             }
             System.out.println(array.getAktivitaetsName());
         }
