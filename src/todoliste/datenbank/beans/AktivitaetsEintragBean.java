@@ -6,6 +6,7 @@ import todoliste.model.AktivitaetsEintrag;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,10 +26,10 @@ public class AktivitaetsEintragBean {
 
     /**
      * Initialisierungsblock
-     * Wird ausgeführt wenn die Klasse erzeugt wird
+     * Wird ausgefuehrt wenn die Klasse erzeugt wird
      */
     static {
-        System.out.println("static-Block ausgeführt");
+        System.out.println("static-Block ausgefuehrt");
 
         // Statements vorbereiten
         pstmtSelectAktivitaet = Datenbank.getInstance().prepareStatement("SELECT ErstellungsDatum, AktivitaetsName, StartDatum, EndDatum, VerbrauchteZeit, Kategorie, Prioritaet, Status FROM todoliste;");
@@ -37,7 +38,9 @@ public class AktivitaetsEintragBean {
         pstmtDeleteAktivitaet = Datenbank.getInstance().prepareStatement("DELETE FROM todoliste WHERE ErstellungsDatum = ?;");
 
         pstmtSelectAktivitaetsNamen = Datenbank.getInstance().prepareStatement("SELECT AktivitaetsName FROM aktivitaetsname;");
-        pstmtInsertAktivitaetsNamen = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) VALUES (?);");
+        //pstmtInsertAktivitaetsNamen = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) VALUES (?);");
+        // Einfuegen von doppelten UNIQUE Eintraegen wird abgefangen
+        pstmtInsertAktivitaetsNamen = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) SELECT AktivitaetsName FROM aktivitaetsname WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = ?);");
         pstmtUpdateAktivitaetsNamen = Datenbank.getInstance().prepareStatement("UPDATE aktivitaetsname SET AktivitaetsName = ? WHERE AktivitaetsName = ?;");
         pstmtDeleteAktivitaetsNamen = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
 
@@ -55,16 +58,16 @@ public class AktivitaetsEintragBean {
         ArrayList<AktivitaetsEintrag> result = null;
 
         try {
-            // Datenbankabfrage ausführen
+            // Datenbankabfrage ausfuehren
             ResultSet rs = pstmtSelectAktivitaet.executeQuery();
 
             // Result initialisieren
             result = new ArrayList<>();
 
-            // Zurücksetzen der idListe
+            // Zuruecksetzen der idListe
             idListe.clear();
 
-            // Alle Datensätze abfragen und passend dazu neue Einträge generieren
+            // Alle Datensaetze abfragen und passend dazu neue Eintraege generieren
             while (rs.next()) {
                 AktivitaetsEintrag eintrag = new AktivitaetsEintrag(
                         rs.getString("ErstellungsDatum"),
@@ -78,7 +81,7 @@ public class AktivitaetsEintragBean {
                 );
                 result.add(eintrag);
 
-                // Objekt der idListe hinzufügen
+                // Objekt der idListe hinzufuegen
                 idListe.put(eintrag, eintrag.getErstellungsDatum());
             }
 
@@ -88,9 +91,9 @@ public class AktivitaetsEintragBean {
     }
 
     /**
-     * Speichert einen übergebenen AktivitaetsEintrag in der Datenbank. Ob der Eintrag
+     * Speichert einen uebergebenen AktivitaetsEintrag in der Datenbank. Ob der Eintrag
      * in der ToDoListe schon vorhanden ist oder nicht, also ob ein update oder ein
-     * insert-Befehl für die Datenbank ausgeführt werden muss, ist für den Aufruf von der GUI
+     * insert-Befehl fuer die Datenbank ausgefuehrt werden muss, ist fuer den Aufruf von der GUI
      * irrelevant. Dies findet diese Methode heraus.
      *
      * @param zuSpeichern AktivitaetsEintrag, der gespeichert werden soll
@@ -107,6 +110,7 @@ public class AktivitaetsEintragBean {
 
             if (id == null) {
                 // INSERT
+                zuSpeichern.setErstellungsDatum(LocalDateTime.now().toString());
                 pstmt = pstmtInsertAktivitaet;
             } else {
                 // UPDATE
@@ -114,7 +118,7 @@ public class AktivitaetsEintragBean {
                 pstmt.setString(9, id);
             }
 
-            // Das PreparedStatement mit Informationen füttern
+            // Das PreparedStatement mit Informationen fuettern
             pstmt.setString(1, zuSpeichern.getErstellungsDatum());
             pstmt.setString(2, zuSpeichern.getAktivitaetsName());
             pstmt.setString(3, zuSpeichern.getStartDatum());
@@ -124,11 +128,11 @@ public class AktivitaetsEintragBean {
             pstmt.setString(7, zuSpeichern.getPrioritaet());
             pstmt.setString(8, zuSpeichern.getStatus());
 
-            // Ausführen von Insert oder Update
+            // Ausfuehren von Insert oder Update
             pstmt.executeUpdate();
             result = true;
 
-            // Neuen oder geänderten Datensatz in der idListe aktualisieren
+            // Neuen oder geaenderten Datensatz in der idListe aktualisieren
             idListe.put(zuSpeichern, zuSpeichern.getErstellungsDatum());
 
             Datenbank.getInstance().commit();
@@ -145,15 +149,15 @@ public class AktivitaetsEintragBean {
     }
 
     /**
-     * Löscht einen übergebenen TelefonbuchEintrag aus der Datenbank
+     * Loescht einen uebergebenen TelefonbuchEintrag aus der Datenbank
      *
-     * @param zuLoeschen TelefonbuchEintrag, der gelöscht werden soll
-     * @return true, wenn das Löschen erfolgreich war, false andernfalls
+     * @param zuLoeschen TelefonbuchEintrag, der geloescht werden soll
+     * @return true, wenn das Loeschen erfolgreich war, false andernfalls
      */
     public static boolean deleteAktivitaet(AktivitaetsEintrag zuLoeschen) {
-        // Ist der Eintrag überhaupt in der Datenbank?
+        // Ist der Eintrag ueberhaupt in der Datenbank?
         if (idListe.get(zuLoeschen) == null) {
-            // Der Eintrag ist nicht in der Datenbank enthalten und daher war das Löschen erfolgreich
+            // Der Eintrag ist nicht in der Datenbank enthalten und daher war das Loeschen erfolgreich
             return true;
         }
 
@@ -167,7 +171,7 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Löschen der Aktivitaet aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Loeschen der Aktivitaet aus der Datenbank: " + e.getLocalizedMessage());
         }
 
         return result;
@@ -184,23 +188,23 @@ public class AktivitaetsEintragBean {
         ArrayList<AktivitaetsEintrag> result = null;
 
         try {
-            // Datenbankabfrage ausführen
+            // Datenbankabfrage ausfuehren
             ResultSet rs = pstmtSelectAktivitaetsNamen.executeQuery();
 
             // Result initialisieren
             result = new ArrayList<>();
 
-            // Zurücksetzen der idListe
+            // Zuruecksetzen der idListe
             idListeName.clear();
 
-            // Alle Datensätze abfragen und passend dazu neue Einträge generieren
+            // Alle Datensaetze abfragen und passend dazu neue Eintraege generieren
             while (rs.next()) {
                 AktivitaetsEintrag eintrag = new AktivitaetsEintrag(
                     rs.getString("AktivitaetsName")
                 );
                 result.add(eintrag);
 
-                //Objekt der idListeName hinzufügen
+                //Objekt der idListeName hinzufuegen
                 idListeName.put(eintrag, eintrag.getAktivitaetsName());
             }
 
@@ -210,12 +214,12 @@ public class AktivitaetsEintragBean {
     }
 
     /**
-     * Speichert einen übergebenen AktivitaetsNamen in der Datenbank. Ob der Eintrag
+     * Speichert einen uebergebenen AktivitaetsNamen in der Datenbank. Ob der Eintrag
      * in der AktivitaetsNamenTabelle schon vorhanden ist oder nicht, also ob ein update oder ein
-     * insert-Befehl für die Datenbank ausgeführt werden muss, ist für den Aufruf von der GUI
+     * insert-Befehl fuer die Datenbank ausgefuehrt werden muss, ist fuer den Aufruf von der GUI
      * irrelevant. Dies findet diese Methode heraus.
      *
-     * @param zuSpeichern AktivitaetsNamen, der gespeichert werden soll
+     * @param zuSpeichern Aktivitaetsname, der gespeichert werden soll
      * @return true, wenn die Speicherung erfolgreich war, false andernfalls
      */
     public static boolean saveAktivitaetsNamen(AktivitaetsEintrag zuSpeichern) {
@@ -236,55 +240,56 @@ public class AktivitaetsEintragBean {
                 pstmt.setString(2, id);
             }
 
-            // Das PreparedStatement mit Informationen füttern
+            // Das PreparedStatement mit Informationen fuettern
             pstmt.setString(1, zuSpeichern.getAktivitaetsName());
 
-            // Ausführen von Insert oder Update
+            // Ausfuehren von Insert oder Update
             pstmt.executeUpdate();
             result = true;
 
-            // Neuen oder geänderten Datensatz in der idListe aktualisieren
+            // Neuen oder geaenderten Datensatz in der idListe aktualisieren
             idListeName.put(zuSpeichern, zuSpeichern.getAktivitaetsName());
 
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            try {
+            System.err.println("Der Aktivitaetsname '" + zuSpeichern.getAktivitaetsName() + "' existiert schon!");
+            /*try {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Speicher der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Speicher der Aktivitaet in die Datenbank");*/
         }
 
         return result;
     }
 
     /**
-     * Löscht einen übergebenen TelefonbuchEintrag aus der Datenbank
+     * Loescht einen uebergebenen Aktivitaetsnamen aus der Datenbank
      *
-     * @param zuLoeschen TelefonbuchEintrag, der gelöscht werden soll
-     * @return true, wenn das Löschen erfolgreich war, false andernfalls
+     * @param zuLoeschen Aktivitaetsname, der geloescht werden soll
+     * @return true, wenn das Loeschen erfolgreich war, false andernfalls
      */
-    /*public static boolean deleteAktivitaetsNamen(AktivitaetsEintrag zuLoeschen) {
-        // Ist der Eintrag überhaupt in der Datenbank?
-        if (idListe.get(zuLoeschen) == null) {
-            // Der Eintrag ist nicht in der Datenbank enthalten und daher war das Löschen erfolgreich
+    public static boolean deleteAktivitaetsNamen(AktivitaetsEintrag zuLoeschen) {
+        // Ist der Eintrag ueberhaupt in der Datenbank?
+        if (idListeName.get(zuLoeschen) == null) {
+            // Der Eintrag ist nicht in der Datenbank enthalten und daher war das Loeschen erfolgreich
             return true;
         }
 
         boolean result = false;
 
         try {
-            pstmtDeleteAktivitaet.setString(1, zuLoeschen.getErstellungsDatum());
-            pstmtDeleteAktivitaet.executeUpdate();
+            pstmtDeleteAktivitaetsNamen.setString(1, zuLoeschen.getAktivitaetsName());
+            pstmtDeleteAktivitaetsNamen.executeUpdate();
             result = true;
 
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Löschen der Aktivitaet aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Loeschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
         }
 
         return result;
-    }*/
+    }
 }

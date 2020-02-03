@@ -35,6 +35,30 @@ public class AktivitaetsEintrag {
         setAktivitaetsName(aktivitaetsName);
     }
 
+
+    /**
+     * Ueberladener Konstruktor
+     * Initialisiert den Konstruktor mit den uebergebenen Parametern, sofern sie ungleich null sind.
+     *
+     * @param aktivitaetsName zu setzender AktivitaetsName
+     * @param startDatum      zu setzender StartDatum
+     * @param endDatum        zu setzender EndDatum
+     * @param verbrauchteZeit zu setzender VerbrauchteZeit
+     * @param kategorie       zu setzender Kategorie
+     * @param prioritaet      zu setzender Prioritaet
+     * @param status          zu setzender Status
+     */
+
+    public AktivitaetsEintrag(String aktivitaetsName, String startDatum, String endDatum, int verbrauchteZeit, String kategorie, String prioritaet, String status) {
+        setAktivitaetsName(aktivitaetsName);
+        setStartDatum(startDatum);
+        setEndDatum(endDatum);
+        setVerbrauchteZeit(verbrauchteZeit);
+        setKategorie(kategorie);
+        setPrioritaet(prioritaet);
+        setStatus(status);
+    }
+
     /**
      * Ueberladener Konstruktor
      * Initialisiert den Konstruktor mit den uebergebenen Parametern, sofern sie ungleich null sind.
