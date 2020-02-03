@@ -25,22 +25,23 @@ public class MainToDoListe extends Application {
     public static void main(String[] args) {
 
         ////////////////////////
-        Datenbank.getInstance().connect(); //Test Erstellung der Datenbank
+        // Test Erstellung der Datenbank
+        // Datenbank.getInstance().connect();
         ////////////////////////
 
         // Testeinträge
         ///////////////////////
-        /*AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-01-31", "2020-01-31", 0, "Privat", "normal", "nicht gestartet"); // Testobjekt
+       /* AktivitaetsEintrag a = new AktivitaetsEintrag("Laufen", "2020-01-31", "2020-01-31", 0, "Privat", "normal", "nicht gestartet"); // Testobjekt
         AktivitaetsEintragBean.saveAktivitaet(a);
-        AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Arbeiten", "2020-01-31", "2020-01-31", 0, "Arbeit", "niedrig", "nicht gestartet"); // Testobjekt
-        AktivitaetsEintragBean.saveAktivitaet(b);*/
+        AktivitaetsEintrag b = new AktivitaetsEintrag("Arbeiten", "2020-01-31", "2020-01-31", 0, "Arbeit", "niedrig", "nicht gestartet"); // Testobjekt
+        AktivitaetsEintragBean.saveAktivitaet(b);
         AktivitaetsEintrag c = new AktivitaetsEintrag("Arbeiten", "2020-02-03", "2020-02-03", 0, "Arbeit", "hoch", "nicht gestartet"); // Testobjekt
         AktivitaetsEintragBean.saveAktivitaet(c);
 
-        //AktivitaetsEintragBean.deleteAktivitaet(c);
+        AktivitaetsEintragBean.deleteAktivitaet(c);
 
-        /*b.setAktivitaetsName("Schlafen");
-        AktivitaetsEintragBean.saveAktivitaet(b);*/
+        b.setAktivitaetsName("Schlafen");
+        AktivitaetsEintragBean.saveAktivitaet(b);
 
 
         ArrayList<AktivitaetsEintrag> ar = AktivitaetsEintragBean.getAktivitaeten();
@@ -72,7 +73,7 @@ public class MainToDoListe extends Application {
                 AktivitaetsEintragBean.saveAktivitaetsName(array);
             }
             System.out.println(array.getAktivitaetsName());
-        }
+        }*/
         ///////////////////////
 
         launch(args);
