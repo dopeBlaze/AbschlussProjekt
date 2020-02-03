@@ -1,16 +1,23 @@
 package todoliste.view;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.DatePicker;
+import todoliste.model.AktivitaetsEintrag;
+
+import javax.annotation.processing.Completion;
 
 public class BearbeiteEintragToDoListeController {
 
@@ -43,17 +50,37 @@ public class BearbeiteEintragToDoListeController {
 
     @FXML
     void setzteEnddatum(ActionEvent event) {
-
+        LocalDate e = endDatum.getValue();
+        datumVerify(e,startDatum.getValue());
+        System.out.println(e);
     }
 
     @FXML
     void setzteStartdatum(ActionEvent event) {
-
+        LocalDate s = startDatum.getValue();
+        System.out.println(s);
     }
 
     @FXML
     void uebernehmeEintragsname(ActionEvent event) {
+    setKategory(event);
+    setPrioritaet(event);
+    }
+    @FXML
+    void setKategory(ActionEvent event) {
+        String f = kategory.getValue();
+        System.out.println(f);
+    }
 
+    @FXML
+    void setPrioritaet(ActionEvent event) {
+        String p = Prioritaet.getValue();
+        System.out.println(p);
+    }
+    @FXML
+    void setTVAktivitaetsname(ActionEvent event) {
+        ObservableList<AktivitaetsEintrag> x = (ObservableList<AktivitaetsEintrag>) TVAktivitaetsname.getItems();
+        System.out.println(x);
     }
 
     @FXML
@@ -75,5 +102,22 @@ public class BearbeiteEintragToDoListeController {
         Prioritaet.getItems().add("Normal");
         Prioritaet.getItems().add("Niedrig");
 
+    }
+
+
+
+
+
+
+    public  boolean datumVerify(LocalDate startDatum,LocalDate endDatum) {
+        try {
+            if (startDatum.getMonthValue() > endDatum.getMonthValue() || startDatum.getDayOfMonth() > endDatum.getDayOfMonth() || startDatum.getYear() > endDatum.getYear())
+                System.out.println("Please set the date  in a correct way");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(" Try to select the end date  to be after the start date" +e);
+        }
+
+        return false;
     }
 }
