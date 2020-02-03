@@ -27,12 +27,6 @@ public class MainToDoListe extends Application {
         Datenbank.getInstance().connect(); //Test Erstellung der Datenbank
         ////////////////////////
 
-      
-        ///////////////////////
-        AktivitaetsEintrag a = new AktivitaetsEintrag(); // Testobjekt
-        System.out.println(a.getErstellungsDatum());
-        ///////////////////////
-
         launch(args);
 
     }
