@@ -56,12 +56,12 @@ public class HauptfensterToDoListeController {
     @FXML
     private Button btnProgrammBeenden;
 
-    //ToDo evtl. Button in Hauptfenster GUI aktivieren, falls noch Zeit zur Bearbeitung des Features bleibt!
+    //TODO evtl. Button in Hauptfenster GUI aktivieren, falls noch Zeit zur Bearbeitung des Features bleibt!
     @FXML
     void anzeigenWochenbericht(ActionEvent event) {
 
     }
-
+    //TODO GUI Aktivitätsname bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
     void bearbeiteAktivitaetsname(ActionEvent event) {
 
@@ -99,7 +99,7 @@ public class HauptfensterToDoListeController {
             Stage.show();
         }*/
     }
-
+    //TODO GUI Eintrag bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
     void bearbeiteEintrag(ActionEvent event) {
 
@@ -114,12 +114,12 @@ public class HauptfensterToDoListeController {
     void erledigtZeiterfassung(ActionEvent event) {
 
     }
-
+    //TODO GUI Neuer Eintrag öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
     void hinzufuegenNeuerEintrag(ActionEvent event) {
 
     }
-
+    //TODO Prüfung fehlt, ob Zeit für Aktivität bereits gestoppt wurde-> falls ja, dann Löschen nicht möglich!
     @FXML
     void loescheAktivitaet(ActionEvent event) {
         // Löschbestätigung abfragen
