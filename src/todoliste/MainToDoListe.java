@@ -32,7 +32,7 @@ public class MainToDoListe extends Application {
 
       
         ///////////////////////
-        /*AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Einkaufen", "2020-01-31", "2020-01-31", 0, "Privat", "normal", "nicht gestartet"); // Testobjekt
+        /*AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-01-31", "2020-01-31", 0, "Privat", "normal", "nicht gestartet"); // Testobjekt
         AktivitaetsEintragBean.saveAktivitaet(a);
         AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Arbeiten", "2020-01-31", "2020-01-31", 0, "Arbeit", "niedrig", "nicht gestartet"); // Testobjekt
         AktivitaetsEintragBean.saveAktivitaet(b);
@@ -56,11 +56,14 @@ public class MainToDoListe extends Application {
             System.out.println(array.getErstellungsDatum() + " " + array.getAktivitaetsName());
         }
 
-        ArrayList<String> arName = AktivitaetsEintragBean.getAktivitaetsNamen();
-        for (String array: arName) {
+        AktivitaetsEintrag name = new AktivitaetsEintrag("Gehen");
+        AktivitaetsEintragBean.saveAktivitaetsNamen(name);
+
+        ArrayList<AktivitaetsEintrag> arName = AktivitaetsEintragBean.getAktivitaetsNamen();
+        for (AktivitaetsEintrag array: arName) {
             //array.setAktivitaetsName("Warten");
             //AktivitaetsEintragBean.saveAktivitaet(array);
-            System.out.println(array);
+            System.out.println(array.getAktivitaetsName());
         }
         ///////////////////////
 

@@ -21,7 +21,7 @@ public class AktivitaetsEintragBean {
     private static PreparedStatement pstmtDeleteAktivitaetsNamen;
 
     private static HashMap<AktivitaetsEintrag, String> idListe;
-    private static HashMap<Integer, String> idListeName;
+    private static HashMap<AktivitaetsEintrag, String> idListeName;
 
     /**
      * Initialisierungsblock
@@ -180,14 +180,12 @@ public class AktivitaetsEintragBean {
      * @return Liste mit allen AktivitaetsNamen
      * @throws IllegalArgumentException wird geworfen, wenn intern eine SQL- oder ClassNotFoundException aufgetreten ist.
      */
-    public static ArrayList<String> getAktivitaetsNamen() {
-        ArrayList<String> result = null;
+    public static ArrayList<AktivitaetsEintrag> getAktivitaetsNamen() {
+        ArrayList<AktivitaetsEintrag> result = null;
 
         try {
             // Datenbankabfrage ausführen
             ResultSet rs = pstmtSelectAktivitaetsNamen.executeQuery();
-            String eintrag;
-            int i = 0;
 
             // Result initialisieren
             result = new ArrayList<>();
@@ -197,13 +195,13 @@ public class AktivitaetsEintragBean {
 
             // Alle Datensätze abfragen und passend dazu neue Einträge generieren
             while (rs.next()) {
-
-                eintrag = rs.getString("AktivitaetsName");
+                AktivitaetsEintrag eintrag = new AktivitaetsEintrag(
+                    rs.getString("AktivitaetsName")
+                );
                 result.add(eintrag);
 
                 //Objekt der idListeName hinzufügen
-                idListeName.put(i, eintrag);
-                i++;
+                idListeName.put(eintrag, eintrag.getAktivitaetsName());
             }
 
         } catch (SQLException ignored) {}
@@ -220,7 +218,7 @@ public class AktivitaetsEintragBean {
      * @param zuSpeichern AktivitaetsNamen, der gespeichert werden soll
      * @return true, wenn die Speicherung erfolgreich war, false andernfalls
      */
-    public static boolean saveAktivitaetsNamen(String zuSpeichern) {
+    public static boolean saveAktivitaetsNamen(AktivitaetsEintrag zuSpeichern) {
         boolean result = false;
 
         try {
@@ -239,14 +237,14 @@ public class AktivitaetsEintragBean {
             }
 
             // Das PreparedStatement mit Informationen füttern
-            pstmt.setString(1, zuSpeichern);
+            pstmt.setString(1, zuSpeichern.getAktivitaetsName());
 
             // Ausführen von Insert oder Update
             pstmt.executeUpdate();
             result = true;
 
             // Neuen oder geänderten Datensatz in der idListe aktualisieren
-            //idListeName.put(zuSpeichern, zuSpeichern);
+            idListeName.put(zuSpeichern, zuSpeichern.getAktivitaetsName());
 
             Datenbank.getInstance().commit();
 

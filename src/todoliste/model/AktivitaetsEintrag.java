@@ -28,6 +28,17 @@ public class AktivitaetsEintrag {
      * Ueberladener Konstruktor
      * Initialisiert den Konstruktor mit den uebergebenen Parametern, sofern sie ungleich null sind.
      *
+     * @param aktivitaetsName zu setzender AktivitaetsName
+     */
+
+    public AktivitaetsEintrag(String aktivitaetsName) {
+        setAktivitaetsName(aktivitaetsName);
+    }
+
+    /**
+     * Ueberladener Konstruktor
+     * Initialisiert den Konstruktor mit den uebergebenen Parametern, sofern sie ungleich null sind.
+     *
      * @param erstellungsDatum zu setzendes ErstellungsDatum
      * @param aktivitaetsName zu setzender AktivitaetsName
      * @param startDatum      zu setzender StartDatum
