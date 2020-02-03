@@ -158,6 +158,7 @@ public class AktivitaetsEintrag {
      *
      * @return endDatum String vom EndDatum
      */
+
     public String getEndDatum() {
         return endDatum;
     }
