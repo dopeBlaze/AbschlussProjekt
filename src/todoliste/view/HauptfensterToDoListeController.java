@@ -110,6 +110,12 @@ public class HauptfensterToDoListeController {
 
     }
 
+    //TODO Kalenderfeld soll aktuelles Datum bei Programmstart anzeigen und Kalenderfeld soll für Text blockiert werden
+    @FXML
+    void dpKalender(ActionEvent event) {
+
+    }
+
     @FXML
     void erledigtZeiterfassung(ActionEvent event) {
 
