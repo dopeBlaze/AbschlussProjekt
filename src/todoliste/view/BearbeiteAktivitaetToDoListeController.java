@@ -49,9 +49,9 @@ public class BearbeiteAktivitaetToDoListeController {
         ArrayList <AktivitaetsEintrag> arrayList = new ArrayList<>();
         AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
         arrayList.add(a);
-        AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
+        AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Putzen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
         arrayList.add(b);
-        AktivitaetsEintrag c = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
+        AktivitaetsEintrag c = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Kochen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
         arrayList.add(c);
         ////////////////////////
 
@@ -73,6 +73,7 @@ public class BearbeiteAktivitaetToDoListeController {
     private void initTable() {
         // Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitaetsname");
+        tc1.setPrefWidth(334.0);
 
         // Zuordnung Werte <-> Model
         tc1.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
@@ -99,7 +100,7 @@ public class BearbeiteAktivitaetToDoListeController {
         });*/
 
         // TableView Menü-Button anzeigen
-        TVAktivitaetsname.setTableMenuButtonVisible(true);
+        // TVAktivitaetsname.setTableMenuButtonVisible(true);
 
 
         // Notwendig um Zellen in einer TableView zu bearbeiten
@@ -108,7 +109,7 @@ public class BearbeiteAktivitaetToDoListeController {
         TVAktivitaetsname.setEditable(true);
 
         // Zellenerscheinung definieren (notwendig für Editierung)
-        /*Callback<TableColumn<Artikel, String>, TableCell<Artikel, String>> cellTextFactory = p -> new EditingTextCell<>();
+        /*Callback<TableColumn<AktivitaetsEintrag, String>, TableCell<AktivitaetsEintrag, String>> cellTextFactory = p -> new EditingTextCell<>();
         tc1.setCellFactory(cellTextFactory);*/
 
         // Was passiert, nachdem die Zellenänderung stattgefunden hat

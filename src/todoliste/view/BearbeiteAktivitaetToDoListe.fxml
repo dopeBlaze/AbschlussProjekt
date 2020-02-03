@@ -8,7 +8,6 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todoliste.view.BearbeiteAktivitaetToDoListeController">
-   <children>
       <Text layoutX="39.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aktivitätsname bearbeiten">
          <font>
             <Font size="24.0" />
@@ -18,5 +17,4 @@
       <TextField fx:id="tfAktivitaetsname" layoutX="39.0" layoutY="83.0" prefHeight="25.0" prefWidth="336.0" />
       <TableView fx:id="TVAktivitaetsname" layoutX="39.0" layoutY="133.0" prefHeight="139.0" prefWidth="336.0" />
       <Button fx:id="btnLoeschen" layoutX="497.0" layoutY="211.0" mnemonicParsing="false" onAction="#loescheAktivitaetsname" prefHeight="61.0" prefWidth="92.0" text="Löschen" />
-   </children>
 </AnchorPane>
