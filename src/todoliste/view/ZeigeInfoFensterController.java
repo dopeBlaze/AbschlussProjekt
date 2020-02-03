@@ -38,7 +38,7 @@ public class ZeigeInfoFensterController {
     private TableView<AktivitaetsEintrag> tableviewinfo;
 
     @FXML
-    private TableColumn<AktivitaetsEintrag, String> tcAktivität;
+    private TableColumn<AktivitaetsEintrag, String> tcAktivitaet;
 
     @FXML
     private TableColumn<AktivitaetsEintrag, String> tcStartdatum;
@@ -50,7 +50,7 @@ public class ZeigeInfoFensterController {
     private TableColumn<AktivitaetsEintrag, Integer> Verbrauchtezeit;
 
     @FXML
-    private TableColumn<AktivitaetsEintrag, String> tcPriorität;
+    private TableColumn<AktivitaetsEintrag, String> tcPrioritaet;
 
     @FXML
     private TableColumn<AktivitaetsEintrag, String> tcStatus;
@@ -75,9 +75,9 @@ public class ZeigeInfoFensterController {
 
 
     private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
-    private ObservableList<AktivitaetsEintrag> tableData;
-    private FilteredList<AktivitaetsEintrag> tableFilteredData;
-    private int angezeigterEintrag;
+   // private ObservableList<AktivitaetsEintrag> tableData;
+    //private FilteredList<AktivitaetsEintrag> tableFilteredData;
+
 
 
     @FXML
@@ -85,50 +85,60 @@ public class ZeigeInfoFensterController {
         assert btOk != null : "fx:id=\"btOk\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert btAbbruch != null : "fx:id=\"btAbbruch\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert tableviewinfo != null : "fx:id=\"tableviewinfo\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
-        assert tcAktivität != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
+        assert tcAktivitaet != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert tcStartdatum != null : "fx:id=\"tcStartdatum\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert tcEnddatum != null : "fx:id=\"tcEnddatum\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert Verbrauchtezeit != null : "fx:id=\"Verbrauchtezeit\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
-        assert tcPriorität != null : "fx:id=\"tcPriorität\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
+        assert tcPrioritaet != null : "fx:id=\"tcPriorität\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert tcLable != null : "fx:id=\"tcLable\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
 
-        // tableData = AktivitaetsEintragBean.getArtikelliste();
-        infoTable();
+       //tableData = AktivitaetsEintragBean.getArtikelliste();
+        //test();
+        //infoTable();
 
 
     }
 
+    private void test() {
+
+        if (aktivitaetsEintrags == null) {
+            aktivitaetsEintrags = new ArrayList<>();
+        }
+
+        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr", "03.02.2020", "03.02.2020",5, "private", "hoch", "s"));
+        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr1", "04.02.2020", "04.02.2020",8, "private", "hoch", "s"));
+        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr2", "05.02.2020", "05.02.2020",9, "private", "hoch", "s"));
+
+
+    }
 
     private void infoTable() {
 
-        tcAktivität.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
+        tcAktivitaet.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
         tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
         tcEnddatum.setCellValueFactory(new PropertyValueFactory<>("endDatum"));
         Verbrauchtezeit.setCellValueFactory(new PropertyValueFactory<>("verbrauchteZeit"));
-        tcPriorität.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
+        tcPrioritaet.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLable.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
-        tableviewinfo.getColumns().add(tcAktivität);
+        tableviewinfo.getColumns().add(tcAktivitaet);
         tableviewinfo.getColumns().add(tcStartdatum);
         tableviewinfo.getColumns().add(tcEnddatum);
         tableviewinfo.getColumns().add(Verbrauchtezeit);
-        tableviewinfo.getColumns().add(tcPriorität);
+        tableviewinfo.getColumns().add(tcPrioritaet);
         tableviewinfo.getColumns().add(tcStatus);
         tableviewinfo.getColumns().add(tcLable);
 
-        tcAktivität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
+        tcAktivitaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
         tcStartdatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
         tcEnddatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setEndDatum(t.getNewValue()));
         Verbrauchtezeit.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setVerbrauchteZeit(Integer.parseInt(String.valueOf(t.getNewValue()))));
-        tcPriorität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrioritaet(t.getNewValue()));
+        tcPrioritaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrioritaet(t.getNewValue()));
         tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
         tcLable.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
 
     }
-
-
-
 
 }
