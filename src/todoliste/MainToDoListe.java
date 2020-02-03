@@ -14,7 +14,7 @@ public class MainToDoListe extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("view/HauptFensterToDoListe.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/BearbeiteAktivitaetToDoListe.fxml"));
         primaryStage.setTitle("ToDo Liste");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -24,13 +24,13 @@ public class MainToDoListe extends Application {
     public static void main(String[] args) {
 
         ////////////////////////
-        Datenbank.getInstance().connect(); //Test Erstellung der Datenbank
+        // Datenbank.getInstance().connect(); //Test Erstellung der Datenbank
         ////////////////////////
 
       
         ///////////////////////
-        AktivitaetsEintrag a = new AktivitaetsEintrag(); // Testobjekt
-        System.out.println(a.getErstellungsDatum());
+        /*AktivitaetsEintrag a = new AktivitaetsEintrag(); // Testobjekt
+        System.out.println(a.getErstellungsDatum());*/
         ///////////////////////
 
         launch(args);
