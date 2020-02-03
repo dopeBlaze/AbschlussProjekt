@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,17 +10,7 @@
 
 <AnchorPane prefHeight="581.0" prefWidth="854.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todoliste.view.HauptfensterToDoListeController">
    <children>
-      <TableView fx:id="tvHauptfenster" layoutX="12.0" layoutY="201.0" prefHeight="348.0" prefWidth="591.0">
-        <columns>
-          <TableColumn prefWidth="159.0" text="Aktivität" />
-          <TableColumn prefWidth="72.0" text="Startdatum" />
-            <TableColumn prefWidth="73.0" text="Enddatum" />
-            <TableColumn prefWidth="101.0" text="Verbrauchte Zeit" />
-            <TableColumn prefWidth="66.0" text="Kategorie" />
-            <TableColumn prefWidth="57.0" text="Priorität" />
-            <TableColumn prefWidth="62.0" text="Status" />
-        </columns>
-      </TableView>
+      <TableView fx:id="tvHauptfenster" layoutX="12.0" layoutY="201.0" prefHeight="348.0" prefWidth="591.0" />
       <Button fx:id="btnStart" layoutX="627.0" layoutY="238.0" mnemonicParsing="false" onAction="#starteZeiterfassung" prefHeight="67.0" prefWidth="60.0" text="Start" textFill="#2218e1" />
       <Button fx:id="btnPause" layoutX="687.0" layoutY="238.0" mnemonicParsing="false" onAction="#pausiereZeiterfassung" prefHeight="67.0" prefWidth="57.0" text="Pause" textFill="#e19522" />
       <Button fx:id="btnErledigt" layoutX="744.0" layoutY="238.0" mnemonicParsing="false" onAction="#erledigtZeiterfassung" prefHeight="67.0" prefWidth="60.0" text="Erledigt" textFill="#da158f" />

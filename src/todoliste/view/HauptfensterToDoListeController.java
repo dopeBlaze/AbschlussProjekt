@@ -190,6 +190,18 @@ public class HauptfensterToDoListeController {
         assert btnCalPick != null : "fx:id=\"btnCalPick\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
         assert btnProgrammBeenden != null : "fx:id=\"btnProgrammBeenden\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
 
+        /////////////////////// Testeinträge
+        ArrayList <AktivitaetsEintrag> arrayList = new ArrayList<>();
+        AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
+        arrayList.add(a);
+        AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Putzen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
+        arrayList.add(b);
+        AktivitaetsEintrag c = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Kochen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
+        arrayList.add(c);
+        ////////////////////////
+
+        tableData = FXCollections.observableArrayList(arrayList);
+
         // Daten für die Tabelle laden
         //TODO Beans muss noch eingebunden werden
         // tableData = AktivitaetsEintragBean.getAktivitaet();
@@ -237,10 +249,6 @@ public class HauptfensterToDoListeController {
      * Diese Funktion initialisiert die TableView
      */
     private void initTable() {
-        AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Putzen", "2020-02-03", "2020-02-03", 100, "Privat", "normal", "nicht gestartet");
-        // Testeintrag erzeugen
-        aktivitaeten.add(a);
-        tableData = FXCollections.observableArrayList(aktivitaeten);
 
         // Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivität");
