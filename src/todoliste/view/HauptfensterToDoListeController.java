@@ -1,20 +1,31 @@
 package todoliste.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
+import todoliste.util.EditingTextCell;
 
 public class HauptfensterToDoListeController {
 
@@ -66,16 +77,30 @@ public class HauptfensterToDoListeController {
     @FXML
     private Button btnProgrammBeenden;
 
-    private ArrayList<AktivitaetsEintrag> aktivitaeten;
-    private int angezeigteAktivitaet;
+
+//ToDo evtl. Button in Hauptfenster GUI aktivieren, falls noch Zeit zur Bearbeitung des Features bleibt!
+//
+//    @FXML
+//    void anzeigenWochenbericht(ActionEvent event) {
+//    }
 
     @FXML
-    void anzeigenWochenbericht(ActionEvent event) {
+    void pausiereZeiterfassung(ActionEvent event) {
 
     }
 
     @FXML
-    void bearbeiteAktivitaetsname(ActionEvent event) {
+    void starteZeiterfassung(ActionEvent event) {
+
+    }
+
+    @FXML
+    void waehleNaechstenKalendertag(ActionEvent event) {
+
+    }
+
+    @FXML
+    void waehleVorherigenKalendertag(ActionEvent event) {
 
     }
 
@@ -127,43 +152,9 @@ public class HauptfensterToDoListeController {
         // aktivitaeten.remove(zuLoeschen);
 
         // Wenn der letzte Eintrag in der Aktivitaetenliste gelöscht wird, muss ein neuer leerer Eintrag generiert werden
-        if (aktivitaeten.size() == 0) {
-            aktivitaeten.add(new AktivitaetsEintrag());
-        }
-
-    }
-
-
-    // Aktuellen Eintrag löschen
-    //HauptfensterToDoListeController.remove(angzeigteAktivitaet);
-
-
-//    private void alertAnzeigen(String title, String message) {
-//        Alert alert = new Alert(Alert.AlertType.ERROR);
-//        alert.setTitle(title);
-//        alert.setHeaderText(null);
-//        alert.setContentText(message);
-//        alert.showAndWait();
-//    }
-
-
-    @FXML
-    void pausiereZeiterfassung(ActionEvent event) {
-
-    }
-
-    @FXML
-    void starteZeiterfassung(ActionEvent event) {
-
-    }
-
-    @FXML
-    void waehleNaechstenKalendertag(ActionEvent event) {
-
-    }
-
-    @FXML
-    void waehleVorherigenKalendertag(ActionEvent event) {
+//        if (aktivitaeten.size() == 0) {
+//            aktivitaeten.add(new AktivitaetsEintrag());
+//        }
 
     }
 
@@ -183,6 +174,7 @@ public class HauptfensterToDoListeController {
         assert btnCalPick != null : "fx:id=\"btnCalPick\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
         assert btnProgrammBeenden != null : "fx:id=\"btnProgrammBeenden\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
 
+
         // Daten für die Tabelle laden
         //TODO Beans muss noch eingebunden werden
         // tableData = AktivitaetsEintragBean.getAktivitaet();
@@ -190,6 +182,181 @@ public class HauptfensterToDoListeController {
         // Initialisierung der Tabelleneingenschaften
         initTable();
         initContextMenu();
+
+    }
+
+    @FXML
+    private void bearbeiteAktivitaetsname(ActionEvent event) {
+//                throws IOException {
+//            System.out.println("Button-Aktivitätsname bearbeiten wurde angeklickt");
+//             new BearbeiteAktivitaetToDoListeController();
+
+//            @Override
+//            public void initialize (URL url, ResourceBundle rb){
+//            }
+
+        btnAktivitaetsnameBearbeiten.setOnAction(new EventHandler<ActionEvent>() {
+                                                     public void handle(ActionEvent event) {
+                                                         Parent root;
+                                                         try {
+                                                             root = FXMLLoader.load(getClass().getClassLoader().getResource("view/BearbeiteAktivitaetToDoListe.fxml"), resources);
+                                                             Stage stage = new Stage();
+                                                             stage.setTitle("Aktivitätsname bearbeiten");
+                                                             stage.setScene(new Scene(root));
+                                                             stage.show();
+
+                                                         } catch (IOException e) {
+                                                             e.printStackTrace();
+                                                         } }
+                                                 }
+
+//        Scene secondScene = new Scene();
+//        Stage secondStage = new Stage();
+//        secondScene.setTitle("Aktivitätsname bearbeiten");
+//        secondScene.setScene(secondScene);
+//        secondScene.initStyle(StageStyle.DECORATED);
+//        secondScene.initModality(Modality.WINDOW_MODAL);
+//        secondScene.initOwner(primaryStage);
+//        primaryScene.toFront(false);
+//        secondScene.show();
+
+//        start(Stage stageBearbeiteAktivitaetToDoListe) throws Exception {
+//            Child root = FXMLLoader.load(getClass().getResource("view/BearbeiteAktivitaetToDoListe.fxml"));
+//            Stage.setTitle("Aktivitätsname bearbeiten");
+//            Stage.setScene(new Scene(root));
+//            Stage.show();
+//        }
+    }
+
+}
+    // Aktuellen Eintrag löschen
+    //HauptfensterToDoListeController.remove(angezeigteAktivitaet);
+
+
+//    private void alertAnzeigen(String title, String message) {
+//        Alert alert = new Alert(Alert.AlertType.ERROR);
+//        alert.setTitle(title);
+//        alert.setHeaderText(null);
+//        alert.setContentText(message);
+//        alert.showAndWait();
+//    }
+
+
+// Notwendig um Zellen in einer TableView zu bearbeiten
+
+    // Tabelle editierbar machen
+    // tableData.setEditable(true);
+
+//        // Zellenerscheinung definieren (notwendig für Editierung)
+//        Callback<TableColumn<AktivitaetsEintrag, String>, TableCell<AktivitaetsEintrag, String>> cellTextFactory = p -> new EditingTextCell<>();
+//        tc1.setCellFactory(cellTextFactory);
+//        tc2.setCellFactory(cellTextFactory);
+//        tc3.setCellFactory(cellTextFactory);
+//        tc4.setCellFactory(cellTextFactory);
+//        tc5.setCellFactory(cellTextFactory);
+//        tc6.setCellFactory(cellTextFactory);
+//        tc7.setCellFactory(cellTextFactory);
+//
+//        // Was passiert, nachdem die Zellenänderung stattgefunden hat
+//        tc1.setOnEditCommit(t -> t.getTableView().
+//
+//                getItems().
+//
+//                get(t.getTablePosition().
+//
+//                        getRow()).
+//
+//                setAktivitaetsName(t.getNewValue()));
+//        tc2.setOnEditCommit(t -> t.getTableView().
+//
+//                getItems().
+//
+//                get(t.getTablePosition().
+//
+//                        getRow()).
+//
+//                setStartDatum(t.getNewValue()));
+//        tc3.setOnEditCommit(t -> t.getTableView().
+//
+//                getItems().
+//
+//                get(t.getTablePosition().
+//
+//                        getRow()).
+//
+//                setEndDatum(t.getNewValue()));
+//        tc4.setOnEditCommit(t -> t.getTableView().
+//
+//                getItems().
+//
+//                get(t.getTablePosition().
+//
+//                        getRow()).
+//
+//                setVerbrauchteZeit(t.getNewValue()));
+//        tc5.setOnEditCommit(t -> t.getTableView().
+//
+//                getItems().
+//
+//                get(t.getTablePosition().
+//
+//                        getRow()).
+//
+//                setKategorie(t.getNewValue()));
+//        tc6.setOnEditCommit(t -> t.getTableView().
+//
+//                getItems().
+//
+//                get(t.getTablePosition().
+//
+//                        getRow()).
+//
+//                setPrioritaet(t.getNewValue()));
+//        tc7.setOnEditCommit(t -> t.getTableView().
+//
+//                getItems().
+//
+//                get(t.getTablePosition().
+//
+//                        getRow()).
+//
+//                setStatus(t.getNewValue()));
+//    }
+
+    /**
+     * Initialisiert und läd die Aktivitätenliste
+     */
+    private ArrayList<AktivitaetsEintrag> aktivitaeten;
+    private int angezeigteAktivitaet;
+
+    private void ladeAktivitaetenliste() {
+        // Aktivitätenliste initialisieren und laden
+        ladeAktivitaetenliste();
+        angezeigteAktivitaet = 0;
+        // Sollte wider erwarten die Tableview null sein, so wird sie hier neu initialisiert
+        if (aktivitaeten == null) {
+            aktivitaeten = new ArrayList<>();
+        }
+
+        // Testeintrag erzeugen
+        aktivitaeten.add(new AktivitaetsEintrag("", "Putzen", "03.02.2020", "03.02.2020", 100, "Privat", "Normal", "In Bearbeitung"));
+        tableData = FXCollections.observableArrayList(aktivitaeten);
+        // Den aktuellen Eintrag anzeigen
+        anzeigen();
+    }
+
+    private void anzeigen() {
+        // Anzuzeigender Eintrag heraussuchen
+        AktivitaetsEintrag eintragZumAnzeigen = aktivitaeten.get(angezeigteAktivitaet);
+
+//        // Eintrag in der Oberfläche anzeigen
+//        aktivitaetsName.setText(eintragZumAnzeigen.getAktivitaetsName());
+//        startDatum.setText(eintragZumAnzeigen.getStartDatum());
+//        endDatum.setText(eintragZumAnzeigen.getEndDatum());
+//        verbrauchteZeit.setText(eintragZumAnzeigen.getVerbrauchteZeit());
+//        kategorie.setText(eintragZumAnzeigen.getKategorie());
+//        prioritaet.setText(eintragZumAnzeigen.getPrioritaet());
+//        status.setText(eintragZumAnzeigen.getStatus());
     }
 
     /**
@@ -200,7 +367,7 @@ public class HauptfensterToDoListeController {
         TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivität");
         TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Startdatum");
         TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("Enddatum");
-        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Verbrauchte Zeit");
+        TableColumn<AktivitaetsEintrag, Integer> tc4 = new TableColumn<>("Verbrauchte Zeit");
         TableColumn<AktivitaetsEintrag, String> tc5 = new TableColumn<>("Kategorie");
         TableColumn<AktivitaetsEintrag, String> tc6 = new TableColumn<>("Priorität");
         TableColumn<AktivitaetsEintrag, String> tc7 = new TableColumn<>("Status");
@@ -223,7 +390,10 @@ public class HauptfensterToDoListeController {
         tvHauptfenster.getColumns().add(tc5);
         tvHauptfenster.getColumns().add(tc6);
         tvHauptfenster.getColumns().add(tc7);
+        //Daten zuweisen
+        tvHauptfenster.setItems(tableData);
     }
+
 
     /**
      * Diese Funktion initialisiert ein ContextMenu (Ein Menü das an der Stelle des
@@ -251,7 +421,6 @@ public class HauptfensterToDoListeController {
 
         tvHauptfenster.setContextMenu(cm);
     }
-
 
 }
 

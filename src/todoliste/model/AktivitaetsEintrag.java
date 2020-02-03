@@ -13,16 +13,17 @@ public class AktivitaetsEintrag {
      * Konstruktor, der alle Attribute mit leeren Werten initialisiert
      * Wichtig: Dieser Konstruktor wird nie benutzt, da niemals leere Werte uebermittelt werden
      */
-    public AktivitaetsEintrag() {
-        this.erstellungsDatum = "";
-        this.aktivitaetsName = "";
-        this.startDatum = "";
-        this.endDatum = "";
-        this.verbrauchteZeit = 0;
-        this.kategorie = "";
-        this.prioritaet = "";
-        this.status = "";
-    }
+    //Todo nicht vergessen wieder einzukommentieren!
+//    public AktivitaetsEintrag() {
+//        this.erstellungsDatum = "";
+//        this.aktivitaetsName = "";
+//        this.startDatum = "";
+//        this.endDatum = "";
+//        this.verbrauchteZeit = 0;
+//        this.kategorie = "";
+//        this.prioritaet = "";
+//        this.status = "";
+//    }
 
     /**
      * Ueberladener Konstruktor
