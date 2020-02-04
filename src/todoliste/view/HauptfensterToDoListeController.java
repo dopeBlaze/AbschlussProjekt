@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.model.AktivitaetsEintrag;
 
@@ -70,25 +71,34 @@ public class HauptfensterToDoListeController {
 
     //TODO GUI Aktivitätsname bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
-    void bearbeiteAktivitaetsname() {
+    void bearbeiteAktivitaetsname() throws IOException {
 
-        //TODO Syntax prüfen
-        btnAktivitaetsnameBearbeiten.setOnAction(new EventHandler<>() {
-            public void handle(ActionEvent event) {
-                Parent root;
-                try {
-                    root = FXMLLoader.load(getClass().getClassLoader().getResource("view/BearbeiteAktivitaetToDoListe.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Aktivitätsname bearbeiten");
-                    stage.setScene(new Scene(root));
-                    stage.show();
+//        //TODO Syntax prüfen
+//        btnAktivitaetsnameBearbeiten.setOnAction(new EventHandler<>() {
+//            public void handle(ActionEvent event) {
+//                Parent root;
+//                try {
+//                    root = FXMLLoader.load(getClass().getClassLoader().getResource("view/BearbeiteAktivitaetToDoListe.fxml"));
+//                    Stage stage = new Stage();
+//                    stage.setTitle("Aktivitätsname bearbeiten");
+//                    stage.setScene(new Scene(root));
+//                    stage.show();
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+            Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(part);
+            stage.setTitle("Aktivitäten bearbeiten");
+            stage.setScene(scene);
+            stage.show();
     }
+
+
 
 
         /*Scene secondScene = new Scene();
@@ -110,8 +120,15 @@ public class HauptfensterToDoListeController {
 
     //TODO GUI Eintrag bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
-    void bearbeiteEintrag(ActionEvent event) {
+    void bearbeiteEintrag() throws IOException {
 
+        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Eintrag bearbeiten");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
