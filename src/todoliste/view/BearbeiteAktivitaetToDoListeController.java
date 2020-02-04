@@ -4,12 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import todoliste.model.AktivitaetsEintrag;
+import todoliste.util.EditingTextCell;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,17 +29,25 @@ public class BearbeiteAktivitaetToDoListeController {
     @FXML
     private ObservableList<AktivitaetsEintrag> tableData;
 
+    private FilteredList<AktivitaetsEintrag> tableFilteredData;
+
     @FXML
     private Button btnLoeschen;
 
     @FXML
-    void loescheAktivitaetsname(ActionEvent event) {
+    void loescheAktivitaetsname() {
 
+        AktivitaetsEintrag ausgewaehlterArtikel = TVAktivitaetsname.getSelectionModel().getSelectedItem();
+        tableData.remove(ausgewaehlterArtikel);
+        // Platform.runLater(() -> ArtikelBean.delete(ausgewaehlterArtikel)); // Datensatz aus Datenbank speichern
+        TVAktivitaetsname.refresh(); // manuelle Aktualisierung der angezeigten Daten
     }
 
     @FXML
-    void uebernehmeAktivitaetsname(ActionEvent event) {
+    void uebernehmeAktivitaetsname() {
 
+        Stage stage = (Stage) btnUebernehmen.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -72,35 +81,41 @@ public class BearbeiteAktivitaetToDoListeController {
      */
     private void initTable() {
         // Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitaetsname");
-        tc1.setPrefWidth(334.0);
+        TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitaetsname");
+        tcAktivitaetsName.setPrefWidth(334.0);
 
         // Zuordnung Werte <-> Model
-        tc1.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
+        tcAktivitaetsName.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
 
         // Spalten hinzufügen
-        TVAktivitaetsname.getColumns().add(tc1);
+        TVAktivitaetsname.getColumns().add(tcAktivitaetsName);
 
         // Daten zuweisen
         TVAktivitaetsname.setItems(tableData);
 
-        /* Für eine gefilterte und sortierte Ansicht
+        // Für eine gefilterte und sortierte Ansicht
         tableFilteredData = new FilteredList<>(tableData, p -> true);
-        SortedList<Artikel> tableSortedData = new SortedList<>(tableFilteredData);
-        tableSortedData.comparatorProperty().bind(tvExample.comparatorProperty());
-        tvExample.setItems(tableSortedData);
+        SortedList<AktivitaetsEintrag> tableSortedData = new SortedList<>(tableFilteredData);
+        tableSortedData.comparatorProperty().bind(TVAktivitaetsname.comparatorProperty());
+        TVAktivitaetsname.setItems(tableSortedData);
 
-        // Filterung hinzufügen
-        tableFilteredData.setPredicate(artikel -> {
+        // Filter Predicate setzen
+        tfAktivitaetsname.textProperty().addListener((observable, oldValue, newValue) -> {
+            tableFilteredData.setPredicate(aktivitaetsName -> {
+                // wenn Filter leer dann zeige alle Aktivitaetsnamen
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
 
-            if (artikel.getArtikelNr().equals("12345-4")) return true;
-            if (artikel.getName().contains("3")) return true;
+                // vergleiche Aktivitaetsnamen mit Filtertext
+                String lowerCaseFilter = newValue.toLowerCase();
 
-            return false;
-        });*/
-
-        // TableView Menü-Button anzeigen
-        // TVAktivitaetsname.setTableMenuButtonVisible(true);
+                if (aktivitaetsName.getAktivitaetsName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter hat Treffer
+                }
+                return false; // Vergleich findet keine Uebereinstimmung
+            });
+        });
 
 
         // Notwendig um Zellen in einer TableView zu bearbeiten
@@ -109,10 +124,32 @@ public class BearbeiteAktivitaetToDoListeController {
         TVAktivitaetsname.setEditable(true);
 
         // Zellenerscheinung definieren (notwendig für Editierung)
-        /*Callback<TableColumn<AktivitaetsEintrag, String>, TableCell<AktivitaetsEintrag, String>> cellTextFactory = p -> new EditingTextCell<>();
-        tc1.setCellFactory(cellTextFactory);*/
+        Callback<TableColumn<AktivitaetsEintrag, String>, TableCell<AktivitaetsEintrag, String>> cellTextFactory = p -> new EditingTextCell<>();
+        tcAktivitaetsName.setCellFactory(cellTextFactory);
 
-        // Was passiert, nachdem die Zellenänderung stattgefunden hat
-//        tc1.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(t.getNewValue()));
+        // Aenderungen uebernehmen
+        tcAktivitaetsName.setOnEditCommit(t -> {
+            String oldAktivitaetsName = t.getOldValue();
+            t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue());
+            String newAktivitaetsName = t.getNewValue();
+
+            // TODO in Datenbank übernehmen
+            // if Anweisung Pruefung ob Name schon vorhanden, ansonsten speichern
+            try{
+                // Bean einfuegen
+                // AktivitaetsEintragBean.saveAktivitaetsName(newAktivitaetsName);
+            } catch(IllegalArgumentException e){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Name schon vergeben");
+                alert.setHeaderText("Look, an Information Dialog");
+                alert.setContentText("Der Name existiert schon!\nBitte wähle einen neuen Namen aus!");
+
+                alert.showAndWait();
+
+
+                t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(oldAktivitaetsName);
+                TVAktivitaetsname.refresh();
+            }
+        });
     }
 }
