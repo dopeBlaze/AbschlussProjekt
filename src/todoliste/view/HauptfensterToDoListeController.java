@@ -9,16 +9,41 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import todoliste.model.AktivitaetsEintrag;
+
+import java.awt.*;
+import java.awt.Label;
+import java.awt.event.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class HauptfensterToDoListeController {
+public class HauptfensterToDoListeController extends javax.swing.JFrame {
+
+    static int me=0;
+    static int ss=0;
+    static int mm=0;
+    static int hh=0;
+    static boolean b=true;
+
+    @FXML
+    private Label labelhour;
+
+    @FXML
+    private Label labelminute;
+
+    @FXML
+    private Label labelsec;
+
+    @FXML
+    private Label labelmmss;
+
 
     @FXML
     private TableView<AktivitaetsEintrag> tvHauptfenster;
@@ -175,17 +200,53 @@ public class HauptfensterToDoListeController {
     }
 
     @FXML
-    void starteZeiterfassung(ActionEvent event) {
+    void starteZeiterfassung(java.awt.event.ActionEvent event) {
+        b=true;
+        Thread t=new Thread(){
+            public void run(){
+
+                for (;;)
+                {
+                    if (b==true)
+                    {
+                        try
+                        {
+                          sleep(1);
+                          if (me>1000){
+                              me=0;
+                              ss++;
+                          }
+                            if (ss>60){
+                                ss=0;
+                                mm++;
+                            }
+                            if (mm>60){
+                                mm=0;
+                                hh++;
+                            }
+                            me++;
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                       break;
+                    }
+                }
+            }
+        };
+    }
+
+    @FXML
+    void waehleNaechstenKalendertag(java.awt.event.ActionEvent event) {
 
     }
 
     @FXML
-    void waehleNaechstenKalendertag(ActionEvent event) {
-
-    }
-
-    @FXML
-    void waehleVorherigenKalendertag(ActionEvent event) {
+    void waehleVorherigenKalendertag(java.awt.event.ActionEvent event) {
 
     }
 
@@ -224,6 +285,9 @@ public class HauptfensterToDoListeController {
         // Initialisierung der Tabelleneingenschaften
         initTable();
         //initContextMenu();
+        //start(final Stage primaryStage);
+
+
     }
 
     /**
@@ -322,5 +386,7 @@ public class HauptfensterToDoListeController {
 
         tvHauptfenster.setContextMenu(cm);
     }
+
+
 }
 
