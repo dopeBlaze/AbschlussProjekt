@@ -40,16 +40,15 @@ public class BearbeiteAktivitaetToDoListeController {
 
     @FXML
     void addAktivitaetsname() {
-        System.out.println("Text: "+ tfHinzufuegen.getText());
         AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(tfHinzufuegen.getText());
         try{
             AktivitaetsEintragBean.saveAktivitaetsName(neuerEintrag);
             tableData.add(neuerEintrag);
+            tfHinzufuegen.clear();
             TVAktivitaetsname.refresh();
         } catch(IllegalArgumentException e){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Hinzufügen nicht möglich!");
-            //alert.setHeaderText("Look, an Information Dialog");
             alert.setContentText("Der Name kann nicht hinzugefügt werden!\nDer Name existiert schon!");
 
             alert.showAndWait();
@@ -69,7 +68,6 @@ public class BearbeiteAktivitaetToDoListeController {
         } catch (IllegalArgumentException e){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Löschen nicht möglich!");
-            //alert.setHeaderText("Look, an Information Dialog");
             alert.setContentText("Der Name kann nicht gelöscht werden!\nDer Name ist in Benutzung!");
 
             alert.showAndWait();
@@ -155,9 +153,6 @@ public class BearbeiteAktivitaetToDoListeController {
             });
         });
 
-
-        // Notwendig um Zellen in einer TableView zu bearbeiten
-
         // Tabelle editierbar machen
         TVAktivitaetsname.setEditable(true);
 
@@ -169,18 +164,15 @@ public class BearbeiteAktivitaetToDoListeController {
         tcAktivitaetsName.setOnEditCommit(t -> {
             String oldAktivitaetsName = t.getOldValue();
             t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue());
-            String newAktivitaetsName = t.getNewValue();
 
-            // TODO in Datenbank übernehmen
             // if Anweisung Pruefung ob Name schon vorhanden, ansonsten speichern
             try{
                 // Bean einfuegen
                 AktivitaetsEintragBean.saveAktivitaetsName(t.getRowValue());
             } catch(IllegalArgumentException e){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Name schon vergeben");
-                //alert.setHeaderText("Look, an Information Dialog");
-                alert.setContentText("Der Name existiert schon!\nBitte wähle einen neuen Namen aus!");
+                alert.setTitle("Namensänderung nicht möglich!");
+                alert.setContentText("Der Aktivitätsname existiert schon!\nBitte wähle einen neuen Namen aus!");
 
                 alert.showAndWait();
 
