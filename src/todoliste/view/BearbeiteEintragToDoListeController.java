@@ -60,7 +60,10 @@ public class BearbeiteEintragToDoListeController {
         LocalDate s = startDatum.getValue();
         System.out.println(s);
     }
-
+    /**
+     * by presing on the Übernehmen button we get the entered value of Activity
+     * @param event
+     */
     @FXML
     void uebernehmeEintragsname(ActionEvent event) {
     setKategory(event);
@@ -77,6 +80,8 @@ public class BearbeiteEintragToDoListeController {
         String p = Prioritaet.getValue();
         System.out.println(p);
     }
+
+
     @FXML
     void setTVAktivitaetsname(ActionEvent event) {
         ObservableList<AktivitaetsEintrag> x = (ObservableList<AktivitaetsEintrag>) TVAktivitaetsname.getItems();
@@ -121,3 +126,4 @@ public class BearbeiteEintragToDoListeController {
         return false;
     }
 }
+
