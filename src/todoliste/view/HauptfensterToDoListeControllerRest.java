@@ -106,6 +106,15 @@ public class HauptfensterToDoListeControllerRest {
     @FXML
     void bearbeiteEintrag(ActionEvent event) {
 
+         /*Scene secondScene = new Scene();
+        Stage secondStage = new Stage();
+        secondScene.setTitle("Aktivitätsname bearbeiten");
+        secondScene.setScene(secondScene);
+        secondScene.initStyle(StageStyle.DECORATED);
+        secondScene.initModality(Modality.WINDOW_MODAL);
+        secondScene.initOwner(primaryStage);
+        primaryScene.toFront(false);
+        secondScene.show();*/
     }
 
     @FXML

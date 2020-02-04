@@ -15,7 +15,7 @@
       <Button fx:id="btnPause" layoutX="687.0" layoutY="238.0" mnemonicParsing="false" onAction="#pausiereZeiterfassung" prefHeight="67.0" prefWidth="57.0" text="Pause" textFill="#e19522" />
       <Button fx:id="btnErledigt" layoutX="744.0" layoutY="238.0" mnemonicParsing="false" onAction="#erledigtZeiterfassung" prefHeight="67.0" prefWidth="60.0" text="Erledigt" textFill="#da158f" />
       <Button fx:id="btnWochenberichtAnzeigen" layoutX="656.0" layoutY="56.0" mnemonicParsing="false" onAction="#anzeigenWochenbericht" text=" Wochenbericht anzeigen" visible="false" />
-      <Button fx:id="btnAktivitaetsnameBearbeiten" layoutX="656.0" layoutY="363.0" mnemonicParsing="false" onAction="#bearbeiteAktivitaetsname" text="Aktivitäsname bearbeiten" />
+      <Button fx:id="btnAktivitaetsnameBearbeiten" layoutX="656.0" layoutY="363.0" mnemonicParsing="false" onAction="#bearbeiteAktivitaetsname" text="Aktivitätsname bearbeiten" />
       <Button fx:id="btnEintragBearbeiten" layoutX="675.0" layoutY="404.0" mnemonicParsing="false" onAction="#bearbeiteEintrag" text="Eintrag bearbeiten" />
       <Button fx:id="btnLoeschen" layoutX="774.0" layoutY="520.0" mnemonicParsing="false" onAction="#loescheAktivitaet" text="Löschen" />
       <Button fx:id="btnNeuerEintrag" layoutX="612.0" layoutY="520.0" mnemonicParsing="false" onAction="#hinzufuegenNeuerEintrag" text="Neuer Eintrag" />
