@@ -78,11 +78,10 @@ public class HauptfensterToDoListeControllerRest {
     private Button btnProgrammBeenden;
 
 
-//ToDo evtl. Button in Hauptfenster GUI aktivieren, falls noch Zeit zur Bearbeitung des Features bleibt!
-//
-//    @FXML
-//    void anzeigenWochenbericht(ActionEvent event) {
-//    }
+    //ToDo evtl. Button in Hauptfenster GUI aktivieren, falls noch Zeit zur Bearbeitung des Features bleibt!
+    @FXML
+    void anzeigenWochenbericht(ActionEvent event) {
+    }
 
     @FXML
     void pausiereZeiterfassung(ActionEvent event) {
@@ -139,18 +138,13 @@ public class HauptfensterToDoListeControllerRest {
         assert btnNaechsterKalendertag != null : "fx:id=\"btnNaechsterKalendertag\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
         assert btnCalPick != null : "fx:id=\"btnCalPick\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
         assert btnProgrammBeenden != null : "fx:id=\"btnProgrammBeenden\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
-
-
-        // Daten für die Tabelle laden
-        //TODO Beans muss noch eingebunden werden
-        // tableData = AktivitaetsEintragBean.getAktivitaet();
     }
 
 
     // Aktuellen Eintrag löschen
     //HauptfensterToDoListeController.remove(angezeigteAktivitaet);
 
-
+    // Gibt an, dass ein Fehler aufgetreten ist als Hinweisfenster mit ok Button
 //    private void alertAnzeigen(String title, String message) {
 //        Alert alert = new Alert(Alert.AlertType.ERROR);
 //        alert.setTitle(title);

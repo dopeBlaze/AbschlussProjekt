@@ -3,11 +3,17 @@ package todoliste.view;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import todoliste.model.AktivitaetsEintrag;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -61,15 +67,17 @@ public class HauptfensterToDoListeController {
     void anzeigenWochenbericht(ActionEvent event) {
 
     }
+
     //TODO GUI Aktivitätsname bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
-    void bearbeiteAktivitaetsname(ActionEvent event) {
+    void bearbeiteAktivitaetsname() {
 
         //TODO Syntax prüfen
-        /*btnAktivitaetsnameBearbeiten.setOnAction(new EventHandler<ActionEvent>() {public void handle(ActionEvent event) {
+        btnAktivitaetsnameBearbeiten.setOnAction(new EventHandler<>() {
+            public void handle(ActionEvent event) {
                 Parent root;
                 try {
-                    root = FXMLLoader.load(getClass().getClassLoader().getResource("view/BearbeiteAktivitaetToDoListe.fxml"), resources);
+                    root = FXMLLoader.load(getClass().getClassLoader().getResource("view/BearbeiteAktivitaetToDoListe.fxml"));
                     Stage stage = new Stage();
                     stage.setTitle("Aktivitätsname bearbeiten");
                     stage.setScene(new Scene(root));
@@ -79,7 +87,8 @@ public class HauptfensterToDoListeController {
                     e.printStackTrace();
                 }
             }
-        }*/
+        });
+    }
 
 
         /*Scene secondScene = new Scene();
@@ -98,7 +107,7 @@ public class HauptfensterToDoListeController {
             Stage.setScene(new Scene(root));
             Stage.show();
         }*/
-    }
+
     //TODO GUI Eintrag bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
     void bearbeiteEintrag(ActionEvent event) {
