@@ -9,11 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 import todoliste.util.EditingTextCell;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class BearbeiteAktivitaetToDoListeController {
 
@@ -35,12 +33,48 @@ public class BearbeiteAktivitaetToDoListeController {
     private Button btnLoeschen;
 
     @FXML
+    private Button btnHinzufuegen;
+
+    @FXML
+    private TextField tfHinzufuegen;
+
+    @FXML
+    void addAktivitaetsname() {
+        AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(tfHinzufuegen.getText());
+        try{
+            AktivitaetsEintragBean.saveAktivitaetsName(neuerEintrag);
+            tableData.add(neuerEintrag);
+            tfHinzufuegen.clear();
+            TVAktivitaetsname.refresh();
+        } catch(IllegalArgumentException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Hinzufügen nicht möglich!");
+            alert.setContentText("Der Name kann nicht hinzugefügt werden!\nDer Name existiert schon!");
+
+            alert.showAndWait();
+            TVAktivitaetsname.refresh();
+        }
+    }
+
+    @FXML
     void loescheAktivitaetsname() {
 
-        AktivitaetsEintrag ausgewaehlterArtikel = TVAktivitaetsname.getSelectionModel().getSelectedItem();
-        tableData.remove(ausgewaehlterArtikel);
-        // Platform.runLater(() -> ArtikelBean.delete(ausgewaehlterArtikel)); // Datensatz aus Datenbank speichern
-        TVAktivitaetsname.refresh(); // manuelle Aktualisierung der angezeigten Daten
+        AktivitaetsEintrag ausgewaehlteAktivitaet = TVAktivitaetsname.getSelectionModel().getSelectedItem();
+        try{
+            AktivitaetsEintragBean.deleteAktivitaetsName(ausgewaehlteAktivitaet);
+            initTable();
+            //tableData.remove(ausgewaehlteAktivitaet);
+            //TVAktivitaetsname.refresh();
+        } catch (IllegalArgumentException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Löschen nicht möglich!");
+            alert.setContentText("Der Name kann nicht gelöscht werden!\nDer Name ist in Benutzung!");
+
+            alert.showAndWait();
+            TVAktivitaetsname.refresh();
+        }
+
+        TVAktivitaetsname.refresh();
     }
 
     @FXML
@@ -55,22 +89,22 @@ public class BearbeiteAktivitaetToDoListeController {
 
 
         /////////////////////// Testeinträge
-        ArrayList <AktivitaetsEintrag> arrayList = new ArrayList<>();
+        /*ArrayList <AktivitaetsEintrag> arrayList = new ArrayList<>();
         AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
         arrayList.add(a);
         AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Putzen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
         arrayList.add(b);
         AktivitaetsEintrag c = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Kochen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
-        arrayList.add(c);
+        arrayList.add(c);*/
         ////////////////////////
-
-        tableData = FXCollections.observableArrayList(arrayList);
 
 
         assert btnUebernehmen != null : "fx:id=\"btnUebernehmen\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
         assert tfAktivitaetsname != null : "fx:id=\"tfAktivitaetsname\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
         assert TVAktivitaetsname != null : "fx:id=\"TVAktivitaetsname\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
         assert btnLoeschen != null : "fx:id=\"btnLoeschen\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
+        assert tfHinzufuegen != null : "fx:id=\"tfHinzufuegen\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
+        assert btnHinzufuegen != null : "fx:id=\"btnHinzufuegen\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
 
         initTable();
     }
@@ -80,6 +114,8 @@ public class BearbeiteAktivitaetToDoListeController {
      * Diese Funktion initialisiert die TableView
      */
     private void initTable() {
+        tableData = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetsNamen());
+
         // Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitaetsname");
         tcAktivitaetsName.setPrefWidth(334.0);
@@ -117,9 +153,6 @@ public class BearbeiteAktivitaetToDoListeController {
             });
         });
 
-
-        // Notwendig um Zellen in einer TableView zu bearbeiten
-
         // Tabelle editierbar machen
         TVAktivitaetsname.setEditable(true);
 
@@ -131,21 +164,17 @@ public class BearbeiteAktivitaetToDoListeController {
         tcAktivitaetsName.setOnEditCommit(t -> {
             String oldAktivitaetsName = t.getOldValue();
             t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue());
-            String newAktivitaetsName = t.getNewValue();
 
-            // TODO in Datenbank übernehmen
             // if Anweisung Pruefung ob Name schon vorhanden, ansonsten speichern
             try{
                 // Bean einfuegen
-                // AktivitaetsEintragBean.saveAktivitaetsName(newAktivitaetsName);
+                AktivitaetsEintragBean.saveAktivitaetsName(t.getRowValue());
             } catch(IllegalArgumentException e){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Name schon vergeben");
-                alert.setHeaderText("Look, an Information Dialog");
-                alert.setContentText("Der Name existiert schon!\nBitte wähle einen neuen Namen aus!");
+                alert.setTitle("Namensänderung nicht möglich!");
+                alert.setContentText("Der Aktivitätsname existiert schon!\nBitte wähle einen neuen Namen aus!");
 
                 alert.showAndWait();
-
 
                 t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(oldAktivitaetsName);
                 TVAktivitaetsname.refresh();

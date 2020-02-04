@@ -27,7 +27,7 @@ public class MainToDoListe extends Application {
 
         ////////////////////////
         // Test Erstellung der Datenbank
-        // Datenbank.getInstance().connect();
+        Datenbank.getInstance().connect();
         ////////////////////////
 
         // Testeinträge
