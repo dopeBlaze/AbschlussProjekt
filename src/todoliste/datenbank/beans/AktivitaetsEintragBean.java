@@ -43,11 +43,13 @@ public class AktivitaetsEintragBean {
         pstmtDeleteAktivitaet = Datenbank.getInstance().prepareStatement("DELETE FROM todoliste WHERE ErstellungsDatum = ?;");
 
         pstmtSelectAktivitaetsNamen = Datenbank.getInstance().prepareStatement("SELECT AktivitaetsName FROM aktivitaetsname;");
-        //pstmtInsertAktivitaetsNamen = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) VALUES (?);");
+        pstmtInsertAktivitaetsName = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) VALUES (?);");
         // Einfuegen von doppelten UNIQUE Eintraegen wird abgefangen
-        pstmtInsertAktivitaetsName = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) SELECT AktivitaetsName FROM aktivitaetsname WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = ?);");
+        // pstmtInsertAktivitaetsName = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) SELECT AktivitaetsName FROM aktivitaetsname WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = ?);");
         pstmtUpdateAktivitaetsName = Datenbank.getInstance().prepareStatement("UPDATE aktivitaetsname SET AktivitaetsName = ? WHERE AktivitaetsName = ?;");
-        pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
+        //pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
+        // Löschen nicht möglich wenn id von Aktivitaetsname in Benutzung
+        pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM table_aktivitaetsname WHERE AktivitaetsName = ? AND id NOT IN (SELECT aktivitaetsname_id FROM table_todoliste);");
 
         idListe = new HashMap<>();
         idListeName = new HashMap<>();
@@ -259,12 +261,12 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Der Aktivitaetsname '" + zuSpeichern.getAktivitaetsName() + "' existiert schon!");
-            /*try {
+            System.err.println("Fehler beim Loeschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
+            try {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
-            e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Speicher der Aktivitaet in die Datenbank");*/
+            //e.printStackTrace();
+            throw new IllegalArgumentException("Fehler beim Speicher der Aktivitaet in die Datenbank");
         }
 
         return result;
