@@ -1,14 +1,15 @@
 package todoliste.view;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import todoliste.model.AktivitaetsEintrag;
 
@@ -145,6 +146,12 @@ public class Olahauptfenstercontroller {
 
     }
 
+
+
+    private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
+    private ObservableList<AktivitaetsEintrag> aktivitaetsEintrags2;
+
+
     @FXML
     void initialize() {
         assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -171,9 +178,52 @@ public class Olahauptfenstercontroller {
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
 
+        //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
+        test();
+        //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
+        infoTable();
+
     }
 
 
+    private void test() {
+
+        if (aktivitaetsEintrags == null) {
+            aktivitaetsEintrags = new ArrayList<>();
+        }
+
+        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr", "03.02.2020", "03.02.2020",5, "private", "hoch", "s"));
+        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr1", "04.02.2020", "04.02.2020",8, "private", "hoch", "s"));
+        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr2", "05.02.2020", "05.02.2020",9, "private", "hoch", "s"));
+        aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
+
+    }
+
+    private void infoTable() {
+
+
+        tcAktivität.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
+        tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
+        tcEnddatum.setCellValueFactory(new PropertyValueFactory<>("endDatum"));
+        tcVerbrauchtezeit.setCellValueFactory(new PropertyValueFactory<>("verbrauchteZeit"));
+        tcPriorität.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
+        tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+
+
+        tabelview.setItems(aktivitaetsEintrags2);
+
+        tcAktivität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
+        tcStartdatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
+        tcEnddatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setEndDatum(t.getNewValue()));
+        tcVerbrauchtezeit.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setVerbrauchteZeit(t.getNewValue()));
+        tcPriorität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrioritaet(t.getNewValue()));
+        tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
+        tcLabel.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
+
+    }
+
+    
 
 
 }
