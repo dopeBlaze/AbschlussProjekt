@@ -9,12 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.cell.PropertyValueFactory;
 import todoliste.model.AktivitaetsEintrag;
 
 import javax.annotation.processing.Completion;
@@ -34,7 +31,7 @@ public class BearbeiteEintragToDoListeController {
     private TextField tfEintragsname;
 
     @FXML
-    private TableView<?> TVAktivitaetsname;
+    private TableView<AktivitaetsEintrag> TVAktivitaetsname;
 
     @FXML
     private ComboBox<String> kategory;
@@ -82,14 +79,14 @@ public class BearbeiteEintragToDoListeController {
     }
 
 
-    @FXML
-    void setTVAktivitaetsname(ActionEvent event) {
-        ObservableList<AktivitaetsEintrag> x = (ObservableList<AktivitaetsEintrag>) TVAktivitaetsname.getItems();
-        System.out.println(x);
-    }
+
 
     @FXML
     void initialize() {
+
+
+
+
         assert btnUbernehmen != null : "fx:id=\"btnUbernehmen\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert tfEintragsname != null : "fx:id=\"tfEintragsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert TVAktivitaetsname != null : "fx:id=\"TVAktivitaetsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
@@ -97,6 +94,36 @@ public class BearbeiteEintragToDoListeController {
         assert Prioritaet != null : "fx:id=\"Prioritaet\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert startDatum != null : "fx:id=\"startDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert endDatum != null : "fx:id=\"endDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+
+        //Spalten erstellen
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Erstellung Datum");
+        TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Start Datum");
+        TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("End Datum");
+        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Aktivität Name");
+        TableColumn<AktivitaetsEintrag, String> tc5 = new TableColumn<>("Kategory");
+        TableColumn<AktivitaetsEintrag, String> tc6 = new TableColumn<>("Priority");
+
+        // Zuordnung Werte <-> Model
+        tc1.setCellValueFactory(new PropertyValueFactory<>("Erstellung Datum"));
+        tc2.setCellValueFactory(new PropertyValueFactory<>("Start Datum"));
+        tc3.setCellValueFactory(new PropertyValueFactory<>("End Datum"));
+        tc4.setCellValueFactory(new PropertyValueFactory<>("Aktivität Name"));
+        tc5.setCellValueFactory(new PropertyValueFactory<>("Aktivität Name"));
+        tc6.setCellValueFactory(new PropertyValueFactory<>("Priorität Name"));
+
+        // Spalten hinzuf�gen
+        TVAktivitaetsname.getColumns().add(tc1);
+        TVAktivitaetsname.getColumns().add(tc2);
+        TVAktivitaetsname.getColumns().add(tc3);
+        TVAktivitaetsname.getColumns().add(tc4);
+        TVAktivitaetsname.getColumns().add(tc5);
+        TVAktivitaetsname.getColumns().add(tc6);
+
+        // Daten zuweisen
+        // tvExample.setItems(tableData);
+
+
+
         kategory.setPromptText("Kategorie");
         kategory.setItems(FXCollections.observableArrayList());
         kategory.getItems().add("Arbeit");
