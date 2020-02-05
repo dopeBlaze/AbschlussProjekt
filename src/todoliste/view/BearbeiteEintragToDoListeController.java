@@ -1,6 +1,7 @@
 package todoliste.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,11 +11,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
 
 public class BearbeiteEintragToDoListeController {
+
+    public static String objektDatum;
 
     @FXML
     private Button btnUbernehmen;
@@ -23,10 +27,22 @@ public class BearbeiteEintragToDoListeController {
     private TextField tfEintragsname;
 
     @FXML
+    private AktivitaetsEintrag selected;
+
+    @FXML
     private TableView<AktivitaetsEintrag> TVAktivitaetsname;
 
     @FXML
-    private ObservableList<AktivitaetsEintrag> tableData;
+    private TableView<AktivitaetsEintrag> TVAktivitaet;
+
+    @FXML
+    private ArrayList<AktivitaetsEintrag> arrayData;
+
+    @FXML
+    private ObservableList<AktivitaetsEintrag> tableDataAktivitaet;
+
+    @FXML
+    private ObservableList<AktivitaetsEintrag> tableDataAktivitaetName;
 
     @FXML
     private FilteredList<AktivitaetsEintrag> tableFilteredData;
@@ -43,18 +59,31 @@ public class BearbeiteEintragToDoListeController {
     @FXML
     private DatePicker endDatum;
 
+    /**
+     * Datumsabgleich von DatePicker endDatum
+     */
     @FXML
     void setzteEnddatum() {
         endDatum.setShowWeekNumbers(false);
+
+        // Ist das EndDatum kleiner als das StartDatum, so wird das StartDatum gleich dem EndDatum gesetzt
         if (endDatum.getValue().compareTo(startDatum.getValue()) < 0) {
             startDatum.setValue(endDatum.getValue());
         }
+
+        // Die Werte des DatePickers werden gesetzt
+        selected.setStartDatum(startDatum.getValue().toString());
+        selected.setEndDatum(endDatum.getValue().toString());
     }
 
+    /**
+     * Datumsabgleich von DatePicker startDatum
+     */
     @FXML
     void setzteStartdatum() {
         startDatum.setShowWeekNumbers(false);
 
+        // Ist das Startdatum groesser als das EndDatum, so wird das EndDatum gleich dem StartDatum gesetzt
         if (startDatum.getValue().compareTo(endDatum.getValue()) > 0){
             endDatum.setValue(startDatum.getValue());
         }
@@ -63,15 +92,33 @@ public class BearbeiteEintragToDoListeController {
         if (startDatum.getValue().compareTo(LocalDate.now()) < 0){
             startDatum.setValue(LocalDate.now());
         }
+
+        // Die Werte des DatePickers werden gesetzt
+        selected.setStartDatum(startDatum.getValue().toString());
+        selected.setEndDatum(endDatum.getValue().toString());
     }
 
     /**
-     * by presing on the Übernehmen button we get the entered value of Activity
+     * Speichert die Aenderungen in die Datenbank und schließt das Fenster
      *
      */
     @FXML
     void uebernehmeEintragsname() {
 
+        // Liest den ausgewaehlten Aktivitaetsnamen aus und setzt ihn
+        AktivitaetsEintrag name = TVAktivitaetsname.getSelectionModel().getSelectedItem();
+        selected.setAktivitaetsName(name.getAktivitaetsName());
+
+        // die Werte der ChoiceBoxen werden gesetzt
+        selected.setKategorie(cbKategorie.getValue());
+        selected.setPrioritaet(cbPrioritaet.getValue());
+
+        // Der einzelne Eintrag wird abgespeichert
+        AktivitaetsEintragBean.saveAktivitaetSingle(selected);
+
+        // Fenster wird geschlossen
+        Stage stage = (Stage) btnUbernehmen.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -79,23 +126,46 @@ public class BearbeiteEintragToDoListeController {
 
         assert btnUbernehmen != null : "fx:id=\"btnUbernehmen\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert tfEintragsname != null : "fx:id=\"tfEintragsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+        assert TVAktivitaet != null : "fx:id=\"TVAktivitaet\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert TVAktivitaetsname != null : "fx:id=\"TVAktivitaetsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert cbKategorie != null : "fx:id=\"cbKategorie\" was not injected: check your FXML file 'NeuerEintragToDoListe.fxml'.";
         assert cbPrioritaet != null : "fx:id=\"cbPrioritaet\" was not injected: check your FXML file 'NeuerEintragToDoListe.fxml'.";
         assert startDatum != null : "fx:id=\"startDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert endDatum != null : "fx:id=\"endDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
 
-        startDatum.setValue(LocalDate.now());
+
+        //TODO
+        // VergleichsString vom Erstellungsdatum
+        // muss vom Hauptfenster mitgeliefert werden
+        String vergleich = "2020-02-05T13:23:39.646143600";
+        //objektDatum = vergleich;
+        arrayData = AktivitaetsEintragBean.getAktivitaeten();
+        for (AktivitaetsEintrag array : arrayData) {
+
+            if (array.getErstellungsDatum().equals(vergleich)){
+                selected = array;
+                tableDataAktivitaet = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetSingle(selected));
+                initTableAktivitaet();
+            }
+        }
+
+
+        startDatum.setValue(LocalDate.parse(selected.getStartDatum()));
         startDatum.getEditor().setDisable(true);
-        endDatum.setValue(LocalDate.now());
+        endDatum.setValue(LocalDate.parse(selected.getEndDatum()));
         endDatum.getEditor().setDisable(true);
 
-        initTableAktivitaet();
+        cbKategorie.setValue(selected.getKategorie());
+        cbPrioritaet.setValue(selected.getPrioritaet());
+
+        initTableAktivitaetsNamen();
+        TVAktivitaetsname.getSelectionModel().select(selected);
     }
 
-
+    /**
+     * Initialisierung von TableView der Aktivitaet
+     */
     private void initTableAktivitaet() {
-        tableData = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaeten());
 
         //Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivität Name");
@@ -112,17 +182,37 @@ public class BearbeiteEintragToDoListeController {
         tc5.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
         // Spalten hinzufuegen
-        TVAktivitaetsname.getColumns().add(tc1);
-        TVAktivitaetsname.getColumns().add(tc2);
-        TVAktivitaetsname.getColumns().add(tc3);
-        TVAktivitaetsname.getColumns().add(tc4);
-        TVAktivitaetsname.getColumns().add(tc5);
+        TVAktivitaet.getColumns().add(tc1);
+        TVAktivitaet.getColumns().add(tc2);
+        TVAktivitaet.getColumns().add(tc3);
+        TVAktivitaet.getColumns().add(tc4);
+        TVAktivitaet.getColumns().add(tc5);
 
         // Daten zuweisen
-        TVAktivitaetsname.setItems(tableData);
+        TVAktivitaet.setItems(tableDataAktivitaet);
+    }
+
+    /**
+     * Initialisierung von TableView der AktivitaetsNamen
+     */
+    private void initTableAktivitaetsNamen() {
+        tableDataAktivitaetName = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetsNamen());
+
+        //Spalten erstellen
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivität Name");
+        tc1.setPrefWidth(334.0);
+
+        // Zuordnung Werte <-> Model
+        tc1.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
+
+        // Spalten hinzufuegen
+        TVAktivitaetsname.getColumns().add(tc1);
+
+        // Daten zuweisen
+        TVAktivitaetsname.setItems(tableDataAktivitaetName);
 
         // Für eine gefilterte und sortierte Ansicht
-        tableFilteredData = new FilteredList<>(tableData, p -> true);
+        tableFilteredData = new FilteredList<>(tableDataAktivitaetName, p -> true);
         SortedList<AktivitaetsEintrag> tableSortedData = new SortedList<>(tableFilteredData);
         tableSortedData.comparatorProperty().bind(TVAktivitaetsname.comparatorProperty());
         TVAktivitaetsname.setItems(tableSortedData);

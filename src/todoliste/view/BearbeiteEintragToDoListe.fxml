@@ -12,16 +12,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="350.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todoliste.view.BearbeiteEintragToDoListeController">
+<AnchorPane prefHeight="365.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todoliste.view.BearbeiteEintragToDoListeController">
    <children>
       <Text layoutX="39.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bearbeite Eintrag ">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Button fx:id="btnUbernehmen" layoutX="500.0" layoutY="211.0" mnemonicParsing="false" onAction="#uebernehmeEintragsname" prefHeight="61.0" prefWidth="127.0" text="Übernehmen" />
+      <Button fx:id="btnUbernehmen" layoutX="500.0" layoutY="275.0" mnemonicParsing="false" onAction="#uebernehmeEintragsname" prefHeight="61.0" prefWidth="127.0" text="Übernehmen" />
       <TextField fx:id="tfEintragsname" layoutX="39.0" layoutY="83.0" prefHeight="25.0" prefWidth="336.0" />
-      <TableView fx:id="TVAktivitaetsname" layoutX="40.0" layoutY="130.0" prefHeight="200.0" prefWidth="430.0" />
+      <TableView fx:id="TVAktivitaet" layoutX="40.0" layoutY="286.0" prefHeight="50.0" prefWidth="430.0" />
       <ChoiceBox fx:id="cbKategorie" layoutX="500.0" layoutY="150.0" prefHeight="25.0" prefWidth="71.0" value="Privat">
          <items>
             <FXCollections fx:factory="observableArrayList">
@@ -46,5 +46,7 @@
       <Label layoutX="500.0" layoutY="63.0" prefHeight="17.0" prefWidth="71.0" text="Startdatum" />
       <Label layoutX="585.0" layoutY="63.0" prefHeight="17.0" prefWidth="71.0" text="Enddatum" />
       <Label layoutX="40.0" layoutY="63.0" text="Suchfeld" />
+      <TableView fx:id="TVAktivitaetsname" layoutX="39.0" layoutY="108.0" prefHeight="140.0" prefWidth="336.0" />
+      <Label layoutX="40.0" layoutY="267.0" text="bearbeitete Aktivitaet" />
    </children>
 </AnchorPane>

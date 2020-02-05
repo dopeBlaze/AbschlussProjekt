@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -99,7 +98,7 @@ public class Olahauptfenstercontroller {
     private DatePicker dpkalender;
 
     @FXML
-    void butonPause() {
+    void buttonPause() {
         b=false;
 
     }
@@ -110,14 +109,25 @@ public class Olahauptfenstercontroller {
         Stage stage = new Stage();
         Scene scene = new Scene(part);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Aktivitäten bearbeiten");
+        stage.setTitle("Aktivitätsnamen bearbeiten");
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
-    void buttonEintragbearbeiten() {
+    void buttonEintragbearbeiten() throws IOException {
 
+        AktivitaetsEintrag name = tabelview.getSelectionModel().getSelectedItem();
+
+        System.out.println(name.getErstellungsDatum());
+
+        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Aktivitäten bearbeiten");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

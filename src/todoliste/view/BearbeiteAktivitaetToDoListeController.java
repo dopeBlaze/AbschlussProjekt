@@ -87,18 +87,6 @@ public class BearbeiteAktivitaetToDoListeController {
     @FXML
     void initialize() {
 
-
-        /////////////////////// Testeinträge
-        /*ArrayList <AktivitaetsEintrag> arrayList = new ArrayList<>();
-        AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
-        arrayList.add(a);
-        AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Putzen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
-        arrayList.add(b);
-        AktivitaetsEintrag c = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Kochen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
-        arrayList.add(c);*/
-        ////////////////////////
-
-
         assert btnUebernehmen != null : "fx:id=\"btnUebernehmen\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
         assert tfAktivitaetsname != null : "fx:id=\"tfAktivitaetsname\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
         assert TVAktivitaetsname != null : "fx:id=\"TVAktivitaetsname\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";

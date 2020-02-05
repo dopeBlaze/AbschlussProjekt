@@ -26,6 +26,7 @@ public class AktivitaetsEintragBean {
     private static PreparedStatement pstmtInsertAktivitaetsName;
     private static PreparedStatement pstmtUpdateAktivitaetsName;
     private static PreparedStatement pstmtDeleteAktivitaetsName;
+    private static PreparedStatement pstmtSelectAktivitaetSingle;
 
     private static HashMap<AktivitaetsEintrag, String> idListe;
     private static HashMap<AktivitaetsEintrag, String> idListeName;
@@ -51,6 +52,8 @@ public class AktivitaetsEintragBean {
         //pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
         // Löschen nicht möglich wenn id von Aktivitaetsname in Benutzung
         pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM table_aktivitaetsname WHERE AktivitaetsName = ? AND id NOT IN (SELECT aktivitaetsname_id FROM table_todoliste);");
+
+        pstmtSelectAktivitaetSingle = Datenbank.getInstance().prepareStatement("SELECT ErstellungsDatum, AktivitaetsName, StartDatum, EndDatum, VerbrauchteZeit, Kategorie, Prioritaet, Status FROM todoliste WHERE ErstellungsDatum = ?;");
 
         idListe = new HashMap<>();
         idListeName = new HashMap<>();
@@ -297,6 +300,92 @@ public class AktivitaetsEintragBean {
 
         } catch (SQLException e) {
             System.err.println("Fehler beim Loeschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
+        }
+
+        return result;
+    }
+
+    /**
+     * Laedt die gesammte ToDoListe aus der Datenbank und gibt sie alls Liste von AktivitaetsEintraegen zurueck
+     *
+     * @return Liste mit allen AktivitaetsEintraegen
+     * @throws IllegalArgumentException wird geworfen, wenn intern eine SQL- oder ClassNotFoundException aufgetreten ist.
+     */
+    public static ArrayList<AktivitaetsEintrag> getAktivitaetSingle(AktivitaetsEintrag zuBearbeiten) {
+        ArrayList<AktivitaetsEintrag> result = null;
+
+        try {
+            // Datenbankabfrage ausfuehren
+            pstmtSelectAktivitaetSingle.setString(1, zuBearbeiten.getErstellungsDatum());
+            ResultSet rs = pstmtSelectAktivitaetSingle.executeQuery();
+
+            // Result initialisieren
+            result = new ArrayList<>();
+
+            // Zuruecksetzen der idListe
+            idListe.clear();
+
+            // Alle Datensaetze abfragen und passend dazu neue Eintraege generieren
+            while (rs.next()) {
+                AktivitaetsEintrag eintrag = new AktivitaetsEintrag(
+                        rs.getString("ErstellungsDatum"),
+                        rs.getString("AktivitaetsName"),
+                        rs.getString("StartDatum"),
+                        rs.getString("EndDatum"),
+                        rs.getInt("VerbrauchteZeit"),
+                        rs.getString("Kategorie"),
+                        rs.getString("Prioritaet"),
+                        rs.getString("Status")
+                );
+                result.add(eintrag);
+
+                // Objekt der idListe hinzufuegen
+                idListe.put(eintrag, eintrag.getErstellungsDatum());
+            }
+
+        } catch (SQLException ignored) {}
+
+        return result;
+    }
+
+    /**
+     * Speichert einen uebergebenen AktivitaetsEintrag in der Datenbank.
+     *
+     * @param zuSpeichern AktivitaetsEintrag, der gespeichert werden soll
+     * @return true, wenn die Speicherung erfolgreich war, false andernfalls
+     */
+    public static boolean saveAktivitaetSingle(AktivitaetsEintrag zuSpeichern) {
+        boolean result = false;
+
+        try {
+            PreparedStatement pstmt;
+
+            // UPDATE
+            pstmt = pstmtUpdateAktivitaet;
+
+            // Das PreparedStatement mit Informationen fuettern
+            pstmt.setString(1, zuSpeichern.getErstellungsDatum());
+            pstmt.setString(2, zuSpeichern.getAktivitaetsName());
+            pstmt.setString(3, zuSpeichern.getStartDatum());
+            pstmt.setString(4, zuSpeichern.getEndDatum());
+            pstmt.setInt(5, zuSpeichern.getVerbrauchteZeit());
+            pstmt.setString(6, zuSpeichern.getKategorie());
+            pstmt.setString(7, zuSpeichern.getPrioritaet());
+            pstmt.setString(8, zuSpeichern.getStatus());
+            pstmt.setString(9, zuSpeichern.getErstellungsDatum());
+
+            // Ausfuehren von Update
+            pstmt.executeUpdate();
+            result = true;
+
+            Datenbank.getInstance().commit();
+
+        } catch (SQLException e) {
+            try {
+                Datenbank.getInstance().rollback();
+            } catch (SQLException ignored) {}
+            e.printStackTrace();
+            throw new IllegalArgumentException("Fehler beim Ändern der Aktivitaet in die Datenbank");
         }
 
         return result;
