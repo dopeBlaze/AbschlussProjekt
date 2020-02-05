@@ -18,7 +18,7 @@ import todoliste.model.AktivitaetsEintrag;
 
 public class BearbeiteEintragToDoListeController {
 
-    public static String objektDatum;
+    private static String objektDatum;
 
     @FXML
     private Button btnUbernehmen;
@@ -99,6 +99,15 @@ public class BearbeiteEintragToDoListeController {
     }
 
     /**
+     * Zu nutzendes ErstellungsDatum
+     * @param objektDate das uebergebene ErstellungsDatum
+     */
+    void getDatetime(String objektDate){
+        objektDatum = objektDate;
+    }
+
+
+    /**
      * Speichert die Aenderungen in die Datenbank und schließt das Fenster
      *
      */
@@ -134,15 +143,13 @@ public class BearbeiteEintragToDoListeController {
         assert endDatum != null : "fx:id=\"endDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
 
 
-        //TODO
+
         // VergleichsString vom Erstellungsdatum
         // muss vom Hauptfenster mitgeliefert werden
-        String vergleich = "2020-02-05T13:23:39.646143600";
-        //objektDatum = vergleich;
         arrayData = AktivitaetsEintragBean.getAktivitaeten();
         for (AktivitaetsEintrag array : arrayData) {
 
-            if (array.getErstellungsDatum().equals(vergleich)){
+            if (array.getErstellungsDatum().equals(objektDatum)){
                 selected = array;
                 tableDataAktivitaet = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetSingle(selected));
                 initTableAktivitaet();

@@ -104,7 +104,7 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonAktivitäsnamebearbeiten() throws IOException {
+    void buttonAktivitaesnamebearbeiten() throws IOException {
         Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(part);
@@ -117,9 +117,10 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonEintragbearbeiten() throws IOException {
 
-        AktivitaetsEintrag name = tabelview.getSelectionModel().getSelectedItem();
+        AktivitaetsEintrag selectedAktivity = tabelview.getSelectionModel().getSelectedItem();
+        BearbeiteEintragToDoListeController bearbeiteEintrag = new BearbeiteEintragToDoListeController();
 
-        System.out.println(name.getErstellungsDatum());
+        bearbeiteEintrag.getDatetime(selectedAktivity.getErstellungsDatum());
 
         Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
         Stage stage = new Stage();

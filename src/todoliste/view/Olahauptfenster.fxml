@@ -34,7 +34,7 @@
             </Label>
             <Button fx:id="btNeuerEintrag" layoutX="928.0" layoutY="586.0" mnemonicParsing="false" onAction="#buttonNeuerEintrag" prefHeight="43.0" prefWidth="161.0" text="Neuer Eintrag" />
             <Button fx:id="btLöschen" layoutX="1114.0" layoutY="586.0" mnemonicParsing="false" onAction="#buttonLöschen" prefHeight="43.0" prefWidth="161.0" text="Löschen" />
-            <Button fx:id="btAktivitäsnamebearbeiten" layoutX="928.0" layoutY="522.0" mnemonicParsing="false" onAction="#buttonAktivitäsnamebearbeiten" prefHeight="43.0" prefWidth="161.0" text="Aktivitäsname bearbeiten" />
+            <Button fx:id="btAktivitäsnamebearbeiten" layoutX="928.0" layoutY="522.0" mnemonicParsing="false" onAction="#buttonAktivitaesnamebearbeiten" prefHeight="43.0" prefWidth="161.0" text="Aktivitäsname bearbeiten" />
             <Button fx:id="btEintragbearbeiten" layoutX="1114.0" layoutY="522.0" mnemonicParsing="false" onAction="#buttonEintragbearbeiten" prefHeight="43.0" prefWidth="161.0" text="Eintrag bearbeiten" />
             <Button fx:id="btProgrammbeenden" layoutX="1012.0" layoutY="676.0" mnemonicParsing="false" onAction="#buttonProgrammbeenden" prefHeight="49.0" prefWidth="216.0" text="Programm beenden" textFill="#e11212" />
             <Button fx:id="btStart" layoutX="928.0" layoutY="244.0" mnemonicParsing="false" onAction="#buttonStart" prefHeight="49.0" prefWidth="108.0" text="Start" textFill="#33a11d">
