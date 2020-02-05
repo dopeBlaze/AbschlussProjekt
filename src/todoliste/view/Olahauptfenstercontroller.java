@@ -175,8 +175,28 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonProgrammbeenden() {
-        b=false;
+    void buttonProgrammbeenden() throws IOException {
+
+        ArrayList <AktivitaetsEintrag> arrayListGesamt = AktivitaetsEintragBean.getAktivitaeten();
+        ArrayList <AktivitaetsEintrag> arrayListSorted = new ArrayList<>();
+        for (AktivitaetsEintrag i : arrayListGesamt) {
+            if (i.getEndDatum().compareTo(dpkalender.getValue().toString()) == 0 && !i.getStatus().contains("erledigt")){
+                arrayListSorted.add(i);
+            }
+        }
+
+        if (!arrayListSorted.isEmpty()){
+
+            Parent part = FXMLLoader.load(getClass().getResource("ZeigeInfoFenster.fxml"));
+            Stage stage2 = new Stage();
+            Scene scene = new Scene(part);
+            stage2.initModality(Modality.APPLICATION_MODAL);
+            stage2.setTitle("Warnung");
+            stage2.setScene(scene);
+            stage2.showAndWait();
+        }
+
+        b = false;
         Stage stage = (Stage) btProgrammbeenden.getScene().getWindow();
         stage.close();
     }
