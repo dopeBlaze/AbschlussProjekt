@@ -67,7 +67,5 @@ public class EditingTextCell<S> extends TableCell<S, String> {
     private String getString() {
         return getItem() == null ? "" : getItem().toString();
     }
-	
-	
-
 }
+
