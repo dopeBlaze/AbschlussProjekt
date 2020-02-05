@@ -125,7 +125,7 @@ public class NeuerEintragToDoListeController {
 
         // Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitaetsname");
-        tcAktivitaetsName.setPrefWidth(334.0);
+        tcAktivitaetsName.setPrefWidth(320.0);
 
         // Zuordnung Werte <-> Model
         tcAktivitaetsName.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));

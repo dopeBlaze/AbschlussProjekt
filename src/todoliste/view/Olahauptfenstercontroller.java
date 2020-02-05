@@ -117,18 +117,26 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonEintragbearbeiten() throws IOException {
 
-        AktivitaetsEintrag selectedAktivity = tabelview.getSelectionModel().getSelectedItem();
-        BearbeiteEintragToDoListeController bearbeiteEintrag = new BearbeiteEintragToDoListeController();
+        try {
+            AktivitaetsEintrag selectedAktivity = tabelview.getSelectionModel().getSelectedItem();
+            BearbeiteEintragToDoListeController bearbeiteEintrag = new BearbeiteEintragToDoListeController();
 
-        bearbeiteEintrag.getDatetime(selectedAktivity.getErstellungsDatum());
+            bearbeiteEintrag.getDatetime(selectedAktivity.getErstellungsDatum());
 
-        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(part);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Aktivitäten bearbeiten");
-        stage.setScene(scene);
-        stage.show();
+            Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(part);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Aktivitaeten bearbeiten");
+            stage.setScene(scene);
+            stage.show();
+        } catch (NullPointerException e){
+            // Rückmeldung wenn Fehler
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Bearbeiten nicht möglich!");
+            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.showAndWait();
+        }
     }
 
     @FXML

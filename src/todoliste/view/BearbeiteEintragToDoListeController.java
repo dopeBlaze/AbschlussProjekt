@@ -211,7 +211,7 @@ public class BearbeiteEintragToDoListeController {
 
         //Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitaet Name");
-        tc1.setPrefWidth(334.0);
+        tc1.setPrefWidth(320.0);
 
         // Zuordnung Werte <-> Model
         tc1.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
