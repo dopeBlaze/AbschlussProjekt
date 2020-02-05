@@ -52,22 +52,22 @@
                   <Font size="22.0" />
                </font>
             </Button>
-            <Label fx:id="labelhour" layoutX="1016.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
+            <Label fx:id="labelhour" layoutX="928.0" layoutY="338.0" prefHeight="32.0" prefWidth="72.0" text="00:00">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelminute" layoutX="1069.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
+            <Label fx:id="labelminute" layoutX="1006.0" layoutY="338.0" prefHeight="32.0" prefWidth="72.0" text="00:00">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelsecond" layoutX="1120.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
+            <Label fx:id="labelsecond" layoutX="1100.0" layoutY="338.0" prefHeight="32.0" prefWidth="93.0" text="00:00">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelmillisecond" layoutX="1163.0" layoutY="338.0" prefHeight="32.0" prefWidth="61.0" text="0:">
+            <Label fx:id="labelmillisecond" layoutX="1206.0" layoutY="338.0" prefHeight="32.0" prefWidth="72.0" text="0000">
                <font>
                   <Font size="22.0" />
                </font>

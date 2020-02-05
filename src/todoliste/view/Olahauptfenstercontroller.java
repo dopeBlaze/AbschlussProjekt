@@ -187,7 +187,7 @@ public class Olahauptfenstercontroller {
                                 labelmillisecond.setText(" : "+me);
                                 labelsecond.setText(" : "+ss);
                                 labelminute.setText(" : "+mm);
-                                labelhour.setText(" : "+hh);
+                                labelhour.setText("  "+hh);
                             }
                         });
 
@@ -206,6 +206,7 @@ public class Olahauptfenstercontroller {
         });
 
         t.start();
+        start();
 
     }
 
@@ -323,6 +324,15 @@ public class Olahauptfenstercontroller {
 
         AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
         aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
+
+    }
+
+    private void start() {
+
+        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+        tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
+       
+
 
     }
 
