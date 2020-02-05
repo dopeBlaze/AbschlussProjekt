@@ -41,4 +41,5 @@ public class MainToDoListe extends Application {
        // Trennen der Datenbankverbindung
        Datenbank.getInstance().disconnect();
     }
+
 }

@@ -13,6 +13,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
@@ -96,11 +98,24 @@ public class Olahauptfenstercontroller {
     private TableColumn<AktivitaetsEintrag, String> tcLabel;
 
     @FXML
+    void editCommitStatus(ActionEvent event) {
+
+    }
+
+    @FXML
     private DatePicker dpkalender;
 
     @FXML
     void butonPause() {
         b=false;
+        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrag.setStatus("Pausiert");
+        btStart.setDisable(false);
+        btPause.setDisable(true);
+
+        aktivitaetsEintrag.setVerbrauchteZeit(ss);
+        tabelview.refresh();
+
 
     }
 
@@ -133,11 +148,19 @@ public class Olahauptfenstercontroller {
         labelsecond.setText("00 : ");
         labelmillisecond.setText("00 : ");
 
+        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrag.setStatus("Erledigt");
+        btStart.setDisable(false);
+        btPause.setDisable(false);
+        tabelview.refresh();
+
     }
 
     @FXML
     void buttonLöschen() {
-        loeschen();
+
+        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
     }
 
     @FXML
@@ -190,7 +213,6 @@ public class Olahauptfenstercontroller {
 
                         me++;
 
-
                         // UI-Thread soll die Oberfläche aktualisieren,
                         // deshalb wird Platform.runLater aufgerufen
                         Platform.runLater(new Runnable() {
@@ -218,7 +240,26 @@ public class Olahauptfenstercontroller {
         });
 
         t.start();
-        start();
+
+        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrag.setStatus("In Bearbeitung");
+        btStart.setDisable(true);
+        btPause.setDisable(false);
+
+         if (aktivitaetsEintrag.getVerbrauchteZeit()==0){
+             me=0;
+             ss=0;
+             mm=0;
+             hh=0;
+         }
+         else {
+
+             ss=aktivitaetsEintrag.getVerbrauchteZeit();
+         }
+        tabelview.refresh();
+
+
+
 
     }
 
@@ -272,10 +313,11 @@ public class Olahauptfenstercontroller {
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
 
         //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
-        test();
         //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
         infoTable();
         refresh();
+
+
 
     }
 
@@ -291,6 +333,9 @@ public class Olahauptfenstercontroller {
         tcPriorität.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+
+        tabelview.setEditable(true);
+        tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tabelview.setItems(aktivitaetsEintrags2);
 
@@ -335,22 +380,13 @@ public class Olahauptfenstercontroller {
     }
 
 
-   private void loeschen() {
-
-        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
-
-    }
-
-    private void start() {
-
-        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
-        tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
+   /* public void editCommitStatus(TableColumn.CellEditEvent<AktivitaetsEintrag, String> aktivitaetsEintragStringCellEditEvent) {
+        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        //aktivitaetsEintrag.setStatus(aktivitaetsEintragStringCellEditEvent.getNewValue());
+        aktivitaetsEintrag.setStatus("Start");
 
 
-
-    }
-
+    }*/
 
 }
 
