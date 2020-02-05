@@ -110,10 +110,20 @@ public class Olahauptfenstercontroller {
         b=false;
         AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
         aktivitaetsEintrag.setStatus("Pausiert");
+
         btStart.setDisable(false);
         btPause.setDisable(true);
+        tabelview.setDisable(false);
+        btAktivitäsnamebearbeiten.setDisable(false);
+        btNeuerEintrag.setDisable(false);
+        btProgrammbeenden.setDisable(false);
+        btEintragbearbeiten.setDisable(false);
+        btLöschen.setDisable(false);
+        btvordate.setDisable(false);
+        btnachdate.setDisable(false);
 
-        aktivitaetsEintrag.setVerbrauchteZeit(ss);
+        int x= (hh*3600)+(mm*60)+(ss);
+        aktivitaetsEintrag.setVerbrauchteZeit(x);
         tabelview.refresh();
 
 
@@ -138,10 +148,6 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonErledigt() {
         b=false;
-        hh=0;
-        mm=0;
-        ss=0;
-        me=0;
 
         labelhour.setText("00 : ");
         labelminute.setText("00 : ");
@@ -150,8 +156,21 @@ public class Olahauptfenstercontroller {
 
         AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
         aktivitaetsEintrag.setStatus("Erledigt");
+
         btStart.setDisable(false);
         btPause.setDisable(false);
+        tabelview.setDisable(false);
+        btAktivitäsnamebearbeiten.setDisable(false);
+        btNeuerEintrag.setDisable(false);
+        btProgrammbeenden.setDisable(false);
+        btEintragbearbeiten.setDisable(false);
+        btLöschen.setDisable(false);
+        btvordate.setDisable(false);
+        btnachdate.setDisable(false);
+
+        int x= (hh*3600)+(mm*60)+(ss);
+        aktivitaetsEintrag.setVerbrauchteZeit(x);
+
         tabelview.refresh();
 
     }
@@ -240,11 +259,21 @@ public class Olahauptfenstercontroller {
         });
 
         t.start();
+      //  int x= (hh*3600)+(mm*60)+(ss);
 
         AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
         aktivitaetsEintrag.setStatus("In Bearbeitung");
+
         btStart.setDisable(true);
         btPause.setDisable(false);
+        tabelview.setDisable(true);
+        btAktivitäsnamebearbeiten.setDisable(true);
+        btNeuerEintrag.setDisable(true);
+        btProgrammbeenden.setDisable(true);
+        btEintragbearbeiten.setDisable(true);
+        btLöschen.setDisable(true);
+        btvordate.setDisable(true);
+        btnachdate.setDisable(true);
 
          if (aktivitaetsEintrag.getVerbrauchteZeit()==0){
              me=0;
@@ -253,11 +282,11 @@ public class Olahauptfenstercontroller {
              hh=0;
          }
          else {
+             int x= (hh*3600)+(mm*60)+(ss);
 
-             ss=aktivitaetsEintrag.getVerbrauchteZeit();
+             x=aktivitaetsEintrag.getVerbrauchteZeit();
          }
         tabelview.refresh();
-
 
 
 
@@ -314,6 +343,13 @@ public class Olahauptfenstercontroller {
 
         //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
         //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
+       /* AktivitaetsEintrag aktivitaetsEintrag1=tabelview.getSelectionModel().getSelectedItem();
+        if (aktivitaetsEintrag1.equals(aktivitaetsEintrag1)){
+            btStart.setDisable(true);
+        }
+        else {
+            btStart.setDisable(false);
+        }*/
         infoTable();
         refresh();
 
