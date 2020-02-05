@@ -1,17 +1,21 @@
 package todoliste.view;
 
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
 
@@ -22,13 +26,8 @@ public class Olahauptfenstercontroller {
     static int ss=0;
     static int mm=0;
     static int hh=0;
+    static boolean tableThread = true;
     static boolean b=true;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button btnachdate;
@@ -106,12 +105,18 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonAktivitäsnamebearbeiten(ActionEvent event) {
-
+    void buttonAktivitäsnamebearbeiten() throws IOException {
+        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Aktivitäten bearbeiten");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void buttonEintragbearbeiten(ActionEvent event) {
+    void buttonEintragbearbeiten() {
 
     }
 
@@ -131,17 +136,24 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonLöschen(ActionEvent event) {
+    void buttonLöschen() {
         loeschen();
     }
 
     @FXML
-    void buttonNeuerEintrag(ActionEvent event) {
-
+    void buttonNeuerEintrag() throws IOException {
+        Parent part = FXMLLoader.load(getClass().getResource("NeuerEintragToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Neuen Eintrag hinzufügen");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void buttonProgrammbeenden(ActionEvent event) {
+    void buttonProgrammbeenden() {
+        b=false;
         Stage stage = (Stage) btProgrammbeenden.getScene().getWindow();
         stage.close();
     }
@@ -149,7 +161,7 @@ public class Olahauptfenstercontroller {
 
 
     @FXML
-    void buttonStart(ActionEvent e) {
+    void buttonStart() {
         b=true;
         Thread t=new Thread(() ->
         {
@@ -213,17 +225,17 @@ public class Olahauptfenstercontroller {
 
 
     @FXML
-    void buttonnachdate(ActionEvent event) {
+    void buttonnachdate() {
 
     }
 
     @FXML
-    void buttonvordate(ActionEvent event) {
+    void buttonvordate() {
 
     }
 
     @FXML
-    void kalender(ActionEvent event) {
+    void kalender() {
 
     }
 
@@ -263,25 +275,14 @@ public class Olahauptfenstercontroller {
         test();
         //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
         infoTable();
+        refresh();
 
     }
 
-
-    private void test() {
-
-        if (aktivitaetsEintrags == null) {
-            aktivitaetsEintrags = new ArrayList<>();
-        }
-
-        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr", "03.02.2020", "03.02.2020",5, "private", "hoch", "s"));
-        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr1", "04.02.2020", "04.02.2020",8, "private", "hoch", "s"));
-        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr2", "05.02.2020", "05.02.2020",9, "private", "hoch", "s"));
-        aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
-
-    }
 
     private void infoTable() {
 
+        aktivitaetsEintrags2 = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaeten());
 
         tcAktivität.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
         tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
@@ -290,7 +291,6 @@ public class Olahauptfenstercontroller {
         tcPriorität.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
-
 
         tabelview.setItems(aktivitaetsEintrags2);
 
@@ -304,20 +304,35 @@ public class Olahauptfenstercontroller {
 
     }
 
-/*
-   private void refresh()
+   public void refresh()
     {
-        Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    labelmillisecond.setText(" : "+me);
-                    labelsecond.setText(" : "+ss);
-                    labelminute.setText(" : "+mm);
-                    labelhour.setText(" : "+hh);
+        //tabelview.refresh();
+        tableThread = true;
+        Thread t=new Thread(() ->
+        {
+
+                if (tableThread == true) {
+                    try {
+                        // UI-Thread soll die Oberfläche aktualisieren,
+                        // deshalb wird Platform.runLater aufgerufen
+                        Thread.sleep(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                infoTable();
+                            }
+                        });
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            });
+
+        });
+
+
+        t.start();
     }
-*/
 
 
    private void loeschen() {
@@ -331,7 +346,7 @@ public class Olahauptfenstercontroller {
 
         AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
         tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
-       
+
 
 
     }
