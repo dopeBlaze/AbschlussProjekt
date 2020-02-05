@@ -18,7 +18,7 @@ import todoliste.model.AktivitaetsEintrag;
 
 public class BearbeiteEintragToDoListeController {
 
-    private static String objektDatum;
+    private static String erstellDatum;
 
     @FXML
     private Button btnUbernehmen;
@@ -27,7 +27,7 @@ public class BearbeiteEintragToDoListeController {
     private TextField tfEintragsname;
 
     @FXML
-    private AktivitaetsEintrag selected;
+    private AktivitaetsEintrag selectedAktivity;
 
     @FXML
     private TableView<AktivitaetsEintrag> TVAktivitaetsname;
@@ -72,8 +72,8 @@ public class BearbeiteEintragToDoListeController {
         }
 
         // Die Werte des DatePickers werden gesetzt
-        selected.setStartDatum(startDatum.getValue().toString());
-        selected.setEndDatum(endDatum.getValue().toString());
+        selectedAktivity.setStartDatum(startDatum.getValue().toString());
+        selectedAktivity.setEndDatum(endDatum.getValue().toString());
     }
 
     /**
@@ -94,8 +94,8 @@ public class BearbeiteEintragToDoListeController {
         }
 
         // Die Werte des DatePickers werden gesetzt
-        selected.setStartDatum(startDatum.getValue().toString());
-        selected.setEndDatum(endDatum.getValue().toString());
+        selectedAktivity.setStartDatum(startDatum.getValue().toString());
+        selectedAktivity.setEndDatum(endDatum.getValue().toString());
     }
 
     /**
@@ -103,7 +103,7 @@ public class BearbeiteEintragToDoListeController {
      * @param objektDate das uebergebene ErstellungsDatum
      */
     void getDatetime(String objektDate){
-        objektDatum = objektDate;
+        erstellDatum = objektDate;
     }
 
 
@@ -116,14 +116,14 @@ public class BearbeiteEintragToDoListeController {
 
         // Liest den ausgewaehlten Aktivitaetsnamen aus und setzt ihn
         AktivitaetsEintrag name = TVAktivitaetsname.getSelectionModel().getSelectedItem();
-        selected.setAktivitaetsName(name.getAktivitaetsName());
+        selectedAktivity.setAktivitaetsName(name.getAktivitaetsName());
 
         // die Werte der ChoiceBoxen werden gesetzt
-        selected.setKategorie(cbKategorie.getValue());
-        selected.setPrioritaet(cbPrioritaet.getValue());
+        selectedAktivity.setKategorie(cbKategorie.getValue());
+        selectedAktivity.setPrioritaet(cbPrioritaet.getValue());
 
         // Der einzelne Eintrag wird abgespeichert
-        AktivitaetsEintragBean.saveAktivitaetSingle(selected);
+        AktivitaetsEintragBean.saveAktivitaetSingle(selectedAktivity);
 
         // Fenster wird geschlossen
         Stage stage = (Stage) btnUbernehmen.getScene().getWindow();
@@ -144,29 +144,33 @@ public class BearbeiteEintragToDoListeController {
 
 
 
-        // VergleichsString vom Erstellungsdatum
-        // muss vom Hauptfenster mitgeliefert werden
+        // Ermittlung welche Aktivitaet ausgewaehlt wurde
         arrayData = AktivitaetsEintragBean.getAktivitaeten();
         for (AktivitaetsEintrag array : arrayData) {
-
-            if (array.getErstellungsDatum().equals(objektDatum)){
-                selected = array;
-                tableDataAktivitaet = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetSingle(selected));
+            // erstellDatum VergleichsString
+            // muss vom Hauptfenster mitgeliefert werden
+            if (array.getErstellungsDatum().equals(erstellDatum)){
+                selectedAktivity = array;
+                tableDataAktivitaet = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetSingle(selectedAktivity));
                 initTableAktivitaet();
             }
         }
 
 
-        startDatum.setValue(LocalDate.parse(selected.getStartDatum()));
+        // Startwerte fuer die DatePicker von Aktivitaet
+        startDatum.setValue(LocalDate.parse(selectedAktivity.getStartDatum()));
         startDatum.getEditor().setDisable(true);
-        endDatum.setValue(LocalDate.parse(selected.getEndDatum()));
+        endDatum.setValue(LocalDate.parse(selectedAktivity.getEndDatum()));
         endDatum.getEditor().setDisable(true);
 
-        cbKategorie.setValue(selected.getKategorie());
-        cbPrioritaet.setValue(selected.getPrioritaet());
+        // Startwerte fuer die ChoiceBoxen von Aktivitaet
+        cbKategorie.setValue(selectedAktivity.getKategorie());
+        cbPrioritaet.setValue(selectedAktivity.getPrioritaet());
 
         initTableAktivitaetsNamen();
-        TVAktivitaetsname.getSelectionModel().select(selected);
+
+        // Default Auswahl von AktivitaetsName der Aktivitaet
+        TVAktivitaetsname.getSelectionModel().select(selectedAktivity);
     }
 
     /**
@@ -175,10 +179,10 @@ public class BearbeiteEintragToDoListeController {
     private void initTableAktivitaet() {
 
         //Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivität Name");
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitaet Name");
         TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Start Datum");
         TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("End Datum");
-        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Priorität");
+        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Prioritaet");
         TableColumn<AktivitaetsEintrag, String> tc5 = new TableColumn<>("Kategorie");
 
         // Zuordnung Werte <-> Model
@@ -206,7 +210,7 @@ public class BearbeiteEintragToDoListeController {
         tableDataAktivitaetName = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetsNamen());
 
         //Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivität Name");
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitaet Name");
         tc1.setPrefWidth(334.0);
 
         // Zuordnung Werte <-> Model
@@ -218,7 +222,7 @@ public class BearbeiteEintragToDoListeController {
         // Daten zuweisen
         TVAktivitaetsname.setItems(tableDataAktivitaetName);
 
-        // Für eine gefilterte und sortierte Ansicht
+        // Fuer eine gefilterte und sortierte Ansicht
         tableFilteredData = new FilteredList<>(tableDataAktivitaetName, p -> true);
         SortedList<AktivitaetsEintrag> tableSortedData = new SortedList<>(tableFilteredData);
         tableSortedData.comparatorProperty().bind(TVAktivitaetsname.comparatorProperty());
