@@ -1,21 +1,17 @@
 package todoliste.view;
 
-import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
 
@@ -26,8 +22,13 @@ public class Olahauptfenstercontroller {
     static int ss=0;
     static int mm=0;
     static int hh=0;
-    static boolean tableThread = true;
     static boolean b=true;
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
 
     @FXML
     private Button btnachdate;
@@ -105,18 +106,12 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonAktivitäsnamebearbeiten() throws IOException {
-        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(part);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Aktivitäten bearbeiten");
-        stage.setScene(scene);
-        stage.show();
+    void buttonAktivitäsnamebearbeiten(ActionEvent event) {
+
     }
 
     @FXML
-    void buttonEintragbearbeiten() {
+    void buttonEintragbearbeiten(ActionEvent event) {
 
     }
 
@@ -234,7 +229,7 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void kalender() {
+    void kalender(ActionEvent event) {
 
     }
 
@@ -291,6 +286,7 @@ public class Olahauptfenstercontroller {
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
+
         tabelview.setItems(aktivitaetsEintrags2);
 
         tcAktivität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
@@ -332,6 +328,7 @@ public class Olahauptfenstercontroller {
 
         t.start();
     }
+*/
 
 
    private void loeschen() {
@@ -340,6 +337,8 @@ public class Olahauptfenstercontroller {
         aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
 
     }
+
+
 }
 
 
