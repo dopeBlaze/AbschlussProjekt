@@ -47,15 +47,22 @@ public class BearbeiteEintragToDoListeController {
 
     @FXML
     void setzteEnddatum(ActionEvent event) {
+        endDatum.setShowWeekNumbers(false);
         LocalDate e = endDatum.getValue();
         datumVerify(e,startDatum.getValue());
         System.out.println(e);
+        if (endDatum.getValue().compareTo(startDatum.getValue()) < 0) {
+            startDatum.setValue(endDatum.getValue());
+        }
     }
 
     @FXML
     void setzteStartdatum(ActionEvent event) {
-        LocalDate s = startDatum.getValue();
-        System.out.println(s);
+        startDatum.setShowWeekNumbers(false);
+        // Startdatum setzen nicht unter jetzigen Datum moeglich
+        if (startDatum.getValue().compareTo(LocalDate.now()) < 0){
+            startDatum.setValue(LocalDate.now());
+        }
     }
     /**
      * by presing on the Übernehmen button we get the entered value of Activity
@@ -95,6 +102,13 @@ public class BearbeiteEintragToDoListeController {
         assert startDatum != null : "fx:id=\"startDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert endDatum != null : "fx:id=\"endDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
 
+        //Intializing the date  that we want  to start with todays's date so we have it already in our window
+        startDatum.setValue(LocalDate.now());
+        startDatum.getEditor().setDisable(true);
+        //Intialization of the date ehat we want the end date is already assigned with today' s daate
+        endDatum.setValue(LocalDate.now());
+        endDatum.getEditor().setDisable(true);
+
         //Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Erstellung Datum");
         TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Start Datum");
@@ -120,6 +134,7 @@ public class BearbeiteEintragToDoListeController {
         TVAktivitaetsname.getColumns().add(tc6);
 
         // Daten zuweisen
+
         // tvExample.setItems(tableData);
 
 
