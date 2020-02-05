@@ -117,6 +117,7 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonEintragbearbeiten() throws IOException {
 
+        tabelview.refresh();
         try {
             AktivitaetsEintrag selectedAktivity = tabelview.getSelectionModel().getSelectedItem();
             BearbeiteEintragToDoListeController bearbeiteEintrag = new BearbeiteEintragToDoListeController();
@@ -129,7 +130,8 @@ public class Olahauptfenstercontroller {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Aktivitaeten bearbeiten");
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
+            tabelview.refresh();
         } catch (NullPointerException e){
             // Rückmeldung wenn Fehler
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -167,7 +169,8 @@ public class Olahauptfenstercontroller {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Neuen Eintrag hinzufügen");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
+        tabelview.refresh();
     }
 
     @FXML
