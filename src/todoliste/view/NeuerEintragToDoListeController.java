@@ -77,6 +77,11 @@ public class NeuerEintragToDoListeController {
         if (btnCalPickStart.getValue().compareTo(btnCalPickEnd.getValue()) > 0){
             btnCalPickEnd.setValue(btnCalPickStart.getValue());
         }
+
+        // Startdatum setzen nicht unter jetzigen Datum moeglich
+        if (btnCalPickStart.getValue().compareTo(LocalDate.now()) < 0){
+            btnCalPickStart.setValue(LocalDate.now());
+        }
     }
 
     /**
