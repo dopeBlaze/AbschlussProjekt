@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="783.0" prefWidth="1290.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todoliste.view.Olahauptfenstercontroller">
    <children>
       <AnchorPane layoutY="2.0" prefHeight="783.0" prefWidth="1299.0">
@@ -53,22 +52,22 @@
                   <Font size="22.0" />
                </font>
             </Button>
-            <Label fx:id="labelhour" layoutX="1016.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="13:">
+            <Label fx:id="labelhour" layoutX="1016.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelminute" layoutX="1069.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="13:">
+            <Label fx:id="labelminute" layoutX="1069.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelsecond" layoutX="1120.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="13:">
+            <Label fx:id="labelsecond" layoutX="1120.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelmillisecond" layoutX="1163.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="13:">
+            <Label fx:id="labelmillisecond" layoutX="1163.0" layoutY="338.0" prefHeight="32.0" prefWidth="61.0" text="0:">
                <font>
                   <Font size="22.0" />
                </font>

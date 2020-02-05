@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +14,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import todoliste.model.AktivitaetsEintrag;
 
+
+
 public class Olahauptfenstercontroller {
+
+    static int me=0;
+    static int ss=0;
+    static int mm=0;
+    static int hh=0;
+    static boolean b=true;
 
     @FXML
     private ResourceBundle resources;
@@ -91,7 +100,8 @@ public class Olahauptfenstercontroller {
     private DatePicker dpkalender;
 
     @FXML
-    void butonPause(ActionEvent event) {
+    void butonPause() {
+        b=false;
 
     }
 
@@ -106,13 +116,23 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonErledigt(ActionEvent event) {
+    void buttonErledigt() {
+        b=false;
+        hh=0;
+        mm=0;
+        ss=0;
+        me=0;
+
+        labelhour.setText("00 : ");
+        labelminute.setText("00 : ");
+        labelsecond.setText("00 : ");
+        labelmillisecond.setText("00 : ");
 
     }
 
     @FXML
     void buttonLöschen(ActionEvent event) {
-
+        loeschen();
     }
 
     @FXML
@@ -126,10 +146,70 @@ public class Olahauptfenstercontroller {
         stage.close();
     }
 
+
+
     @FXML
-    void buttonStart(ActionEvent event) {
+    void buttonStart(ActionEvent e) {
+        b=true;
+        Thread t=new Thread(() ->
+        {
+            for (;;)
+            {
+                if (b==true)
+                {
+                    try
+                    {
+                        Thread.sleep(1);
+                        if (me>1000)
+                        {
+                            me=0;
+                            ss++;
+                        }
+                        if (ss>60)
+                        {
+                            ss=0;
+                            mm++;
+                        }
+                        if (mm>60)
+                        {
+                            mm=0;
+                            hh++;
+                        }
+
+                        me++;
+
+
+                        // UI-Thread soll die Oberfläche aktualisieren,
+                        // deshalb wird Platform.runLater aufgerufen
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                labelmillisecond.setText(" : "+me);
+                                labelsecond.setText(" : "+ss);
+                                labelminute.setText(" : "+mm);
+                                labelhour.setText(" : "+hh);
+                            }
+                        });
+
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        });
+
+        t.start();
 
     }
+
+
 
     @FXML
     void buttonnachdate(ActionEvent event) {
@@ -223,7 +303,31 @@ public class Olahauptfenstercontroller {
 
     }
 
-    
+/*
+   private void refresh()
+    {
+        Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    labelmillisecond.setText(" : "+me);
+                    labelsecond.setText(" : "+ss);
+                    labelminute.setText(" : "+mm);
+                    labelhour.setText(" : "+hh);
+                }
+            });
+    }
+*/
+
+
+   private void loeschen() {
+
+        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
+
+    }
 
 
 }
+
+
+

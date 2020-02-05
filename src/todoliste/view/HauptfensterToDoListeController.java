@@ -200,7 +200,7 @@ public class HauptfensterToDoListeController extends javax.swing.JFrame {
     }
 
     @FXML
-    void starteZeiterfassung(java.awt.event.ActionEvent event) {
+    void starteZeiterfassung() {
         b=true;
         Thread t=new Thread(){
             public void run(){
