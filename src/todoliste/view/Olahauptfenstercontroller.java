@@ -131,6 +131,7 @@ public class Olahauptfenstercontroller {
             stage.setTitle("Aktivitaeten bearbeiten");
             stage.setScene(scene);
             stage.showAndWait();
+            infoTable();
             tabelview.refresh();
         } catch (NullPointerException e){
             // Rückmeldung wenn Fehler
@@ -170,6 +171,7 @@ public class Olahauptfenstercontroller {
         stage.setTitle("Neuen Eintrag hinzufügen");
         stage.setScene(scene);
         stage.showAndWait();
+        infoTable();
         tabelview.refresh();
     }
 
