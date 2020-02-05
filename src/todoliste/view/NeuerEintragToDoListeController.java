@@ -46,7 +46,6 @@ public class NeuerEintragToDoListeController {
      */
     @FXML
     void addNeuenEintrag() {
-
         try{
             AktivitaetsEintrag selected = TVAktivitaetsname.getSelectionModel().getSelectedItem();
             AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(selected.getAktivitaetsName(), btnCalPickStart.getValue().toString(), btnCalPickEnd.getValue().toString(), 0, cbKategorie.getValue(), cbPrioritaet.getValue(), "nicht gestartet");
