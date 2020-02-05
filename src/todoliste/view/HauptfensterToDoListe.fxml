@@ -19,7 +19,7 @@
       <Label fx:id="labelsec" layoutX="709.0" layoutY="282.0" prefHeight="27.0" prefWidth="47.0" text="minute" />
       <Label fx:id="labelmmss" layoutX="751.0" layoutY="282.0" prefHeight="27.0" prefWidth="47.0" text="minute" />
       <Button fx:id="btnWochenberichtAnzeigen" layoutX="656.0" layoutY="56.0" mnemonicParsing="false" onAction="#anzeigenWochenbericht" text=" Wochenbericht anzeigen" visible="false" />
-      <Button fx:id="btnAktivitaetsnameBearbeiten" layoutX="656.0" layoutY="363.0" mnemonicParsing="false" onAction="#bearbeiteAktivitaetsname" text="Aktivitäsname bearbeiten" />
+      <Button fx:id="btnAktivitaetsnameBearbeiten" layoutX="656.0" layoutY="363.0" mnemonicParsing="false" onAction="#bearbeiteAktivitaetsname" text="Aktivitätsname bearbeiten" />
       <Button fx:id="btnEintragBearbeiten" layoutX="675.0" layoutY="404.0" mnemonicParsing="false" onAction="#bearbeiteEintrag" text="Eintrag bearbeiten" />
       <Button fx:id="btnLoeschen" layoutX="774.0" layoutY="520.0" mnemonicParsing="false" onAction="#loescheAktivitaet" text="Löschen" />
       <Button fx:id="btnNeuerEintrag" layoutX="612.0" layoutY="520.0" mnemonicParsing="false" onAction="#hinzufuegenNeuerEintrag" text="Neuer Eintrag" />

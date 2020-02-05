@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.model.AktivitaetsEintrag;
 
@@ -20,6 +21,7 @@ import java.awt.Label;
 import java.awt.event.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -89,79 +91,66 @@ public class HauptfensterToDoListeController extends javax.swing.JFrame {
 
     //TODO evtl. Button in Hauptfenster GUI aktivieren, falls noch Zeit zur Bearbeitung des Features bleibt!
     @FXML
-    void anzeigenWochenbericht(ActionEvent event) {
+    void anzeigenWochenbericht() {
 
     }
 
-    //TODO GUI Aktivitätsname bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
+    //TODO Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
-    void bearbeiteAktivitaetsname() {
+    void bearbeiteAktivitaetsname() throws IOException {
 
-        //TODO Syntax prüfen
-        btnAktivitaetsnameBearbeiten.setOnAction(new EventHandler<>() {
-            public void handle(ActionEvent event) {
-                Parent root;
-                try {
-                    root = FXMLLoader.load(getClass().getClassLoader().getResource("view/BearbeiteAktivitaetToDoListe.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Aktivitätsname bearbeiten");
-                    stage.setScene(new Scene(root));
-                    stage.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Aktivitäten bearbeiten");
+        stage.setScene(scene);
+        stage.show();
     }
 
 
-        /*Scene secondScene = new Scene();
-        Stage secondStage = new Stage();
-        secondScene.setTitle("Aktivitätsname bearbeiten");
-        secondScene.setScene(secondScene);
-        secondScene.initStyle(StageStyle.DECORATED);
-        secondScene.initModality(Modality.WINDOW_MODAL);
-        secondScene.initOwner(primaryStage);
-        primaryScene.toFront(false);
-        secondScene.show();
-
-        start(Stage stageBearbeiteAktivitaetToDoListe) throws Exception {
-            Child root = FXMLLoader.load(getClass().getResource("view/BearbeiteAktivitaetToDoListe.fxml"));
-            Stage.setTitle("Aktivitätsname bearbeiten");
-            Stage.setScene(new Scene(root));
-            Stage.show();
-        }*/
-
-    //TODO GUI Eintrag bearbeiten öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
+    //TODO Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
-    void bearbeiteEintrag(ActionEvent event) {
+    void bearbeiteEintrag() throws IOException {
 
+        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Eintrag bearbeiten");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void beendeProgramm(ActionEvent event) {
+    void beendeProgramm() {
 
     }
 
-    //TODO Kalenderfeld soll aktuelles Datum bei Programmstart anzeigen und Kalenderfeld soll für Text blockiert werden
+    //TODO Kalenderfeld soll für Text blockiert werden
     @FXML
-    void dpKalender(ActionEvent event) {
+    void dpKalender() {
+    
 
     }
 
+    //TODO Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
     @FXML
-    void erledigtZeiterfassung(ActionEvent event) {
+    void hinzufuegenNeuerEintrag() throws IOException{
 
+        Parent part = FXMLLoader.load(getClass().getResource("NeuerEintragToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Neuen Eintrag hinzufügen");
+        stage.setScene(scene);
+        stage.show();
     }
-    //TODO GUI Neuer Eintrag öffnen und Werte mit übergeben (alle bisherigen Aktivitäten, die bereits in Datenbank erfasst sind in Liste unter Suchfeld anzeigen)
-    @FXML
-    void hinzufuegenNeuerEintrag(ActionEvent event) {
 
-    }
     //TODO Prüfung fehlt, ob Zeit für Aktivität bereits gestoppt wurde-> falls ja, dann Löschen nicht möglich!
     @FXML
-    void loescheAktivitaet(ActionEvent event) {
+    void loescheAktivitaet() {
+
         // Löschbestätigung abfragen
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Löschen bestätigen");
@@ -194,59 +183,31 @@ public class HauptfensterToDoListeController extends javax.swing.JFrame {
 
     }
 
-    @FXML
-    void pausiereZeiterfassung(ActionEvent event) {
 
-    }
 
     @FXML
     void starteZeiterfassung() {
-        b=true;
-        Thread t=new Thread(){
-            public void run(){
-
-                for (;;)
-                {
-                    if (b==true)
-                    {
-                        try
-                        {
-                          sleep(1);
-                          if (me>1000){
-                              me=0;
-                              ss++;
-                          }
-                            if (ss>60){
-                                ss=0;
-                                mm++;
-                            }
-                            if (mm>60){
-                                mm=0;
-                                hh++;
-                            }
-                            me++;
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
-                    }
-                    else
-                    {
-                       break;
-                    }
-                }
-            }
-        };
-    }
-
-    @FXML
-    void waehleNaechstenKalendertag(java.awt.event.ActionEvent event) {
 
     }
 
     @FXML
-    void waehleVorherigenKalendertag(java.awt.event.ActionEvent event) {
+    void pausiereZeiterfassung() {
+
+    }
+
+    @FXML
+    void erledigtZeiterfassung() {
+
+    }
+
+    @FXML
+    void waehleNaechstenKalendertag() {
+
+    }
+
+    @FXML
+
+    void waehleVorherigenKalendertag() {
 
     }
 
@@ -266,6 +227,9 @@ public class HauptfensterToDoListeController extends javax.swing.JFrame {
         assert btnCalPick != null : "fx:id=\"btnCalPick\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
         assert btnProgrammBeenden != null : "fx:id=\"btnProgrammBeenden\" was not injected: check your FXML file 'HauptfensterToDoListe.fxml'.";
 
+        //Initialisierung des Kalenderfeldes mit aktuellem Datum beim Start der HauptfensterGUI
+        btnCalPick.setValue(LocalDate.now());
+
         /////////////////////// Testeinträge
         ArrayList <AktivitaetsEintrag> arrayList = new ArrayList<>();
         AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
@@ -276,6 +240,7 @@ public class HauptfensterToDoListeController extends javax.swing.JFrame {
         arrayList.add(c);
         ////////////////////////
 
+        //Cast der ArrayList zu einer ObservableList
         tableData = FXCollections.observableArrayList(arrayList);
 
         // Daten für die Tabelle laden

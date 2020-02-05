@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import todoliste.datenbank.Datenbank;
@@ -17,7 +18,7 @@ public class MainToDoListe extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("view/Olahauptfenster.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/HauptfensterToDoListe.fxml"));
 
         primaryStage.setTitle("ToDo Liste");
         primaryStage.setScene(new Scene(root));
