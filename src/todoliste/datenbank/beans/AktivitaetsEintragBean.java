@@ -14,6 +14,7 @@ import java.util.HashMap;
  * Beans zur Kommunikation zwischen Controller und Datenbank
  */
 public class AktivitaetsEintragBean {
+
     // Cast ArrayList in ObservableList
     // ObservableList<AktivitaetsEintrag> oListAktivitaeten = FXCollections.observableArrayList(arrayListAktivitaeten);
 

@@ -8,22 +8,7 @@ public class AktivitaetsEintrag {
 
     private String erstellungsDatum, aktivitaetsName, startDatum, endDatum, kategorie, prioritaet, status;
     private int verbrauchteZeit;
-
-    /**
-     * Konstruktor, der alle Attribute mit leeren Werten initialisiert
-     * Wichtig: Dieser Konstruktor wird nie benutzt, da niemals leere Werte uebermittelt werden
-     */
-    //Todo nicht vergessen wieder einzukommentieren!
-//    public AktivitaetsEintrag() {
-//        this.erstellungsDatum = "";
-//        this.aktivitaetsName = "";
-//        this.startDatum = "";
-//        this.endDatum = "";
-//        this.verbrauchteZeit = 0;
-//        this.kategorie = "";
-//        this.prioritaet = "";
-//        this.status = "";
-//    }
+    private static  int niki ;
 
     /**
      * Ueberladener Konstruktor
@@ -35,7 +20,6 @@ public class AktivitaetsEintrag {
     public AktivitaetsEintrag(String aktivitaetsName) {
         setAktivitaetsName(aktivitaetsName);
     }
-
 
     /**
      * Ueberladener Konstruktor

@@ -1,16 +1,22 @@
 package todoliste.view;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.cell.PropertyValueFactory;
+import todoliste.model.AktivitaetsEintrag;
+
+import javax.annotation.processing.Completion;
 
 public class BearbeiteEintragToDoListeController {
-
 
     @FXML
     private ResourceBundle resources;
@@ -25,54 +31,126 @@ public class BearbeiteEintragToDoListeController {
     private TextField tfEintragsname;
 
     @FXML
-    private Button btnCalPickStart;
+    private TableView<AktivitaetsEintrag> TVAktivitaetsname;
 
     @FXML
-    private Button btnCalPickEnd;
+    private ComboBox<String> kategory;
 
     @FXML
-    private TableView<?> TVAktivitaetsname;
+    private ComboBox<String> Prioritaet;
 
     @FXML
-    private MenuButton btnLabel;
+    private DatePicker startDatum;
 
     @FXML
-    private MenuButton btnPriritaet;
-
-    @FXML
-    void setzeLabel(ActionEvent event) {
-
-    }
-
-    @FXML
-    void setzePrioritaet(ActionEvent event) {
-
-    }
+    private DatePicker endDatum;
 
     @FXML
     void setzteEnddatum(ActionEvent event) {
-
+        LocalDate e = endDatum.getValue();
+        datumVerify(e,startDatum.getValue());
+        System.out.println(e);
     }
 
     @FXML
     void setzteStartdatum(ActionEvent event) {
-
+        LocalDate s = startDatum.getValue();
+        System.out.println(s);
+    }
+    /**
+     * by presing on the Übernehmen button we get the entered value of Activity
+     * @param event
+     */
+    @FXML
+    void uebernehmeEintragsname(ActionEvent event) {
+    setKategory(event);
+    setPrioritaet(event);
+    }
+    @FXML
+    void setKategory(ActionEvent event) {
+        String f = kategory.getValue();
+        System.out.println(f);
     }
 
     @FXML
-    void uebernehmeEintragsname(ActionEvent event) {
-
+    void setPrioritaet(ActionEvent event) {
+        String p = Prioritaet.getValue();
+        System.out.println(p);
     }
+
+
+
 
     @FXML
     void initialize() {
+
+
+
+
         assert btnUbernehmen != null : "fx:id=\"btnUbernehmen\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert tfEintragsname != null : "fx:id=\"tfEintragsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
-        assert btnCalPickStart != null : "fx:id=\"btnCalPickStart\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
-        assert btnCalPickEnd != null : "fx:id=\"btnCalPickEnd\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert TVAktivitaetsname != null : "fx:id=\"TVAktivitaetsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
-        assert btnLabel != null : "fx:id=\"btnLabel\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
-        assert btnPriritaet != null : "fx:id=\"btnPriritaet\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+        assert kategory != null : "fx:id=\"kategory\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+        assert Prioritaet != null : "fx:id=\"Prioritaet\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+        assert startDatum != null : "fx:id=\"startDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+        assert endDatum != null : "fx:id=\"endDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+
+        //Spalten erstellen
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Erstellung Datum");
+        TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Start Datum");
+        TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("End Datum");
+        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Aktivität Name");
+        TableColumn<AktivitaetsEintrag, String> tc5 = new TableColumn<>("Kategory");
+        TableColumn<AktivitaetsEintrag, String> tc6 = new TableColumn<>("Priority");
+
+        // Zuordnung Werte <-> Model
+        tc1.setCellValueFactory(new PropertyValueFactory<>("Erstellung Datum"));
+        tc2.setCellValueFactory(new PropertyValueFactory<>("Start Datum"));
+        tc3.setCellValueFactory(new PropertyValueFactory<>("End Datum"));
+        tc4.setCellValueFactory(new PropertyValueFactory<>("Aktivität Name"));
+        tc5.setCellValueFactory(new PropertyValueFactory<>("Aktivität Name"));
+        tc6.setCellValueFactory(new PropertyValueFactory<>("Priorität Name"));
+
+        // Spalten hinzuf�gen
+        TVAktivitaetsname.getColumns().add(tc1);
+        TVAktivitaetsname.getColumns().add(tc2);
+        TVAktivitaetsname.getColumns().add(tc3);
+        TVAktivitaetsname.getColumns().add(tc4);
+        TVAktivitaetsname.getColumns().add(tc5);
+        TVAktivitaetsname.getColumns().add(tc6);
+
+        // Daten zuweisen
+        // tvExample.setItems(tableData);
+
+
+
+        kategory.setPromptText("Kategorie");
+        kategory.setItems(FXCollections.observableArrayList());
+        kategory.getItems().add("Arbeit");
+        kategory.getItems().add("Privat");
+        Prioritaet.setPromptText("Prioritaet");
+        Prioritaet.setItems(FXCollections.observableArrayList());
+        Prioritaet.getItems().add("Hoch");
+        Prioritaet.getItems().add("Normal");
+        Prioritaet.getItems().add("Niedrig");
 
     }
+
+
+
+
+
+
+    public  boolean datumVerify(LocalDate startDatum,LocalDate endDatum) {
+        try {
+            if (startDatum.getMonthValue() > endDatum.getMonthValue() || startDatum.getDayOfMonth() > endDatum.getDayOfMonth() || startDatum.getYear() > endDatum.getYear())
+                System.out.println("Please set the date  in a correct way");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(" Try to select the end date  to be after the start date" +e);
+        }
+
+        return false;
+    }
 }
+
