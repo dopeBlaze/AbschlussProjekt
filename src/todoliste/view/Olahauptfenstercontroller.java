@@ -1,6 +1,7 @@
 package todoliste.view;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
@@ -250,11 +251,16 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonnachdate() {
 
+        dpkalender.setValue(dpkalender.getValue().plusDays(1));
+        infoTable();
+
     }
 
     @FXML
     void buttonvordate() {
 
+        dpkalender.setValue(dpkalender.getValue().minusDays(1));
+        infoTable();
     }
 
     @FXML
@@ -294,9 +300,10 @@ public class Olahauptfenstercontroller {
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
 
-        //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
 
-        //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
+        dpkalender.getEditor().setDisable(true);
+        dpkalender.setValue(LocalDate.now());
+
         infoTable();
         refresh();
 
