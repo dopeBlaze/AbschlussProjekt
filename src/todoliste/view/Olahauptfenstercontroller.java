@@ -22,12 +22,11 @@ import todoliste.model.AktivitaetsEintrag;
 
 public class Olahauptfenstercontroller {
 
-    static int me=0;
-    static int ss=0;
-    static int mm=0;
-    static int hh=0;
-    static boolean tableThread = true;
-    static boolean b=true;
+    static int me = 0;
+    static int ss = 0;
+    static int mm = 0;
+    static int hh = 0;
+    static boolean b = true;
 
     @FXML
     private Button btnachdate;
@@ -100,7 +99,7 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void buttonPause() {
-        b=false;
+        b = false;
 
     }
 
@@ -118,7 +117,6 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonEintragbearbeiten() throws IOException {
 
-        tabelview.refresh();
         try {
             AktivitaetsEintrag selectedAktivity = tabelview.getSelectionModel().getSelectedItem();
             BearbeiteEintragToDoListeController bearbeiteEintrag = new BearbeiteEintragToDoListeController();
@@ -145,11 +143,11 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void buttonErledigt() {
-        b=false;
-        hh=0;
-        mm=0;
-        ss=0;
-        me=0;
+        b = false;
+        hh = 0;
+        mm = 0;
+        ss = 0;
+        me = 0;
 
         labelhour.setText("00 : ");
         labelminute.setText("00 : ");
@@ -187,56 +185,42 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void buttonStart() {
-        b=true;
-        Thread t=new Thread(() ->
-        {
-            for (;;)
-            {
-                if (b==true)
-                {
-                    try
-                    {
+        b = true;
+        Thread t = new Thread(() ->{
+            for (;;){
+                if (b){
+                    try{
                         Thread.sleep(1);
-                        if (me>1000)
-                        {
-                            me=0;
+                        if (me == 1000){
+                            me = 0;
                             ss++;
                         }
-                        if (ss>60)
-                        {
-                            ss=0;
+                        if (ss == 60){
+                            ss = 0;
                             mm++;
                         }
-                        if (mm>60)
-                        {
-                            mm=0;
+                        if (mm == 60){
+                            mm = 0;
                             hh++;
                         }
-
                         me++;
-
 
                         // UI-Thread soll die Oberfläche aktualisieren,
                         // deshalb wird Platform.runLater aufgerufen
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                labelmillisecond.setText(" : "+me);
-                                labelsecond.setText(" : "+ss);
-                                labelminute.setText(" : "+mm);
-                                labelhour.setText(" : "+hh);
+                                labelmillisecond.setText(" : " + me);
+                                labelsecond.setText(" : " + ss);
+                                labelminute.setText(" : " + mm);
+                                labelhour.setText(" : " + hh);
                             }
                         });
-
+                    }
+                    catch (Exception ex) {
 
                     }
-                    catch (Exception ex)
-                    {
-
-                    }
-                }
-                else
-                {
+                } else {
                     break;
                 }
             }
@@ -263,15 +247,10 @@ public class Olahauptfenstercontroller {
         infoTable();
     }
 
-    @FXML
-    void kalender() {
-
-    }
 
 
 
-    private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
-    private ObservableList<AktivitaetsEintrag> aktivitaetsEintrags2;
+    private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
 
 
     @FXML
@@ -305,14 +284,20 @@ public class Olahauptfenstercontroller {
         dpkalender.setValue(LocalDate.now());
 
         infoTable();
-        refresh();
-
     }
 
 
     private void infoTable() {
 
-        aktivitaetsEintrags2 = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaeten());
+        ArrayList <AktivitaetsEintrag> listGesamt = AktivitaetsEintragBean.getAktivitaeten();
+        ArrayList <AktivitaetsEintrag> listSorted = new ArrayList<>();
+        for (AktivitaetsEintrag i : listGesamt) {
+            if (i.getStartDatum().compareTo(dpkalender.getValue().toString()) <= 0 && i.getEndDatum().compareTo(dpkalender.getValue().toString()) >= 0){
+                listSorted.add(i);
+            }
+        }
+
+        obsAktivitaetsEintrag = FXCollections.observableArrayList(listSorted);
 
         tcAktivität.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
         tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
@@ -322,7 +307,7 @@ public class Olahauptfenstercontroller {
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
-        tabelview.setItems(aktivitaetsEintrags2);
+        tabelview.setItems(obsAktivitaetsEintrag);
 
         tcAktivität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
         tcStartdatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
@@ -334,42 +319,26 @@ public class Olahauptfenstercontroller {
 
     }
 
-   public void refresh()
-    {
-        //tabelview.refresh();
-        tableThread = true;
-        Thread t=new Thread(() ->
-        {
 
-                if (tableThread == true) {
-                    try {
-                        // UI-Thread soll die Oberfläche aktualisieren,
-                        // deshalb wird Platform.runLater aufgerufen
-                        Thread.sleep(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                infoTable();
-                            }
-                        });
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-        });
-
-
-        t.start();
-    }
-
-
+    /**
+     * Loescht die ausgewaehlte Aktivitaet
+     */
    private void loeschen() {
 
         AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
 
+        // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
+        if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
+        {
+            obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
+            AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
+        } else {
+            // Rückmeldung wenn nicht möglich
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Löschen nicht möglich!");
+            alert.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+            alert.showAndWait();
+        }
     }
 }
 

@@ -47,6 +47,6 @@
       <Label layoutX="585.0" layoutY="63.0" prefHeight="17.0" prefWidth="71.0" text="Enddatum" />
       <Label layoutX="40.0" layoutY="63.0" text="Suchfeld" />
       <TableView fx:id="TVAktivitaetsname" layoutX="39.0" layoutY="108.0" prefHeight="140.0" prefWidth="336.0" />
-      <Label layoutX="40.0" layoutY="267.0" text="bearbeitete Aktivitaet" />
+      <Label layoutX="40.0" layoutY="267.0" text="alte Werte der ausgewaehlten Aktivitaet" />
    </children>
 </AnchorPane>
