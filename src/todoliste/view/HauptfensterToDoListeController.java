@@ -9,10 +9,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.model.AktivitaetsEintrag;
+
+import java.awt.*;
+import java.awt.Label;
+import java.awt.event.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -20,7 +26,26 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class HauptfensterToDoListeController {
+public class HauptfensterToDoListeController extends javax.swing.JFrame {
+
+    static int me=0;
+    static int ss=0;
+    static int mm=0;
+    static int hh=0;
+    static boolean b=true;
+
+    @FXML
+    private Label labelhour;
+
+    @FXML
+    private Label labelminute;
+
+    @FXML
+    private Label labelsec;
+
+    @FXML
+    private Label labelmmss;
+
 
     @FXML
     private TableView<AktivitaetsEintrag> tvHauptfenster;
@@ -181,6 +206,7 @@ public class HauptfensterToDoListeController {
     }
 
     @FXML
+
     void waehleVorherigenKalendertag() {
 
     }
@@ -224,6 +250,9 @@ public class HauptfensterToDoListeController {
         // Initialisierung der Tabelleneingenschaften
         initTable();
         //initContextMenu();
+        //start(final Stage primaryStage);
+
+
     }
 
     /**
@@ -322,5 +351,7 @@ public class HauptfensterToDoListeController {
 
         tvHauptfenster.setContextMenu(cm);
     }
+
+
 }
 

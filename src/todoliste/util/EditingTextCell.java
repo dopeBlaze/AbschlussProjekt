@@ -6,14 +6,14 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
 public class EditingTextCell<S> extends TableCell<S, String> {
-
-    private TextField textField;
-
-    public EditingTextCell() {
-        //super();
-    }
-
-    @Override
+	
+	private TextField textField;
+	
+	public EditingTextCell() {
+		//super();
+	}
+	
+	@Override
     public void startEdit() {
         if (!isEmpty()) {
             super.startEdit();
@@ -57,21 +57,15 @@ public class EditingTextCell<S> extends TableCell<S, String> {
     private void createTextField() {
         textField = new TextField(getString());
         textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2);
-        textField.focusedProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0,
-                                Boolean arg1, Boolean arg2) {
+        textField.focusedProperty().addListener((arg0, arg1, arg2) -> {
                 if (!arg2) {
                     commitEdit(textField.getText().trim());
                 }
-            }
         });
     }
 
     private String getString() {
         return getItem() == null ? "" : getItem().toString();
     }
-
-
-
 }
+
