@@ -28,7 +28,6 @@ public class Olahauptfenstercontroller {
     static int ss = 0;
     static int mm = 0;
     static int hh = 0;
-    static boolean tableThread = true;
     static boolean b = true;
 
     private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
@@ -99,17 +98,14 @@ public class Olahauptfenstercontroller {
     @FXML
     private TableColumn<AktivitaetsEintrag, String> tcLabel;
 
-    @FXML
-    void editCommitStatus() {
 
-    }
 
     @FXML
     private DatePicker dpkalender;
 
     @FXML
     void kalenderAuswahl() {
-
+        kalende();
         infoTable();
     }
 
@@ -444,34 +440,53 @@ public class Olahauptfenstercontroller {
      * Loescht die ausgewaehlte Aktivitaet
      */
     private void loeschen() {
-        // Loeschbestaetigung abfragen
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Löschen bestätigen");
-        alert.setHeaderText(null);
-        alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
-        Optional<ButtonType> op = alert.showAndWait();
+        // Löschbestätigung abfragen
 
-        // Es soll nur geloescht werden, wenn der Benutzer "Ok" angeklickt hat
-        if (op.isPresent() && op.get() == ButtonType.OK) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Löschen bestätigen");
+            alert.setHeaderText(null);
+            alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
+            Optional<ButtonType> op = alert.showAndWait();
 
-            // Aktuellen Eintrag herausfinden
-            AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+            // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
+            if (op.isPresent() && op.get() == ButtonType.OK) {
 
-            // Pruefung ob der Aktivitaet schon eine Zeit zugewiesen wurde
-            if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
-            {
-                obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
-                // Eintrag aus der Datenbank loeschen
-                AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
-            } else {
-                // Rueckmeldung wenn nicht moeglich
-                Alert alert2 = new Alert(Alert.AlertType.WARNING);
-                alert2.setTitle("Löschen nicht möglich!");
-                alert2.setContentText("Die Aktivität hat schon eine erfasste Zeit!");
-                alert2.showAndWait();
+                // Aktuellen Eintrag herausfinden
+                AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+
+                // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
+                if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0) {
+                    obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
+                    // Eintrag aus der Datenbank löschen
+                    AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
+                } else {
+                    // Rückmeldung wenn nicht möglich
+                    Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                    alert2.setTitle("Löschen nicht möglich!");
+                    alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+                    alert2.showAndWait();
+                }
             }
-        }
+
+
     }
+
+     private void kalende(){
+
+         if (LocalDate.now().isEqual(dpkalender.getValue())){
+
+             btStart.setDisable(false);
+             btErledigt.setDisable(false);
+         }
+         else{
+             btStart.setDisable(true);
+             btErledigt.setDisable(true);
+
+         }
+     }
+
+
+
 }
 
 

@@ -41,18 +41,31 @@ public class BearbeiteAktivitaetToDoListeController {
     @FXML
     void addAktivitaetsname() {
         AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(tfHinzufuegen.getText());
-        try{
-            AktivitaetsEintragBean.saveAktivitaetsName(neuerEintrag);
-            tableData.add(neuerEintrag);
+        if (tfHinzufuegen.getText().equals("") && tfHinzufuegen.getText().length()==0){
             tfHinzufuegen.clear();
             TVAktivitaetsname.refresh();
-        } catch(IllegalArgumentException e){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Hinzufügen nicht möglich!");
-            alert.setContentText("Der Name kann nicht hinzugefügt werden!\nDer Name existiert schon!");
+            alert.setContentText("Der Name ist leer");
 
             alert.showAndWait();
             TVAktivitaetsname.refresh();
+        }
+        else {
+            try {
+
+                AktivitaetsEintragBean.saveAktivitaetsName(neuerEintrag);
+                tableData.add(neuerEintrag);
+                tfHinzufuegen.clear();
+                TVAktivitaetsname.refresh();
+            } catch (IllegalArgumentException e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Hinzufügen nicht möglich!");
+                alert.setContentText("Der Name kann nicht hinzugefügt werden!\nDer Name existiert schon!");
+
+                alert.showAndWait();
+                TVAktivitaetsname.refresh();
+            }
         }
     }
 
@@ -168,4 +181,6 @@ public class BearbeiteAktivitaetToDoListeController {
             }
         });
     }
+
+
 }
