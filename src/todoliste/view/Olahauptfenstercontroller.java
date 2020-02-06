@@ -28,6 +28,8 @@ public class Olahauptfenstercontroller {
     static int hh = 0;
     static boolean b = true;
 
+    private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
+
     @FXML
     private Button btnachdate;
 
@@ -270,9 +272,6 @@ public class Olahauptfenstercontroller {
         t.start();
 
     }
-
-
-    private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
 
 
     @FXML
