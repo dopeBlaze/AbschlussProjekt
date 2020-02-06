@@ -20,9 +20,13 @@ import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 public class Olahauptfenstercontroller {
+
 
     static int me=0;
     static int ss=0;
@@ -343,13 +347,6 @@ public class Olahauptfenstercontroller {
 
         //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
         //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
-       /* AktivitaetsEintrag aktivitaetsEintrag1=tabelview.getSelectionModel().getSelectedItem();
-        if (aktivitaetsEintrag1.equals(aktivitaetsEintrag1)){
-            btStart.setDisable(true);
-        }
-        else {
-            btStart.setDisable(false);
-        }*/
         infoTable();
         refresh();
 
@@ -385,6 +382,10 @@ public class Olahauptfenstercontroller {
 
     }
 
+
+
+
+
    public void refresh()
     {
         //tabelview.refresh();
@@ -416,13 +417,7 @@ public class Olahauptfenstercontroller {
     }
 
 
-   /* public void editCommitStatus(TableColumn.CellEditEvent<AktivitaetsEintrag, String> aktivitaetsEintragStringCellEditEvent) {
-        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
-        //aktivitaetsEintrag.setStatus(aktivitaetsEintragStringCellEditEvent.getNewValue());
-        aktivitaetsEintrag.setStatus("Start");
 
-
-    }*/
 
 }
 
