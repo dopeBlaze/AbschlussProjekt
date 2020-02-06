@@ -31,12 +31,7 @@ public class MainToDoListe extends Application {
 
     public static void main(String[] args) {
 
-        // Test Erstellung der Datenbank
-        Datenbank.getInstance().connect();
-        ////////////////////////
-      
         launch(args);
-
     }
 
     @Override
@@ -44,5 +39,4 @@ public class MainToDoListe extends Application {
        // Trennen der Datenbankverbindung
        Datenbank.getInstance().disconnect();
     }
-
 }

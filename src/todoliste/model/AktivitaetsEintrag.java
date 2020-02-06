@@ -8,7 +8,7 @@ public class AktivitaetsEintrag {
 
     private String erstellungsDatum, aktivitaetsName, startDatum, endDatum, kategorie, prioritaet, status;
     private int verbrauchteZeit;
-    
+
     /**
      * Ueberladener Konstruktor
      * Initialisiert den Konstruktor mit den uebergebenen Parametern, sofern sie ungleich null sind.
