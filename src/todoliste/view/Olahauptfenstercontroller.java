@@ -1,14 +1,13 @@
 package todoliste.view;
 
 import java.io.IOException;
-import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,17 +23,13 @@ import todoliste.model.AktivitaetsEintrag;
 
 public class Olahauptfenstercontroller {
 
-    static int me=0;
-    static int ss=0;
-    static int mm=0;
-    static int hh=0;
-    static boolean b=true;
+    static int me = 0;
+    static int ss = 0;
+    static int mm = 0;
+    static int hh = 0;
+    static boolean b = true;
 
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+    private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
 
     @FXML
     private Button btnachdate;
@@ -44,7 +39,6 @@ public class Olahauptfenstercontroller {
 
     @FXML
     private Button btNeuerEintrag;
-
 
     @FXML
     private Button btLöschen;
@@ -107,28 +101,77 @@ public class Olahauptfenstercontroller {
     private DatePicker dpkalender;
 
     @FXML
-    void butonPause() {
-        b=false;
+    void kalenderAuswahl() {
+
+        infoTable();
+    }
+
+    @FXML
+    void buttonnachdate() {
+
+        dpkalender.setValue(dpkalender.getValue().plusDays(1));
+        infoTable();
 
     }
 
     @FXML
-    void buttonAktivitäsnamebearbeiten(ActionEvent event) {
+    void buttonvordate() {
+
+        dpkalender.setValue(dpkalender.getValue().minusDays(1));
+        infoTable();
+    }
+
+    @FXML
+    void buttonPause() {
+        b = false;
 
     }
 
     @FXML
-    void buttonEintragbearbeiten(ActionEvent event) {
+    void buttonAktivitaesnamebearbeiten() throws IOException {
+        Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Aktivitätsnamen bearbeiten");
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    @FXML
+    void buttonEintragbearbeiten() throws IOException {
+
+        try {
+            AktivitaetsEintrag selectedAktivity = tabelview.getSelectionModel().getSelectedItem();
+            BearbeiteEintragToDoListeController bearbeiteEintrag = new BearbeiteEintragToDoListeController();
+
+            bearbeiteEintrag.getDatetime(selectedAktivity.getErstellungsDatum());
+
+            Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(part);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Eintrag bearbeiten");
+            stage.setScene(scene);
+            stage.showAndWait();
+            infoTable();
+            tabelview.refresh();
+        } catch (NullPointerException e){
+            // Rückmeldung wenn Fehler
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Bearbeiten nicht möglich!");
+            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void buttonErledigt() {
-        b=false;
-        hh=0;
-        mm=0;
-        ss=0;
-        me=0;
+        b = false;
+        hh = 0;
+        mm = 0;
+        ss = 0;
+        me = 0;
 
         labelhour.setText("00 : ");
         labelminute.setText("00 : ");
@@ -150,12 +193,34 @@ public class Olahauptfenstercontroller {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Neuen Eintrag hinzufügen");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
+        infoTable();
+        tabelview.refresh();
     }
 
     @FXML
-    void buttonProgrammbeenden() {
-        b=false;
+    void buttonProgrammbeenden() throws IOException {
+
+        ArrayList <AktivitaetsEintrag> arrayListGesamt = AktivitaetsEintragBean.getAktivitaeten();
+        ArrayList <AktivitaetsEintrag> arrayListSorted = new ArrayList<>();
+        for (AktivitaetsEintrag i : arrayListGesamt) {
+            if (i.getEndDatum().compareTo(dpkalender.getValue().toString()) == 0 && !i.getStatus().contains("erledigt")){
+                arrayListSorted.add(i);
+            }
+        }
+
+        if (!arrayListSorted.isEmpty()){
+
+            Parent part = FXMLLoader.load(getClass().getResource("ZeigeInfoFenster.fxml"));
+            Stage stage2 = new Stage();
+            Scene scene = new Scene(part);
+            stage2.initModality(Modality.APPLICATION_MODAL);
+            stage2.setTitle("Warnung");
+            stage2.setScene(scene);
+            stage2.showAndWait();
+        }
+
+        b = false;
         Stage stage = (Stage) btProgrammbeenden.getScene().getWindow();
         stage.close();
     }
@@ -164,57 +229,42 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void buttonStart() {
-        b=true;
-        Thread t=new Thread(() ->
-        {
-
-            for (;;)
-            {
-                if (b==true)
-                {
-                    try
-                    {
+        b = true;
+        Thread t = new Thread(() ->{
+            for (;;){
+                if (b){
+                    try{
                         Thread.sleep(1);
-                        if (me>1000)
-                        {
-                            me=0;
+                        if (me == 1000){
+                            me = 0;
                             ss++;
                         }
-                        if (ss>60)
-                        {
-                            ss=0;
+                        if (ss == 60){
+                            ss = 0;
                             mm++;
                         }
-                        if (mm>60)
-                        {
-                            mm=0;
+                        if (mm == 60){
+                            mm = 0;
                             hh++;
                         }
-
                         me++;
-
 
                         // UI-Thread soll die Oberfläche aktualisieren,
                         // deshalb wird Platform.runLater aufgerufen
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                labelmillisecond.setText(" : "+me);
-                                labelsecond.setText(" : "+ss);
-                                labelminute.setText(" : "+mm);
-                                labelhour.setText(" : "+hh);
+                                labelmillisecond.setText(" : " + me);
+                                labelsecond.setText(" : " + ss);
+                                labelminute.setText(" : " + mm);
+                                labelhour.setText(" : " + hh);
                             }
                         });
-
+                    }
+                    catch (Exception ex) {
 
                     }
-                    catch (Exception ex)
-                    {
-
-                    }
-                }
-                else
-                {
+                } else {
                     break;
                 }
             }
@@ -223,28 +273,6 @@ public class Olahauptfenstercontroller {
         t.start();
 
     }
-
-
-
-    @FXML
-    void buttonnachdate() {
-
-    }
-
-    @FXML
-    void buttonvordate() {
-
-    }
-
-    @FXML
-    void kalender(ActionEvent event) {
-
-    }
-
-
-
-    private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
-    private ObservableList<AktivitaetsEintrag> aktivitaetsEintrags2;
 
 
     @FXML
@@ -273,18 +301,25 @@ public class Olahauptfenstercontroller {
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
 
-        //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
 
-        //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
+        dpkalender.getEditor().setDisable(true);
+        dpkalender.setValue(LocalDate.now());
+
         infoTable();
-        refresh();
-
     }
 
 
     private void infoTable() {
 
-        aktivitaetsEintrags2 = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaeten());
+        ArrayList <AktivitaetsEintrag> listGesamt = AktivitaetsEintragBean.getAktivitaeten();
+        ArrayList <AktivitaetsEintrag> listSorted = new ArrayList<>();
+        for (AktivitaetsEintrag i : listGesamt) {
+            if (i.getStartDatum().compareTo(dpkalender.getValue().toString()) <= 0 && i.getEndDatum().compareTo(dpkalender.getValue().toString()) >= 0){
+                listSorted.add(i);
+            }
+        }
+
+        obsAktivitaetsEintrag = FXCollections.observableArrayList(listSorted);
 
         tcAktivität.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
         tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
@@ -294,8 +329,7 @@ public class Olahauptfenstercontroller {
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
-
-        tabelview.setItems(aktivitaetsEintrags2);
+        tabelview.setItems(obsAktivitaetsEintrag);
 
         tcAktivität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
         tcStartdatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
@@ -307,46 +341,43 @@ public class Olahauptfenstercontroller {
 
     }
 
-   public void refresh()
-    {
-        //tabelview.refresh();
-        boolean tableThread = true;
-        Thread t=new Thread(() ->
-        {
 
-                if (tableThread == true) {
-                    try {
-                        // UI-Thread soll die Oberfläche aktualisieren,
-                        // deshalb wird Platform.runLater aufgerufen
-                        Thread.sleep(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                infoTable();
-                            }
-                        });
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-        });
-
-
-        t.start();
-    }
-
-
-
+    /**
+     * Loescht die ausgewaehlte Aktivitaet
+     */
    private void loeschen() {
 
-        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
+       // Löschbestätigung abfragen
+       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+       alert.setTitle("Löschen bestätigen");
+       alert.setHeaderText(null);
+       alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
+       Optional<ButtonType> op = alert.showAndWait();
 
+       // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
+       if (op.isPresent() && op.get() == ButtonType.OK) {
+
+           // Aktuellen Eintrag herausfinden
+           AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+
+           // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
+           if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
+           {
+               obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
+               // Eintrag aus der Datenbank löschen
+               AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
+           } else {
+               // Rückmeldung wenn nicht möglich
+               Alert alert2 = new Alert(Alert.AlertType.WARNING);
+               alert2.setTitle("Löschen nicht möglich!");
+               alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+               alert2.showAndWait();
+           }
+
+           // Löschen abbrechen
+           return;
+       }
     }
-
-
 }
 
 
