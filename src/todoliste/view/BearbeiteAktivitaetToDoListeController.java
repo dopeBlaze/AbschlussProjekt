@@ -46,7 +46,7 @@ public class BearbeiteAktivitaetToDoListeController {
             TVAktivitaetsname.refresh();
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Hinzufügen nicht möglich!");
-            alert.setContentText("Der Name ist leer");
+            alert.setContentText("Das Textfeld ist leer.");
 
             alert.showAndWait();
             TVAktivitaetsname.refresh();

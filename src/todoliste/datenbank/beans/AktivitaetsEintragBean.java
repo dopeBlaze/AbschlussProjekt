@@ -187,7 +187,7 @@ public class AktivitaetsEintragBean {
 
 
     /**
-     * Laedt die gesammte AktivitaetsNamenTabelle aus der Datenbank und gibt sie alls Liste von AktivitaetsNamen zurueck
+     * Laedt die gesammte AktivitaetsNamenTabelle aus der Datenbank und gibt sie als Liste von AktivitaetsNamen zurueck
      *
      * @return Liste mit allen AktivitaetsNamen
      * @throws IllegalArgumentException wird geworfen, wenn intern eine SQL- oder ClassNotFoundException aufgetreten ist.
