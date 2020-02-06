@@ -1,16 +1,14 @@
 package todoliste;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import todoliste.datenbank.Datenbank;
-import todoliste.datenbank.beans.AktivitaetsEintragBean;
-import todoliste.model.AktivitaetsEintrag;
-import java.util.ArrayList;
+
 
 
 public class MainToDoListe extends Application {
@@ -23,6 +21,11 @@ public class MainToDoListe extends Application {
         primaryStage.setTitle("ToDo Liste");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
 

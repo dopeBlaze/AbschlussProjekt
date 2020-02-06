@@ -183,45 +183,41 @@ public class Olahauptfenstercontroller {
 
         b = true;
         Thread t = new Thread(() -> {
-            for (;;) {
-                if (b) {
-                    try {
-                        Thread.sleep(1);
-                        if (me == 1000) {
-                            me = 0;
-                            ss++;
-                        }
-                        if (ss == 60) {
-                            ss = 0;
-                            mm++;
-                        }
-                        if (mm == 60) {
-                            mm = 0;
-                            hh++;
-                        }
-
-                        me++;
-
-                        // UI-Thread soll die Oberfläche aktualisieren,
-                        // deshalb wird Platform.runLater aufgerufen
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                labelmillisecond.setText(me + "");
-                                labelsecond.setText(ss + " :");
-                                labelminute.setText(mm + " :");
-                                labelhour.setText(hh + " :");
+                    while(b){
+                        try {
+                            Thread.sleep(1);
+                            if (me == 1000) {
+                                me = 0;
+                                ss++;
                             }
-                        });
+                            if (ss == 60) {
+                                ss = 0;
+                                mm++;
+                            }
+                            if (mm == 60) {
+                                mm = 0;
+                                hh++;
+                            }
 
-                    }
-                    catch (Exception ex) {
+                            me++;
 
+                            // UI-Thread soll die Oberfläche aktualisieren,
+                            // deshalb wird Platform.runLater aufgerufen
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    labelmillisecond.setText(me + "");
+                                    labelsecond.setText(ss + " :");
+                                    labelminute.setText(mm + " :");
+                                    labelhour.setText(hh + " :");
+                                }
+                            });
+
+                        }
+                        catch (Exception ex) {
+
+                        }
                     }
-                } else {
-                    break;
-                }
-            }
         });
 
         t.start();
