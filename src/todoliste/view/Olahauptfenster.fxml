@@ -80,10 +80,10 @@
           <TableColumn fx:id="tcAktivität" prefWidth="125.0" text="Aktivität" />
             <TableColumn fx:id="tcStartdatum" prefWidth="125.0" text="Startdatum" />
             <TableColumn fx:id="tcEnddatum" prefWidth="125.0" text="Enddatum" />
-            <TableColumn fx:id="tcVerbrauchtezeit" prefWidth="125.0" text="Verbrauchte zeit" />
+            <TableColumn fx:id="tcVerbrauchtezeit" prefWidth="125.0" text="Verbrauchtezeit" />
             <TableColumn fx:id="tcPriorität" prefWidth="125.0" text="Priorität" />
             <TableColumn fx:id="tcStatus" prefWidth="125.0" text="Status" />
-            <TableColumn fx:id="tcLabel" prefWidth="125.0" text="Label" />
+            <TableColumn fx:id="tcLabel" prefWidth="125.0" text="Kategorie" />
         </columns>
       </TableView>
       <Label layoutX="35.0" layoutY="123.0" prefHeight="43.0" prefWidth="363.0" text="Übersichtsliste der Aktivitäten">
