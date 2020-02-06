@@ -494,7 +494,7 @@ public class Hauptfenstercontroller {
         }
 
         obsAktivitaetsEintrag = FXCollections.observableArrayList(listSorted);
-
+        //Setting the coloumns header names  according to the controller and required table
         tcAktivitaet.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
         tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
         tcEnddatum.setCellValueFactory(new PropertyValueFactory<>("endDatum"));
