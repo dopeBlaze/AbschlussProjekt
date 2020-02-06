@@ -41,39 +41,57 @@ public class BearbeiteAktivitaetToDoListeController {
     @FXML
     void addAktivitaetsname() {
         AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(tfHinzufuegen.getText());
-        try{
-            AktivitaetsEintragBean.saveAktivitaetsName(neuerEintrag);
-            tableData.add(neuerEintrag);
+        if (tfHinzufuegen.getText().equals("") && tfHinzufuegen.getText().length()==0){
             tfHinzufuegen.clear();
             TVAktivitaetsname.refresh();
-        } catch(IllegalArgumentException e){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Hinzufügen nicht möglich!");
-            alert.setContentText("Der Name kann nicht hinzugefügt werden!\nDer Name existiert schon!");
+            alert.setContentText("Der Name ist leer");
 
             alert.showAndWait();
             TVAktivitaetsname.refresh();
+        }
+        else {
+            try {
+
+                AktivitaetsEintragBean.saveAktivitaetsName(neuerEintrag);
+                tableData.add(neuerEintrag);
+                tfHinzufuegen.clear();
+                TVAktivitaetsname.refresh();
+            } catch (IllegalArgumentException e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Hinzufügen nicht möglich!");
+                alert.setContentText("Der Name kann nicht hinzugefügt werden!\nDer Name existiert schon!");
+
+                alert.showAndWait();
+                TVAktivitaetsname.refresh();
+            }
         }
     }
 
     @FXML
     void loescheAktivitaetsname() {
 
+        boolean result = false;
         AktivitaetsEintrag ausgewaehlteAktivitaet = TVAktivitaetsname.getSelectionModel().getSelectedItem();
-        try{
-            AktivitaetsEintragBean.deleteAktivitaetsName(ausgewaehlteAktivitaet);
-            tableData.remove(ausgewaehlteAktivitaet);
-            TVAktivitaetsname.refresh();
-        } catch (IllegalArgumentException e){
+
+        AktivitaetsEintragBean.deleteAktivitaetsName(ausgewaehlteAktivitaet);
+        for (AktivitaetsEintrag i : AktivitaetsEintragBean.getAktivitaetsNamen()) {
+            if (i.getAktivitaetsName().equals(ausgewaehlteAktivitaet.getAktivitaetsName())){
+                result = true;
+                break;
+            }
+        }
+
+        if (result){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Löschen nicht möglich!");
             alert.setContentText("Der Name kann nicht gelöscht werden!\nDer Name ist in Benutzung!");
-
             alert.showAndWait();
+        } else {
+            tableData.remove(ausgewaehlteAktivitaet);
             TVAktivitaetsname.refresh();
         }
-
-        TVAktivitaetsname.refresh();
     }
 
     @FXML
@@ -168,4 +186,6 @@ public class BearbeiteAktivitaetToDoListeController {
             }
         });
     }
+
+
 }

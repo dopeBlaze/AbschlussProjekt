@@ -15,9 +15,6 @@ import java.util.HashMap;
  */
 public class AktivitaetsEintragBean {
 
-    // Cast ArrayList in ObservableList
-    // ObservableList<AktivitaetsEintrag> oListAktivitaeten = FXCollections.observableArrayList(arrayListAktivitaeten);
-
     private static PreparedStatement pstmtSelectAktivitaet;
     private static PreparedStatement pstmtInsertAktivitaet;
     private static PreparedStatement pstmtUpdateAktivitaet;
@@ -36,7 +33,7 @@ public class AktivitaetsEintragBean {
      * Wird ausgefuehrt wenn die Klasse erzeugt wird
      */
     static {
-        System.out.println("static-Block ausgefuehrt");
+        System.out.println("static-Block ausgeführt");
 
         // Statements vorbereiten
         pstmtSelectAktivitaet = Datenbank.getInstance().prepareStatement("SELECT ErstellungsDatum, AktivitaetsName, StartDatum, EndDatum, VerbrauchteZeit, Kategorie, Prioritaet, Status FROM todoliste;");
@@ -50,7 +47,7 @@ public class AktivitaetsEintragBean {
         // pstmtInsertAktivitaetsName = Datenbank.getInstance().prepareStatement("INSERT INTO aktivitaetsname (AktivitaetsName) SELECT AktivitaetsName FROM aktivitaetsname WHERE NOT EXISTS (SELECT 1 FROM table_aktivitaetsname WHERE aktivitaetsname = ?);");
         pstmtUpdateAktivitaetsName = Datenbank.getInstance().prepareStatement("UPDATE aktivitaetsname SET AktivitaetsName = ? WHERE AktivitaetsName = ?;");
         //pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM aktivitaetsname WHERE AktivitaetsName = ?;");
-        // Löschen nicht möglich wenn id von Aktivitaetsname in Benutzung
+        // Loeschen nicht moeglich wenn id von Aktivitaetsname in Benutzung
         pstmtDeleteAktivitaetsName = Datenbank.getInstance().prepareStatement("DELETE FROM table_aktivitaetsname WHERE AktivitaetsName = ? AND id NOT IN (SELECT aktivitaetsname_id FROM table_todoliste);");
 
         pstmtSelectAktivitaetSingle = Datenbank.getInstance().prepareStatement("SELECT ErstellungsDatum, AktivitaetsName, StartDatum, EndDatum, VerbrauchteZeit, Kategorie, Prioritaet, Status FROM todoliste WHERE ErstellungsDatum = ?;");
@@ -60,7 +57,7 @@ public class AktivitaetsEintragBean {
     }
 
     /**
-     * Laedt die gesammte ToDoListe aus der Datenbank und gibt sie alls Liste von AktivitaetsEintraegen zurueck
+     * Laedt die gesammte ToDoListe aus der Datenbank und gibt sie als Liste von AktivitaetsEintraegen zurueck
      *
      * @return Liste mit allen AktivitaetsEintraegen
      * @throws IllegalArgumentException wird geworfen, wenn intern eine SQL- oder ClassNotFoundException aufgetreten ist.
@@ -103,7 +100,7 @@ public class AktivitaetsEintragBean {
 
     /**
      * Speichert einen uebergebenen AktivitaetsEintrag in der Datenbank. Ob der Eintrag
-     * in der ToDoListe schon vorhanden ist oder nicht, also ob ein update oder ein
+     * in der ToDoListe schon vorhanden ist oder nicht, also ob ein Update oder ein
      * insert-Befehl fuer die Datenbank ausgefuehrt werden muss, ist fuer den Aufruf von der GUI
      * irrelevant. Dies findet diese Methode heraus.
      *
@@ -153,7 +150,7 @@ public class AktivitaetsEintragBean {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Speichern der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Speichern der Aktivität in die Datenbank");
         }
 
         return result;
@@ -182,7 +179,7 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Loeschen der Aktivitaet aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Löschen der Aktivität aus der Datenbank: " + e.getLocalizedMessage());
         }
 
         return result;
@@ -226,7 +223,7 @@ public class AktivitaetsEintragBean {
 
     /**
      * Speichert einen uebergebenen AktivitaetsNamen in der Datenbank. Ob der Eintrag
-     * in der AktivitaetsNamenTabelle schon vorhanden ist oder nicht, also ob ein update oder ein
+     * in der AktivitaetsNamenTabelle schon vorhanden ist oder nicht, also ob ein Update oder ein
      * insert-Befehl fuer die Datenbank ausgefuehrt werden muss, ist fuer den Aufruf von der GUI
      * irrelevant. Dies findet diese Methode heraus.
      *
@@ -265,12 +262,12 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Loeschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Löschen vom Aktivitätsnamen aus der Datenbank: " + e.getLocalizedMessage());
             try {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             //e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Speicher der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Speichern der Aktivität in die Datenbank");
         }
 
         return result;
@@ -299,7 +296,7 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Loeschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Löschen vom Aktivitätsnamen aus der Datenbank: " + e.getLocalizedMessage());
         }
 
         return result;
@@ -385,7 +382,7 @@ public class AktivitaetsEintragBean {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Ändern der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Ändern der Aktivität in die Datenbank");
         }
 
         return result;
