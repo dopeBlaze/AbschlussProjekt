@@ -106,6 +106,9 @@ public class BearbeiteAktivitaetToDoListeController {
         }
     }
 
+    /**
+     * Bz confirming the the activity s name we close the window and come back to the main
+     */
     @FXML
     void uebernehmeAktivitaetsname() {
 
