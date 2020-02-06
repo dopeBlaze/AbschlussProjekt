@@ -24,12 +24,12 @@ import todoliste.model.AktivitaetsEintrag;
 
 public class Olahauptfenstercontroller {
 
-    static int me=0;
-    static int ss=0;
-    static int mm=0;
-    static int hh=0;
+    static int me = 0;
+    static int ss = 0;
+    static int mm = 0;
+    static int hh = 0;
     static boolean tableThread = true;
-    static boolean b=true;
+    static boolean b = true;
 
     @FXML
     private Button btnachdate;
@@ -98,7 +98,7 @@ public class Olahauptfenstercontroller {
     private TableColumn<AktivitaetsEintrag, String> tcLabel;
 
     @FXML
-    void editCommitStatus(ActionEvent event) {
+    void editCommitStatus() {
 
     }
 
@@ -107,7 +107,7 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void butonPause() {
-        b=false;
+        b = false;
         AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
         aktivitaetsEintrag.setStatus("Pausiert");
 
@@ -145,9 +145,105 @@ public class Olahauptfenstercontroller {
 
     }
 
+
+    @FXML
+    void buttonLöschen() {
+
+        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
+    }
+
+    @FXML
+    void buttonNeuerEintrag() throws IOException {
+        Parent part = FXMLLoader.load(getClass().getResource("NeuerEintragToDoListe.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(part);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Neuen Eintrag hinzufügen");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void buttonProgrammbeenden() {
+        b = false;
+        Stage stage = (Stage) btProgrammbeenden.getScene().getWindow();
+        stage.close();
+    }
+
+
+    @FXML
+    void buttonStart() {
+        AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+        int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
+
+        hh = (gesamtZeit - gesamtZeit%3600)/3600;
+        mm = (gesamtZeit%3600 - gesamtZeit%3600%60)/60;
+        ss = gesamtZeit%3600%60;
+
+        b = true;
+        Thread t = new Thread(() -> {
+            for (;;) {
+                if (b) {
+                    try {
+                        Thread.sleep(1);
+                        if (me == 1000) {
+                            me = 0;
+                            ss++;
+                        }
+                        if (ss == 60) {
+                            ss = 0;
+                            mm++;
+                        }
+                        if (mm == 60) {
+                            mm = 0;
+                            hh++;
+                        }
+
+                        me++;
+
+                        // UI-Thread soll die Oberfläche aktualisieren,
+                        // deshalb wird Platform.runLater aufgerufen
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                labelmillisecond.setText(me + "");
+                                labelsecond.setText(ss + " :");
+                                labelminute.setText(mm + " :");
+                                labelhour.setText(hh + " :");
+                            }
+                        });
+
+                    }
+                    catch (Exception ex) {
+
+                    }
+                } else {
+                    break;
+                }
+            }
+        });
+
+        t.start();
+        aktivitaetsEintrag.setStatus("In Bearbeitung");
+
+        btStart.setDisable(true);
+        btPause.setDisable(false);
+        tabelview.setDisable(true);
+        btAktivitäsnamebearbeiten.setDisable(true);
+        btNeuerEintrag.setDisable(true);
+        btProgrammbeenden.setDisable(true);
+        btEintragbearbeiten.setDisable(true);
+        btLöschen.setDisable(true);
+        btvordate.setDisable(true);
+        btnachdate.setDisable(true);
+
+        tabelview.refresh();
+    }
+
     @FXML
     void buttonErledigt() {
-        b=false;
+        b = false;
 
         labelhour.setText("00 : ");
         labelminute.setText("00 : ");
@@ -174,125 +270,6 @@ public class Olahauptfenstercontroller {
         tabelview.refresh();
 
     }
-
-    @FXML
-    void buttonLöschen() {
-
-        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrags2.remove(ausgewaehlterArtikel);
-    }
-
-    @FXML
-    void buttonNeuerEintrag() throws IOException {
-        Parent part = FXMLLoader.load(getClass().getResource("NeuerEintragToDoListe.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(part);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Neuen Eintrag hinzufügen");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    void buttonProgrammbeenden() {
-        b=false;
-        Stage stage = (Stage) btProgrammbeenden.getScene().getWindow();
-        stage.close();
-    }
-
-
-
-    @FXML
-    void buttonStart() {
-        b=true;
-        Thread t=new Thread(() ->
-        {
-            for (;;)
-            {
-                if (b==true)
-                {
-                    try
-                    {
-                        Thread.sleep(1);
-                        if (me>1000)
-                        {
-                            me=0;
-                            ss++;
-                        }
-                        if (ss>60)
-                        {
-                            ss=0;
-                            mm++;
-                        }
-                        if (mm>60)
-                        {
-                            mm=0;
-                            hh++;
-                        }
-
-                        me++;
-
-                        // UI-Thread soll die Oberfläche aktualisieren,
-                        // deshalb wird Platform.runLater aufgerufen
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                labelmillisecond.setText(" : "+me);
-                                labelsecond.setText(" : "+ss);
-                                labelminute.setText(" : "+mm);
-                                labelhour.setText("  "+hh);
-                            }
-                        });
-
-
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-        });
-
-        t.start();
-      //  int x= (hh*3600)+(mm*60)+(ss);
-
-        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrag.setStatus("In Bearbeitung");
-
-        btStart.setDisable(true);
-        btPause.setDisable(false);
-        tabelview.setDisable(true);
-        btAktivitäsnamebearbeiten.setDisable(true);
-        btNeuerEintrag.setDisable(true);
-        btProgrammbeenden.setDisable(true);
-        btEintragbearbeiten.setDisable(true);
-        btLöschen.setDisable(true);
-        btvordate.setDisable(true);
-        btnachdate.setDisable(true);
-
-         if (aktivitaetsEintrag.getVerbrauchteZeit()==0){
-             me=0;
-             ss=0;
-             mm=0;
-             hh=0;
-         }
-         else {
-             int x= (hh*3600)+(mm*60)+(ss);
-
-             x=aktivitaetsEintrag.getVerbrauchteZeit();
-         }
-        tabelview.refresh();
-
-
-
-    }
-
-
 
     @FXML
     void buttonnachdate() {
