@@ -150,7 +150,7 @@ public class Olahauptfenstercontroller {
             Stage stage = new Stage();
             Scene scene = new Scene(part);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Aktivitaeten bearbeiten");
+            stage.setTitle("Eintrag bearbeiten");
             stage.setScene(scene);
             stage.showAndWait();
             infoTable();
