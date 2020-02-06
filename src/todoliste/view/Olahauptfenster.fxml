@@ -52,27 +52,32 @@
                   <Font size="22.0" />
                </font>
             </Button>
-            <Label fx:id="labelhour" layoutX="928.0" layoutY="338.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
+            <Label fx:id="labelhour" layoutX="928.0" layoutY="390.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelminute" layoutX="974.0" layoutY="338.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
+            <Label fx:id="labelminute" layoutX="965.0" layoutY="390.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelsecond" layoutX="1019.0" layoutY="338.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
+            <Label fx:id="labelsecond" layoutX="1002.0" layoutY="390.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelmillisecond" layoutX="1064.0" layoutY="338.0" prefHeight="32.0" prefWidth="42.0" text="000">
+            <Label fx:id="labelmillisecond" layoutX="1039.0" layoutY="390.0" prefHeight="32.0" prefWidth="42.0" text="000">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
             <DatePicker fx:id="dpkalender" layoutX="628.0" layoutY="129.0" onAction="#kalenderAuswahl" prefHeight="32.0" prefWidth="239.0" />
+            <Label fx:id="labelGestarteteAktivitaet" layoutX="928.0" layoutY="346.0" prefHeight="32.0" prefWidth="348.0" text="gestartete aktivitaet">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <TableView fx:id="tabelview" layoutX="31.0" layoutY="183.0" prefHeight="590.0" prefWidth="873.0">

@@ -28,6 +28,10 @@ public class Olahauptfenstercontroller {
     static int ss = 0;
     static int mm = 0;
     static int hh = 0;
+    static int gesamtZeitStart = 0;
+    static int gesamtZeitPause = 0;
+    static int gesamtZeitErledigt = 0;
+    static String idCheck;
     static boolean b = true;
 
     private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
@@ -73,6 +77,9 @@ public class Olahauptfenstercontroller {
 
     @FXML
     private Label labelmillisecond;
+
+    @FXML
+    private Label labelGestarteteAktivitaet;
 
     @FXML
     private TableView<AktivitaetsEintrag> tabelview;
@@ -247,13 +254,18 @@ public class Olahauptfenstercontroller {
 
         try {
 
+            gesamtZeitStart = 0;
             // Wenn die Aktivitaet schon eine Zeiterfassung hat, so wird diese Zeit im richtigen Format ausgegeben
             AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
-            int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
 
-            hh = (gesamtZeit - gesamtZeit % 3600) / 3600;
-            mm = (gesamtZeit % 3600 - gesamtZeit % 3600 % 60) / 60;
-            ss = gesamtZeit % 3600 % 60;
+            idCheck = aktivitaetsEintrag.getErstellungsDatum();
+            labelGestarteteAktivitaet.setText(aktivitaetsEintrag.getAktivitaetsName());
+
+            gesamtZeitStart = aktivitaetsEintrag.getVerbrauchteZeit();
+
+            hh = (gesamtZeitStart - gesamtZeitStart % 3600) / 3600;
+            mm = (gesamtZeitStart % 3600 - gesamtZeitStart % 3600 % 60) / 60;
+            ss = gesamtZeitStart % 3600 % 60;
 
             b = true;
             Thread t = new Thread(() -> {
@@ -325,6 +337,7 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonPause() {
         b = false;
+        gesamtZeitPause = 0;
         AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
 
         aktivitaetsEintrag.setStatus("pausiert");
@@ -342,10 +355,10 @@ public class Olahauptfenstercontroller {
         btnachdate.setDisable(false);
 
         // Gesamtzeit wird zusammengerechnet und der Aktivitaet gesetzt
-        int x = (hh * 3600) + (mm * 60) + (ss);
-        aktivitaetsEintrag.setVerbrauchteZeit(x);
+        gesamtZeitPause = (hh * 3600) + (mm * 60) + (ss);
+
+        aktivitaetsEintrag.setVerbrauchteZeit(gesamtZeitPause);
         tabelview.refresh();
-        me = 0;
 
         // Datenbank speichern
         // Ermittlung welche Aktivitaet ausgewaehlt wurde
@@ -353,7 +366,7 @@ public class Olahauptfenstercontroller {
         for (AktivitaetsEintrag array : arrayData) {
 
             if (array.getErstellungsDatum().equals(aktivitaetsEintrag.getErstellungsDatum())){
-                array.setVerbrauchteZeit(x);
+                array.setVerbrauchteZeit(gesamtZeitPause);
                 array.setStatus(aktivitaetsEintrag.getStatus());
 
                 AktivitaetsEintragBean.saveAktivitaetSingle(array);
@@ -368,6 +381,7 @@ public class Olahauptfenstercontroller {
     void buttonErledigt() {
         try {
             b = false;
+            gesamtZeitErledigt = 0;
 
             labelhour.setText("00 :");
             labelminute.setText("00 :");
@@ -375,13 +389,6 @@ public class Olahauptfenstercontroller {
             labelmillisecond.setText("000");
 
             AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
-
-            // Gesamtzeit wird zusammengerechnet und der Aktivitaet gesetzt
-            int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
-
-            hh = (gesamtZeit - gesamtZeit % 3600) / 3600;
-            mm = (gesamtZeit % 3600 - gesamtZeit % 3600 % 60) / 60;
-            ss = gesamtZeit % 3600 % 60;
 
             aktivitaetsEintrag.setStatus("erledigt");
 
@@ -397,16 +404,18 @@ public class Olahauptfenstercontroller {
             btvordate.setDisable(false);
             btnachdate.setDisable(false);
 
+            // Gesamtzeit wird erfasst
+            gesamtZeitErledigt = aktivitaetsEintrag.getVerbrauchteZeit();
 
-            // Gesamtzeit wird zusammengerechnet und der Aktivitaet gesetzt
-            int x = (hh * 3600) + (mm * 60) + (ss);
-            aktivitaetsEintrag.setVerbrauchteZeit(x);
+            // Wenn man Aktivitaeten nur erledigt kann es zu Fehlern fuehren
+            // Loesung bietet ein idCheck
+            // idCheck notwendig beim Wechsel zwischen den Aktivitaeten
+            if (idCheck.contains(aktivitaetsEintrag.getErstellungsDatum()) && hh >=0 && mm >= 0 && ss >= 0){
 
-            // Variablen werden zurueckgesetzt
-            hh = 0;
-            mm = 0;
-            ss = 0;
-            me = 0;
+                gesamtZeitErledigt = (hh * 3600) + (mm * 60) + (ss);
+            }
+
+            aktivitaetsEintrag.setVerbrauchteZeit(gesamtZeitErledigt);
 
             // Datenbank speichern
             // Ermittlung welche Aktivitaet ausgewaehlt wurde
@@ -414,7 +423,7 @@ public class Olahauptfenstercontroller {
             for (AktivitaetsEintrag array : arrayData) {
 
                 if (array.getErstellungsDatum().equals(aktivitaetsEintrag.getErstellungsDatum())){
-                    array.setVerbrauchteZeit(x);
+                    array.setVerbrauchteZeit(gesamtZeitErledigt);
                     array.setStatus(aktivitaetsEintrag.getStatus());
 
                     AktivitaetsEintragBean.saveAktivitaetSingle(array);
@@ -431,6 +440,9 @@ public class Olahauptfenstercontroller {
         }
     }
 
+    /**
+     * Initialisierung des Fensters
+     */
     @FXML
     void initialize() {
         assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -447,6 +459,7 @@ public class Olahauptfenstercontroller {
         assert labelminute != null : "fx:id=\"labelminute\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert labelsecond != null : "fx:id=\"labelsecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert labelmillisecond != null : "fx:id=\"labelmillisecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert labelGestarteteAktivitaet != null : "fx:id=\"labelGestarteteAktivitaet\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tabelview != null : "fx:id=\"tabelview\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcAktivitaet != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcStartdatum != null : "fx:id=\"tcStartdatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
