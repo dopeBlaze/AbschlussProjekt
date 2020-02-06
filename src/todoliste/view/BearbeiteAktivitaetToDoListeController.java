@@ -62,9 +62,8 @@ public class BearbeiteAktivitaetToDoListeController {
         AktivitaetsEintrag ausgewaehlteAktivitaet = TVAktivitaetsname.getSelectionModel().getSelectedItem();
         try{
             AktivitaetsEintragBean.deleteAktivitaetsName(ausgewaehlteAktivitaet);
-            initTable();
-            //tableData.remove(ausgewaehlteAktivitaet);
-            //TVAktivitaetsname.refresh();
+            tableData.remove(ausgewaehlteAktivitaet);
+            TVAktivitaetsname.refresh();
         } catch (IllegalArgumentException e){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Löschen nicht möglich!");
@@ -87,18 +86,6 @@ public class BearbeiteAktivitaetToDoListeController {
     @FXML
     void initialize() {
 
-
-        /////////////////////// Testeinträge
-        /*ArrayList <AktivitaetsEintrag> arrayList = new ArrayList<>();
-        AktivitaetsEintrag a = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Laufen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
-        arrayList.add(a);
-        AktivitaetsEintrag b = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Putzen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
-        arrayList.add(b);
-        AktivitaetsEintrag c = new AktivitaetsEintrag(LocalDateTime.now().toString(), "Kochen", "2020-02-03", "2020-02-03", 0, "Privat", "normal", "nicht gestartet");
-        arrayList.add(c);*/
-        ////////////////////////
-
-
         assert btnUebernehmen != null : "fx:id=\"btnUebernehmen\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
         assert tfAktivitaetsname != null : "fx:id=\"tfAktivitaetsname\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
         assert TVAktivitaetsname != null : "fx:id=\"TVAktivitaetsname\" was not injected: check your FXML file 'BearbeiteAktivitaetToDoListe.fxml'.";
@@ -117,8 +104,8 @@ public class BearbeiteAktivitaetToDoListeController {
         tableData = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetsNamen());
 
         // Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitaetsname");
-        tcAktivitaetsName.setPrefWidth(334.0);
+        TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitätsname");
+        tcAktivitaetsName.setPrefWidth(320.0);
 
         // Zuordnung Werte <-> Model
         tcAktivitaetsName.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));

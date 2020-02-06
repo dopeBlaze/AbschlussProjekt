@@ -1,28 +1,24 @@
 package todoliste.view;
 
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
-import javax.annotation.processing.Completion;
 
 public class BearbeiteEintragToDoListeController {
 
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+    private static String erstellDatum;
 
     @FXML
     private Button btnUbernehmen;
@@ -31,13 +27,31 @@ public class BearbeiteEintragToDoListeController {
     private TextField tfEintragsname;
 
     @FXML
+    private AktivitaetsEintrag selectedAktivity;
+
+    @FXML
     private TableView<AktivitaetsEintrag> TVAktivitaetsname;
 
     @FXML
-    private ComboBox<String> kategory;
+    private TableView<AktivitaetsEintrag> TVAktivitaet;
 
     @FXML
-    private ComboBox<String> Prioritaet;
+    private ArrayList<AktivitaetsEintrag> arrayData;
+
+    @FXML
+    private ObservableList<AktivitaetsEintrag> tableDataAktivitaet;
+
+    @FXML
+    private ObservableList<AktivitaetsEintrag> tableDataAktivitaetName;
+
+    @FXML
+    private FilteredList<AktivitaetsEintrag> tableFilteredData;
+
+    @FXML
+    private ChoiceBox<String> cbKategorie;
+
+    @FXML
+    private ChoiceBox<String> cbPrioritaet;
 
     @FXML
     private DatePicker startDatum;
@@ -45,112 +59,192 @@ public class BearbeiteEintragToDoListeController {
     @FXML
     private DatePicker endDatum;
 
-    @FXML
-    void setzteEnddatum(ActionEvent event) {
-        LocalDate e = endDatum.getValue();
-        datumVerify(e,startDatum.getValue());
-        System.out.println(e);
-    }
-
-    @FXML
-    void setzteStartdatum(ActionEvent event) {
-        LocalDate s = startDatum.getValue();
-        System.out.println(s);
-    }
     /**
-     * by presing on the Übernehmen button we get the entered value of Activity
-     * @param event
+     * Datumsabgleich von DatePicker endDatum
      */
     @FXML
-    void uebernehmeEintragsname(ActionEvent event) {
-    setKategory(event);
-    setPrioritaet(event);
+    void setzteEnddatum() {
+        endDatum.setShowWeekNumbers(false);
+
+        // Ist das EndDatum kleiner als das StartDatum, so wird das StartDatum gleich dem EndDatum gesetzt
+        if (endDatum.getValue().compareTo(startDatum.getValue()) < 0) {
+            startDatum.setValue(endDatum.getValue());
+        }
+
+        // Die Werte des DatePickers werden gesetzt
+        selectedAktivity.setStartDatum(startDatum.getValue().toString());
+        selectedAktivity.setEndDatum(endDatum.getValue().toString());
     }
+
+    /**
+     * Datumsabgleich von DatePicker startDatum
+     */
     @FXML
-    void setKategory(ActionEvent event) {
-        String f = kategory.getValue();
-        System.out.println(f);
+    void setzteStartdatum() {
+        startDatum.setShowWeekNumbers(false);
+
+        // Ist das Startdatum groesser als das EndDatum, so wird das EndDatum gleich dem StartDatum gesetzt
+        if (startDatum.getValue().compareTo(endDatum.getValue()) > 0){
+            endDatum.setValue(startDatum.getValue());
+        }
+
+        // Startdatum setzen nicht unter jetzigen Datum moeglich
+        if (startDatum.getValue().compareTo(LocalDate.now()) < 0){
+            startDatum.setValue(LocalDate.now());
+        }
+
+        // Die Werte des DatePickers werden gesetzt
+        selectedAktivity.setStartDatum(startDatum.getValue().toString());
+        selectedAktivity.setEndDatum(endDatum.getValue().toString());
     }
 
+    /**
+     * Zu nutzendes ErstellungsDatum
+     * @param objektDate das uebergebene ErstellungsDatum
+     */
+    void getDatetime(String objektDate){
+        erstellDatum = objektDate;
+    }
+
+
+    /**
+     * Speichert die Aenderungen in die Datenbank und schließt das Fenster
+     *
+     */
     @FXML
-    void setPrioritaet(ActionEvent event) {
-        String p = Prioritaet.getValue();
-        System.out.println(p);
+    void uebernehmeEintragsname() {
+
+        // Liest den ausgewaehlten Aktivitaetsnamen aus und setzt ihn
+        AktivitaetsEintrag name = TVAktivitaetsname.getSelectionModel().getSelectedItem();
+        selectedAktivity.setAktivitaetsName(name.getAktivitaetsName());
+
+        // die Werte der ChoiceBoxen werden gesetzt
+        selectedAktivity.setKategorie(cbKategorie.getValue());
+        selectedAktivity.setPrioritaet(cbPrioritaet.getValue());
+
+        // Der einzelne Eintrag wird abgespeichert
+        AktivitaetsEintragBean.saveAktivitaetSingle(selectedAktivity);
+
+        // Fenster wird geschlossen
+        Stage stage = (Stage) btnUbernehmen.getScene().getWindow();
+        stage.close();
     }
-
-
-
 
     @FXML
     void initialize() {
 
-
-
-
         assert btnUbernehmen != null : "fx:id=\"btnUbernehmen\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert tfEintragsname != null : "fx:id=\"tfEintragsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+        assert TVAktivitaet != null : "fx:id=\"TVAktivitaet\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert TVAktivitaetsname != null : "fx:id=\"TVAktivitaetsname\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
-        assert kategory != null : "fx:id=\"kategory\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
-        assert Prioritaet != null : "fx:id=\"Prioritaet\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
+        assert cbKategorie != null : "fx:id=\"cbKategorie\" was not injected: check your FXML file 'NeuerEintragToDoListe.fxml'.";
+        assert cbPrioritaet != null : "fx:id=\"cbPrioritaet\" was not injected: check your FXML file 'NeuerEintragToDoListe.fxml'.";
         assert startDatum != null : "fx:id=\"startDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
         assert endDatum != null : "fx:id=\"endDatum\" was not injected: check your FXML file 'BearbeiteEintragToDoListe.fxml'.";
 
-        //Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Erstellung Datum");
-        TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Start Datum");
-        TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("End Datum");
-        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Aktivität Name");
-        TableColumn<AktivitaetsEintrag, String> tc5 = new TableColumn<>("Kategory");
-        TableColumn<AktivitaetsEintrag, String> tc6 = new TableColumn<>("Priority");
-
-        // Zuordnung Werte <-> Model
-        tc1.setCellValueFactory(new PropertyValueFactory<>("Erstellung Datum"));
-        tc2.setCellValueFactory(new PropertyValueFactory<>("Start Datum"));
-        tc3.setCellValueFactory(new PropertyValueFactory<>("End Datum"));
-        tc4.setCellValueFactory(new PropertyValueFactory<>("Aktivität Name"));
-        tc5.setCellValueFactory(new PropertyValueFactory<>("Aktivität Name"));
-        tc6.setCellValueFactory(new PropertyValueFactory<>("Priorität Name"));
-
-        // Spalten hinzuf�gen
-        TVAktivitaetsname.getColumns().add(tc1);
-        TVAktivitaetsname.getColumns().add(tc2);
-        TVAktivitaetsname.getColumns().add(tc3);
-        TVAktivitaetsname.getColumns().add(tc4);
-        TVAktivitaetsname.getColumns().add(tc5);
-        TVAktivitaetsname.getColumns().add(tc6);
-
-        // Daten zuweisen
-        // tvExample.setItems(tableData);
 
 
-
-        kategory.setPromptText("Kategorie");
-        kategory.setItems(FXCollections.observableArrayList());
-        kategory.getItems().add("Arbeit");
-        kategory.getItems().add("Privat");
-        Prioritaet.setPromptText("Prioritaet");
-        Prioritaet.setItems(FXCollections.observableArrayList());
-        Prioritaet.getItems().add("Hoch");
-        Prioritaet.getItems().add("Normal");
-        Prioritaet.getItems().add("Niedrig");
-
-    }
-
-
-
-
-
-
-    public  boolean datumVerify(LocalDate startDatum,LocalDate endDatum) {
-        try {
-            if (startDatum.getMonthValue() > endDatum.getMonthValue() || startDatum.getDayOfMonth() > endDatum.getDayOfMonth() || startDatum.getYear() > endDatum.getYear())
-                System.out.println("Please set the date  in a correct way");
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(" Try to select the end date  to be after the start date" +e);
+        // Ermittlung welche Aktivitaet ausgewaehlt wurde
+        arrayData = AktivitaetsEintragBean.getAktivitaeten();
+        for (AktivitaetsEintrag array : arrayData) {
+            // erstellDatum VergleichsString
+            // muss vom Hauptfenster mitgeliefert werden
+            if (array.getErstellungsDatum().equals(erstellDatum)){
+                selectedAktivity = array;
+                tableDataAktivitaet = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetSingle(selectedAktivity));
+                initTableAktivitaet();
+            }
         }
 
-        return false;
+
+        // Startwerte fuer die DatePicker von Aktivitaet
+        startDatum.setValue(LocalDate.parse(selectedAktivity.getStartDatum()));
+        startDatum.getEditor().setDisable(true);
+        endDatum.setValue(LocalDate.parse(selectedAktivity.getEndDatum()));
+        endDatum.getEditor().setDisable(true);
+
+        // Startwerte fuer die ChoiceBoxen von Aktivitaet
+        cbKategorie.setValue(selectedAktivity.getKategorie());
+        cbPrioritaet.setValue(selectedAktivity.getPrioritaet());
+
+        initTableAktivitaetsNamen();
+
+        // Default Auswahl von AktivitaetsName der Aktivitaet
+        TVAktivitaetsname.getSelectionModel().select(selectedAktivity);
+    }
+
+    /**
+     * Initialisierung von TableView der Aktivitaet
+     */
+    private void initTableAktivitaet() {
+
+        //Spalten erstellen
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitätsname");
+        TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Startdatum");
+        TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("Enddatum");
+        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Priorität");
+        TableColumn<AktivitaetsEintrag, String> tc5 = new TableColumn<>("Kategorie");
+
+        // Zuordnung Werte <-> Model
+        tc1.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
+        tc2.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
+        tc3.setCellValueFactory(new PropertyValueFactory<>("endDatum"));
+        tc4.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
+        tc5.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+
+        // Spalten hinzufuegen
+        TVAktivitaet.getColumns().add(tc1);
+        TVAktivitaet.getColumns().add(tc2);
+        TVAktivitaet.getColumns().add(tc3);
+        TVAktivitaet.getColumns().add(tc4);
+        TVAktivitaet.getColumns().add(tc5);
+
+        // Daten zuweisen
+        TVAktivitaet.setItems(tableDataAktivitaet);
+    }
+
+    /**
+     * Initialisierung von TableView der AktivitaetsNamen
+     */
+    private void initTableAktivitaetsNamen() {
+        tableDataAktivitaetName = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetsNamen());
+
+        //Spalten erstellen
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitätsname");
+        tc1.setPrefWidth(320.0);
+
+        // Zuordnung Werte <-> Model
+        tc1.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
+
+        // Spalten hinzufuegen
+        TVAktivitaetsname.getColumns().add(tc1);
+
+        // Daten zuweisen
+        TVAktivitaetsname.setItems(tableDataAktivitaetName);
+
+        // Fuer eine gefilterte und sortierte Ansicht
+        tableFilteredData = new FilteredList<>(tableDataAktivitaetName, p -> true);
+        SortedList<AktivitaetsEintrag> tableSortedData = new SortedList<>(tableFilteredData);
+        tableSortedData.comparatorProperty().bind(TVAktivitaetsname.comparatorProperty());
+        TVAktivitaetsname.setItems(tableSortedData);
+
+        // Filter Predicate setzen
+        tfEintragsname.textProperty().addListener((observable, oldValue, newValue) -> {
+            tableFilteredData.setPredicate(aktivitaetsName -> {
+                // wenn Filter leer dann zeige alle Aktivitaetsnamen
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // vergleiche Aktivitaetsnamen mit Filtertext
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (aktivitaetsName.getAktivitaetsName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter hat Treffer
+                }
+                return false; // Vergleich findet keine Uebereinstimmung
+            });
+        });
     }
 }
 

@@ -14,14 +14,14 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todoliste.view.NeuerEintragToDoListeController">
     <children>
-        <Text layoutX="39.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Neuen Eintrag hinzufügen ">
+        <Text layoutX="40.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Neuen Eintrag hinzufügen ">
             <font>
                 <Font size="24.0" />
             </font>
         </Text>
         <Button fx:id="btnEintragHinzufuegen" layoutX="394.0" layoutY="211.0" mnemonicParsing="false" onAction="#addNeuenEintrag" prefHeight="61.0" prefWidth="127.0" text="Hinzufügen" />
         <TextField fx:id="tfNeuerEintrag" layoutX="40.0" layoutY="83.0" prefHeight="25.0" prefWidth="336.0" />
-        <TableView fx:id="TVAktivitaetsname" layoutX="40.0" layoutY="130.0" prefHeight="140.0" prefWidth="336.0" />
+        <TableView fx:id="TVAktivitaetsname" layoutX="40.0" layoutY="107.0" prefHeight="166.0" prefWidth="336.0" />
         <DatePicker fx:id="btnCalPickStart" layoutX="395.0" layoutY="83.0" onAction="#setzeStartdatum" prefHeight="25.0" prefWidth="71.0" />
         <DatePicker fx:id="btnCalPickEnd" layoutX="480.0" layoutY="83.0" onAction="#setzeEnddatum" prefHeight="25.0" prefWidth="71.0" />
         <Label layoutX="393.0" layoutY="63.0" prefHeight="17.0" prefWidth="71.0" text="Startdatum" />

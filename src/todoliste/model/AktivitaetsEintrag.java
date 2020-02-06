@@ -8,7 +8,7 @@ public class AktivitaetsEintrag {
 
     private String erstellungsDatum, aktivitaetsName, startDatum, endDatum, kategorie, prioritaet, status;
     private int verbrauchteZeit;
-    private static  int niki ;
+
 
     /**
      * Ueberladener Konstruktor

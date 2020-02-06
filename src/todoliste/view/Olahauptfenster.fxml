@@ -10,19 +10,19 @@
 
 <AnchorPane prefHeight="783.0" prefWidth="1290.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todoliste.view.Olahauptfenstercontroller">
    <children>
-      <AnchorPane layoutY="2.0" prefHeight="783.0" prefWidth="1299.0">
+      <AnchorPane layoutY="1.0" prefHeight="783.0" prefWidth="1299.0">
          <children>
-            <Button fx:id="btnachdate" layoutX="839.0" layoutY="128.0" mnemonicParsing="false" onAction="#buttonnachdate" text="&gt;">
+            <Button fx:id="btnachdate" layoutX="874.0" layoutY="130.0" mnemonicParsing="false" onAction="#buttonnachdate" text="&gt;">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btvordate" layoutX="555.0" layoutY="128.0" mnemonicParsing="false" onAction="#buttonvordate" text="&lt;">
+            <Button fx:id="btvordate" layoutX="594.0" layoutY="130.0" mnemonicParsing="false" onAction="#buttonvordate" text="&lt;">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Label layoutX="656.0" layoutY="94.0" prefHeight="26.0" prefWidth="84.0" text="Kalender">
+            <Label layoutX="706.0" layoutY="94.0" prefHeight="26.0" prefWidth="84.0" text="Kalender">
                <font>
                   <Font size="17.0" />
                </font>
@@ -32,10 +32,10 @@
                   <Font size="39.0" />
                </font>
             </Label>
-            <Button fx:id="btNeuerEintrag" layoutX="928.0" layoutY="586.0" mnemonicParsing="false" onAction="#buttonNeuerEintrag" prefHeight="43.0" prefWidth="161.0" text="Neuer Eintrag" />
-            <Button fx:id="btLöschen" layoutX="1114.0" layoutY="586.0" mnemonicParsing="false" onAction="#buttonLöschen" prefHeight="43.0" prefWidth="161.0" text="Löschen" />
-            <Button fx:id="btAktivitäsnamebearbeiten" layoutX="928.0" layoutY="522.0" mnemonicParsing="false" onAction="#buttonAktivitäsnamebearbeiten" prefHeight="43.0" prefWidth="161.0" text="Aktivitäsname bearbeiten" />
-            <Button fx:id="btEintragbearbeiten" layoutX="1114.0" layoutY="522.0" mnemonicParsing="false" onAction="#buttonEintragbearbeiten" prefHeight="43.0" prefWidth="161.0" text="Eintrag bearbeiten" />
+            <Button fx:id="btNeuerEintrag" layoutX="1040.0" layoutY="501.0" mnemonicParsing="false" onAction="#buttonNeuerEintrag" prefHeight="43.0" prefWidth="161.0" text="Neuer Eintrag" />
+            <Button fx:id="btLoeschen" layoutX="1040.0" layoutY="614.0" mnemonicParsing="false" onAction="#buttonLoeschen" prefHeight="43.0" prefWidth="161.0" text="Löschen" />
+            <Button fx:id="btAktivitaetsnameBearbeiten" layoutX="1016.0" layoutY="446.0" mnemonicParsing="false" onAction="#buttonAktivitaesnamebearbeiten" prefHeight="43.0" prefWidth="209.0" text="Aktivitätsname anlegen/ bearbeiten" />
+            <Button fx:id="btEintragbearbeiten" layoutX="1040.0" layoutY="557.0" mnemonicParsing="false" onAction="#buttonEintragbearbeiten" prefHeight="43.0" prefWidth="161.0" text="Eintrag bearbeiten" />
             <Button fx:id="btProgrammbeenden" layoutX="1012.0" layoutY="676.0" mnemonicParsing="false" onAction="#buttonProgrammbeenden" prefHeight="49.0" prefWidth="216.0" text="Programm beenden" textFill="#e11212" />
             <Button fx:id="btStart" layoutX="928.0" layoutY="244.0" mnemonicParsing="false" onAction="#buttonStart" prefHeight="49.0" prefWidth="108.0" text="Start" textFill="#33a11d">
                <font>
@@ -47,42 +47,43 @@
                   <Font size="21.0" />
                </font>
             </Button>
-            <Button fx:id="btPause" layoutX="1059.0" layoutY="244.0" mnemonicParsing="false" onAction="#butonPause" prefHeight="49.0" prefWidth="100.0" text="Pause" textFill="#9fae29">
+            <Button fx:id="btPause" layoutX="1059.0" layoutY="244.0" mnemonicParsing="false" onAction="#buttonPause" prefHeight="49.0" prefWidth="100.0" text="Pause" textFill="#9fae29">
                <font>
                   <Font size="22.0" />
                </font>
             </Button>
-            <Label fx:id="labelhour" layoutX="1016.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
+            <Label fx:id="labelhour" layoutX="928.0" layoutY="338.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelminute" layoutX="1069.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
+            <Label fx:id="labelminute" layoutX="974.0" layoutY="338.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelsecond" layoutX="1120.0" layoutY="338.0" prefHeight="32.0" prefWidth="40.0" text="0:">
+            <Label fx:id="labelsecond" layoutX="1019.0" layoutY="338.0" prefHeight="32.0" prefWidth="35.0" text="00 :">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="labelmillisecond" layoutX="1163.0" layoutY="338.0" prefHeight="32.0" prefWidth="61.0" text="0:">
+            <Label fx:id="labelmillisecond" layoutX="1064.0" layoutY="338.0" prefHeight="32.0" prefWidth="42.0" text="000">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
+            <DatePicker fx:id="dpkalender" layoutX="628.0" layoutY="129.0" onAction="#kalenderAuswahl" prefHeight="32.0" prefWidth="239.0" />
          </children>
       </AnchorPane>
       <TableView fx:id="tabelview" layoutX="31.0" layoutY="183.0" prefHeight="590.0" prefWidth="873.0">
         <columns>
-          <TableColumn fx:id="tcAktivität" prefWidth="125.0" text="Aktivität" />
+          <TableColumn fx:id="tcAktivitaet" prefWidth="125.0" text="Aktivität" />
             <TableColumn fx:id="tcStartdatum" prefWidth="125.0" text="Startdatum" />
             <TableColumn fx:id="tcEnddatum" prefWidth="125.0" text="Enddatum" />
-            <TableColumn fx:id="tcVerbrauchtezeit" prefWidth="125.0" text="Verbrauchte zeit" />
-            <TableColumn fx:id="tcPriorität" prefWidth="125.0" text="Priorität" />
-            <TableColumn fx:id="tcStatus" prefWidth="125.0" text="Status" />
-            <TableColumn fx:id="tcLabel" prefWidth="125.0" text="Label" />
+            <TableColumn fx:id="tcVerbrauchtezeit" prefWidth="125.0" text="Verbrauchtezeit" />
+            <TableColumn fx:id="tcPrioritaet" prefWidth="125.0" text="Priorität" />
+            <TableColumn fx:id="tcStatus" onEditCommit="#editCommitStatus" prefWidth="125.0" text="Status" />
+            <TableColumn fx:id="tcLabel" prefWidth="125.0" text="Kategorie" />
         </columns>
       </TableView>
       <Label layoutX="35.0" layoutY="123.0" prefHeight="43.0" prefWidth="363.0" text="Übersichtsliste der Aktivitäten">
@@ -90,6 +91,5 @@
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dpkalender" layoutX="590.0" layoutY="129.0" onAction="#kalender" prefHeight="32.0" prefWidth="239.0" />
    </children>
 </AnchorPane>

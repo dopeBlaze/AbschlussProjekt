@@ -1,8 +1,7 @@
 package todoliste.view;
 
-import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,18 +17,12 @@ import todoliste.model.AktivitaetsEintrag;
 
 public class ZeigeInfoFensterController {
 
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button btOk;
 
     @FXML
     private Button btAbbruch;
-
 
     @FXML
     private TableView<AktivitaetsEintrag> tableviewinfo;
@@ -53,10 +46,20 @@ public class ZeigeInfoFensterController {
     private TableColumn<AktivitaetsEintrag, String> tcStatus;
 
     @FXML
-    private TableColumn<AktivitaetsEintrag, String> tcLable;
+    private TableColumn<AktivitaetsEintrag, String> tcKategorie;
+
+    private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
+
+    private ArrayList <AktivitaetsEintrag> arrayListGesamt = AktivitaetsEintragBean.getAktivitaeten();
+    private ArrayList <AktivitaetsEintrag> arrayListSorted = new ArrayList<>();
 
     @FXML
-    void abbruchButtonInfo() {
+    void erledigenButtonInfo() {
+
+        for (AktivitaetsEintrag i : arrayListSorted) {
+            i.setStatus("erledigt");
+            AktivitaetsEintragBean.saveAktivitaet(i);
+        }
 
         Stage stage = (Stage) btAbbruch.getScene().getWindow();
         stage.close();
@@ -64,18 +67,16 @@ public class ZeigeInfoFensterController {
     }
 
     @FXML
-    void obkButtonInfo() {
+    void verschiebenButtonInfo() {
+        String nextDay = LocalDate.now().plusDays(1).toString();
+        for (AktivitaetsEintrag i : arrayListSorted) {
+            i.setEndDatum(nextDay);
+            AktivitaetsEintragBean.saveAktivitaet(i);
+        }
+
         Stage stage = (Stage) btOk.getScene().getWindow();
         stage.close();
     }
-
-
-    private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
-    private ObservableList<AktivitaetsEintrag> aktivitaetsEintrags2;
-
-
-
-
 
     @FXML
     void initialize() {
@@ -88,28 +89,20 @@ public class ZeigeInfoFensterController {
         assert Verbrauchtezeit != null : "fx:id=\"Verbrauchtezeit\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert tcPrioritaet != null : "fx:id=\"tcPriorität\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
         assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
-        assert tcLable != null : "fx:id=\"tcLable\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
-
-       //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
-        test();
-        //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
-        infoTable();
+        assert tcKategorie != null : "fx:id=\"tcKategorie\" was not injected: check your FXML file 'ZeigeInfoFenster.fxml'.";
 
 
-    }
-
-    private void test() {
-
-        if (aktivitaetsEintrags == null) {
-            aktivitaetsEintrags = new ArrayList<>();
+        for (AktivitaetsEintrag i : arrayListGesamt) {
+            if (i.getEndDatum().compareTo(LocalDate.now().toString()) == 0 && !i.getStatus().contains("erledigt")){
+                arrayListSorted.add(i);
+            }
         }
 
-        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr", "03.02.2020", "03.02.2020",5, "private", "hoch", "s"));
-        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr1", "04.02.2020", "04.02.2020",8, "private", "hoch", "s"));
-        aktivitaetsEintrags.add(new AktivitaetsEintrag("", "spotr2", "05.02.2020", "05.02.2020",9, "private", "hoch", "s"));
-        aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
+        obsAktivitaetsEintrag = FXCollections.observableArrayList(arrayListSorted);
+        infoTable();
 
     }
+
 
     private void infoTable() {
 
@@ -120,10 +113,10 @@ public class ZeigeInfoFensterController {
         Verbrauchtezeit.setCellValueFactory(new PropertyValueFactory<>("verbrauchteZeit"));
         tcPrioritaet.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-        tcLable.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+        tcKategorie.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
 
-        tableviewinfo.setItems(aktivitaetsEintrags2);
+        tableviewinfo.setItems(obsAktivitaetsEintrag);
 
         tcAktivitaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
         tcStartdatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
@@ -131,7 +124,7 @@ public class ZeigeInfoFensterController {
         Verbrauchtezeit.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setVerbrauchteZeit(t.getNewValue()));
         tcPrioritaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrioritaet(t.getNewValue()));
         tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
-        tcLable.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
+        tcKategorie.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
 
     }
 

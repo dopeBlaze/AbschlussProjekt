@@ -46,7 +46,6 @@ public class NeuerEintragToDoListeController {
      */
     @FXML
     void addNeuenEintrag() {
-
         try{
             AktivitaetsEintrag selected = TVAktivitaetsname.getSelectionModel().getSelectedItem();
             AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(selected.getAktivitaetsName(), btnCalPickStart.getValue().toString(), btnCalPickEnd.getValue().toString(), 0, cbKategorie.getValue(), cbPrioritaet.getValue(), "nicht gestartet");
@@ -68,12 +67,14 @@ public class NeuerEintragToDoListeController {
 
 
     /**
-     * Datumsabgleich der DatePicker
+     * Datumsabgleich von DatePicker btnCalPickStart
      * Wenn Startdatum spaeter als Enddatum, dann wird Enddatum gleich Startdatum gesetzt
      */
     @FXML
     void setzeStartdatum() {
         btnCalPickStart.setShowWeekNumbers(false);
+
+        // Ist das Startdatum groesser als das EndDatum, so wird das EndDatum gleich dem StartDatum gesetzt
         if (btnCalPickStart.getValue().compareTo(btnCalPickEnd.getValue()) > 0){
             btnCalPickEnd.setValue(btnCalPickStart.getValue());
         }
@@ -85,12 +86,14 @@ public class NeuerEintragToDoListeController {
     }
 
     /**
-     * Datumsabgleich der DatePicker
+     * Datumsabgleich von DatePicker btnCalPickEnd
      * Wenn Enddatum frueher als Startdatum, dann wird Startdatum gleich Enddatum gesetzt
      */
     @FXML
     void setzeEnddatum() {
         btnCalPickEnd.setShowWeekNumbers(false);
+
+        // Ist das EndDatum kleiner als das StartDatum, so wird das StartDatum gleich dem EndDatum gesetzt
         if (btnCalPickEnd.getValue().compareTo(btnCalPickStart.getValue()) < 0) {
             btnCalPickStart.setValue(btnCalPickEnd.getValue());
         }
@@ -122,7 +125,7 @@ public class NeuerEintragToDoListeController {
 
         // Spalten erstellen
         TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitaetsname");
-        tcAktivitaetsName.setPrefWidth(334.0);
+        tcAktivitaetsName.setPrefWidth(320.0);
 
         // Zuordnung Werte <-> Model
         tcAktivitaetsName.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
