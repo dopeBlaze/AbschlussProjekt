@@ -28,7 +28,6 @@ public class Olahauptfenstercontroller {
     static int ss = 0;
     static int mm = 0;
     static int hh = 0;
-    static boolean tableThread = true;
     static boolean b = true;
 
     private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
@@ -99,17 +98,14 @@ public class Olahauptfenstercontroller {
     @FXML
     private TableColumn<AktivitaetsEintrag, String> tcLabel;
 
-    @FXML
-    void editCommitStatus() {
 
-    }
 
     @FXML
     private DatePicker dpkalender;
 
     @FXML
     void kalenderAuswahl() {
-
+        kalende();
         infoTable();
     }
 
@@ -168,11 +164,22 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void buttonLoeschen() {
-        loeschen();
+     try {
+           loeschen();
+     }
+     catch (NullPointerException e){
+            // Rückmeldung wenn Fehler
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Starten nicht möglich!");
+            alert.setContentText("(Tabel ist leer)Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.showAndWait();
+     }
+
     }
 
     @FXML
     void buttonNeuerEintrag() throws IOException {
+
         Parent part = FXMLLoader.load(getClass().getResource("NeuerEintragToDoListe.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(part);
@@ -182,6 +189,7 @@ public class Olahauptfenstercontroller {
         stage.showAndWait();
         infoTable();
         tabelview.refresh();
+
     }
 
     @FXML
@@ -444,34 +452,51 @@ public class Olahauptfenstercontroller {
      * Loescht die ausgewaehlte Aktivitaet
      */
     private void loeschen() {
-// Löschbestätigung abfragen
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Löschen bestätigen");
-        alert.setHeaderText(null);
-        alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
-        Optional<ButtonType> op = alert.showAndWait();
+        // Löschbestätigung abfragen
 
-        // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
-        if (op.isPresent() && op.get() == ButtonType.OK) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Löschen bestätigen");
+            alert.setHeaderText(null);
+            alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
+            Optional<ButtonType> op = alert.showAndWait();
 
-            // Aktuellen Eintrag herausfinden
-            AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+            // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
+            if (op.isPresent() && op.get() == ButtonType.OK) {
 
-            // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
-            if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
-            {
-                obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
-                // Eintrag aus der Datenbank löschen
-                AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
-            } else {
-                // Rückmeldung wenn nicht möglich
-                Alert alert2 = new Alert(Alert.AlertType.WARNING);
-                alert2.setTitle("Löschen nicht möglich!");
-                alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
-                alert2.showAndWait();
+                // Aktuellen Eintrag herausfinden
+                AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+
+                // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
+                if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0) {
+                    obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
+                    // Eintrag aus der Datenbank löschen
+                    AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
+                } else {
+                    // Rückmeldung wenn nicht möglich
+                    Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                    alert2.setTitle("Löschen nicht möglich!");
+                    alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+                    alert2.showAndWait();
+                }
             }
-        }
+
+
     }
+
+     private void kalende(){
+
+         if (LocalDate.now().isEqual(dpkalender.getValue())){
+
+             btStart.setDisable(false);
+             btErledigt.setDisable(false);
+         }
+         else{
+             btStart.setDisable(true);
+             btErledigt.setDisable(true);
+
+         }
+     }
+
 }
 
 

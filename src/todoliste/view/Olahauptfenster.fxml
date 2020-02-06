@@ -82,7 +82,7 @@
             <TableColumn fx:id="tcEnddatum" prefWidth="125.0" text="Enddatum" />
             <TableColumn fx:id="tcVerbrauchtezeit" prefWidth="125.0" text="Verbrauchtezeit" />
             <TableColumn fx:id="tcPrioritaet" prefWidth="125.0" text="Priorität" />
-            <TableColumn fx:id="tcStatus" onEditCommit="#editCommitStatus" prefWidth="125.0" text="Status" />
+            <TableColumn fx:id="tcStatus"  prefWidth="125.0" text="Status" />
             <TableColumn fx:id="tcLabel" prefWidth="125.0" text="Kategorie" />
         </columns>
       </TableView>
