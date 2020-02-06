@@ -88,7 +88,7 @@
             <TableColumn fx:id="tcVerbrauchtezeit" prefWidth="125.0" text="Verbrauchtezeit" />
             <TableColumn fx:id="tcPrioritaet" prefWidth="125.0" text="Priorität" />
             <TableColumn fx:id="tcStatus" prefWidth="125.0" text="Status" />
-            <TableColumn fx:id="tcLabel" prefWidth="125.0" text="Kategorie" />
+            <TableColumn fx:id="tcKategorie" prefWidth="125.0" text="Kategorie" />
         </columns>
       </TableView>
       <Label layoutX="35.0" layoutY="123.0" prefHeight="43.0" prefWidth="363.0" text="Übersichtsliste der Aktivitäten">

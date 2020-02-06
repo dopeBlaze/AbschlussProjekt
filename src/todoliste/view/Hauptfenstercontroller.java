@@ -103,7 +103,7 @@ public class Hauptfenstercontroller {
     private TableColumn<AktivitaetsEintrag, String> tcStatus;
 
     @FXML
-    private TableColumn<AktivitaetsEintrag, String> tcLabel;
+    private TableColumn<AktivitaetsEintrag, String> tcKategorie;
 
     @FXML
     private DatePicker dpkalender;
@@ -467,7 +467,7 @@ public class Hauptfenstercontroller {
         assert tcVerbrauchtezeit != null : "fx:id=\"tcVerbrauchtezeit\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
         assert tcPrioritaet != null : "fx:id=\"tcPrioritaet\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
         assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
-        assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcKategorie != null : "fx:id=\"tcKategorie\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
 
         // Deaktivierung verschiedener Oberflaechenelemente
@@ -501,7 +501,7 @@ public class Hauptfenstercontroller {
         tcVerbrauchtezeit.setCellValueFactory(new PropertyValueFactory<>("verbrauchteZeit"));
         tcPrioritaet.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-        tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+        tcKategorie.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
         tabelview.setItems(obsAktivitaetsEintrag);
     }
