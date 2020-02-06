@@ -13,6 +13,9 @@ import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 import todoliste.util.EditingTextCell;
 
+/**
+ * Controller von BearbeiteAktivitaetToDoListe
+ */
 public class BearbeiteAktivitaetToDoListeController {
 
     @FXML
@@ -38,15 +41,21 @@ public class BearbeiteAktivitaetToDoListeController {
     @FXML
     private TextField tfHinzufuegen;
 
+    /**
+     * Button Aktion zum Hinzufuegen neuer Aktivitaetsnamen
+     */
     @FXML
     void addAktivitaetsname() {
         AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(tfHinzufuegen.getText());
-        if (tfHinzufuegen.getText().equals("") && tfHinzufuegen.getText().length()==0){
+        // Pruefung, ob das Textfeld leer ist
+        if (tfHinzufuegen.getText().equals("") && tfHinzufuegen.getText().length() == 0){
             tfHinzufuegen.clear();
             TVAktivitaetsname.refresh();
+
+            // Rueckmeldung zum Benutzer
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Hinzufügen nicht möglich!");
-            alert.setContentText("Der Name ist leer");
+            alert.setContentText("Der Name ist leer.");
 
             alert.showAndWait();
             TVAktivitaetsname.refresh();
@@ -54,11 +63,13 @@ public class BearbeiteAktivitaetToDoListeController {
         else {
             try {
 
+                // Speichern in Datenbank
                 AktivitaetsEintragBean.saveAktivitaetsName(neuerEintrag);
                 tableData.add(neuerEintrag);
                 tfHinzufuegen.clear();
                 TVAktivitaetsname.refresh();
             } catch (IllegalArgumentException e) {
+                // Bei Fehler, Rueckmeldung zum Benutzer
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Hinzufügen nicht möglich!");
                 alert.setContentText("Der Name kann nicht hinzugefügt werden!\nDer Name existiert schon!");
@@ -69,13 +80,19 @@ public class BearbeiteAktivitaetToDoListeController {
         }
     }
 
+    /**
+     * Button Aktion zum Loeschen des ausgewaehlten Aktivitaetsnamen
+     */
     @FXML
     void loescheAktivitaetsname() {
 
         boolean result = false;
         AktivitaetsEintrag ausgewaehlteAktivitaet = TVAktivitaetsname.getSelectionModel().getSelectedItem();
 
+        // Loeschen aus Datenbank
         AktivitaetsEintragBean.deleteAktivitaetsName(ausgewaehlteAktivitaet);
+        // Wenn der Name schon in Benutzung ist, wird er nicht geloescht
+        // Pruefung, ob der Name noch in der Datenbank vorhanden ist
         for (AktivitaetsEintrag i : AktivitaetsEintragBean.getAktivitaetsNamen()) {
             if (i.getAktivitaetsName().equals(ausgewaehlteAktivitaet.getAktivitaetsName())){
                 result = true;
@@ -83,17 +100,22 @@ public class BearbeiteAktivitaetToDoListeController {
             }
         }
 
+        // Wenn der Name noch in der Datenbank vorhanden ist, erscheint Meldung an den Benutzer
         if (result){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Löschen nicht möglich!");
             alert.setContentText("Der Name kann nicht gelöscht werden!\nDer Name ist in Benutzung!");
             alert.showAndWait();
         } else {
+            // Tableview wird aktualisiert
             tableData.remove(ausgewaehlteAktivitaet);
             TVAktivitaetsname.refresh();
         }
     }
 
+    /**
+     * Button Aktion zum schließen des Fensters
+     */
     @FXML
     void uebernehmeAktivitaetsname() {
 
@@ -101,6 +123,9 @@ public class BearbeiteAktivitaetToDoListeController {
         stage.close();
     }
 
+    /**
+     * Initialisierung vom Fenster
+     */
     @FXML
     void initialize() {
 
@@ -172,20 +197,20 @@ public class BearbeiteAktivitaetToDoListeController {
 
             // if Anweisung Pruefung ob Name schon vorhanden, ansonsten speichern
             try{
-                // Bean einfuegen
+                // Speichern in Datenbank
                 AktivitaetsEintragBean.saveAktivitaetsName(t.getRowValue());
             } catch(IllegalArgumentException e){
+                // Wenn Fehler, dann Rueckmeldung an den Benutzer
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Namensänderung nicht möglich!");
                 alert.setContentText("Der Aktivitätsname existiert schon!\nBitte wähle einen neuen Namen aus!");
 
                 alert.showAndWait();
 
+                // Der Name wird zurueckgesetzt
                 t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(oldAktivitaetsName);
                 TVAktivitaetsname.refresh();
             }
         });
     }
-
-
 }
