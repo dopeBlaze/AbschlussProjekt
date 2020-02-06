@@ -106,30 +106,6 @@ public class Olahauptfenstercontroller {
     private DatePicker dpkalender;
 
     @FXML
-    void butonPause() {
-        b = false;
-        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrag.setStatus("Pausiert");
-
-        btStart.setDisable(false);
-        btPause.setDisable(true);
-        tabelview.setDisable(false);
-        btAktivitäsnamebearbeiten.setDisable(false);
-        btNeuerEintrag.setDisable(false);
-        btProgrammbeenden.setDisable(false);
-        btEintragbearbeiten.setDisable(false);
-        btLöschen.setDisable(false);
-        btvordate.setDisable(false);
-        btnachdate.setDisable(false);
-
-        int x= (hh*3600)+(mm*60)+(ss);
-        aktivitaetsEintrag.setVerbrauchteZeit(x);
-        tabelview.refresh();
-
-
-    }
-
-    @FXML
     void buttonAktivitäsnamebearbeiten() throws IOException {
         Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
         Stage stage = new Stage();
@@ -248,16 +224,10 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonErledigt() {
+    void butonPause() {
         b = false;
-
-        labelhour.setText("00 :");
-        labelminute.setText("00 :");
-        labelsecond.setText("00 :");
-        labelmillisecond.setText("000");
-
-        AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrag.setStatus("Erledigt");
+        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrag.setStatus("Pausiert");
 
         btStart.setDisable(false);
         btPause.setDisable(true);
@@ -270,10 +240,51 @@ public class Olahauptfenstercontroller {
         btvordate.setDisable(false);
         btnachdate.setDisable(false);
 
-        int x = (hh*3600)+(mm*60)+(ss);
+        int x= (hh*3600)+(mm*60)+(ss);
         aktivitaetsEintrag.setVerbrauchteZeit(x);
-
         tabelview.refresh();
+
+        // Datenbank speichern
+        // AktivitaetsEintragBean.saveAktivitaet(aktivitaetsEintrag);
+    }
+
+    @FXML
+    void buttonErledigt() {
+        try {
+            b = false;
+
+            labelhour.setText("00 :");
+            labelminute.setText("00 :");
+            labelsecond.setText("00 :");
+            labelmillisecond.setText("000");
+
+            AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+            aktivitaetsEintrag.setStatus("Erledigt");
+
+            btStart.setDisable(false);
+            btPause.setDisable(true);
+            tabelview.setDisable(false);
+            btAktivitäsnamebearbeiten.setDisable(false);
+            btNeuerEintrag.setDisable(false);
+            btProgrammbeenden.setDisable(false);
+            btEintragbearbeiten.setDisable(false);
+            btLöschen.setDisable(false);
+            btvordate.setDisable(false);
+            btnachdate.setDisable(false);
+
+            int x = (hh * 3600) + (mm * 60) + (ss);
+            aktivitaetsEintrag.setVerbrauchteZeit(x);
+
+            // Datenbank speichern
+            // AktivitaetsEintragBean.saveAktivitaet(aktivitaetsEintrag);
+            tabelview.refresh();
+        } catch (NullPointerException e){
+            // Rückmeldung wenn Fehler
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Erledigen nicht möglich!");
+            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.showAndWait();
+        }
     }
 
     @FXML
