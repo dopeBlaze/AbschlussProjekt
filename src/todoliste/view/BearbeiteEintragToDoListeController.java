@@ -179,10 +179,10 @@ public class BearbeiteEintragToDoListeController {
     private void initTableAktivitaet() {
 
         //Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitaet Name");
-        TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Start Datum");
-        TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("End Datum");
-        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Prioritaet");
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitätsname");
+        TableColumn<AktivitaetsEintrag, String> tc2 = new TableColumn<>("Startdatum");
+        TableColumn<AktivitaetsEintrag, String> tc3 = new TableColumn<>("Enddatum");
+        TableColumn<AktivitaetsEintrag, String> tc4 = new TableColumn<>("Priorität");
         TableColumn<AktivitaetsEintrag, String> tc5 = new TableColumn<>("Kategorie");
 
         // Zuordnung Werte <-> Model
@@ -210,7 +210,7 @@ public class BearbeiteEintragToDoListeController {
         tableDataAktivitaetName = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetsNamen());
 
         //Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitaet Name");
+        TableColumn<AktivitaetsEintrag, String> tc1 = new TableColumn<>("Aktivitätsname");
         tc1.setPrefWidth(320.0);
 
         // Zuordnung Werte <-> Model
