@@ -12,7 +12,9 @@ import javafx.util.Callback;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 import todoliste.util.EditingTextCell;
-
+/**
+ *This the controller which belongs to BearbeitAktivitaetEintrag
+ */
 public class BearbeiteAktivitaetToDoListeController {
 
     @FXML
@@ -38,6 +40,12 @@ public class BearbeiteAktivitaetToDoListeController {
     @FXML
     private TextField tfHinzufuegen;
 
+    /**
+     * Adding  an empty task will cause an alarm that gives out that the empty task is not possible
+     * when we add a task which it s already exits it will indicate an alarm that this this taask is already
+     * added, as the software tries to recognize the new task and compare to the task names that already
+     * exits
+     */
     @FXML
     void addAktivitaetsname() {
         AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(tfHinzufuegen.getText());
@@ -69,6 +77,10 @@ public class BearbeiteAktivitaetToDoListeController {
         }
     }
 
+    /**
+     * Deletting the activity  that the user is willing to delete the task  unless the user is doing this activity
+     * and the activity or the task is still going on
+     */
     @FXML
     void loescheAktivitaetsname() {
 
