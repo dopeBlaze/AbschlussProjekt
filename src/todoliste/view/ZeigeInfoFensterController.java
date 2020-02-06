@@ -15,7 +15,7 @@ import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
 /**
- * Controller fuer das Infofenster beim beenden des Programms
+ * Controller fuer das Infofenster beim Beenden des Programms
  */
 public class ZeigeInfoFensterController {
 

@@ -8,11 +8,11 @@ public class SQLiteDatenbankverbindung extends AllgemeineDatenbankverbindung {
     private final String DBFILE;
 
     /**
-     * Konstruktor, der die übergebene Datenbankdatei auf einen gültigen Wert überprüft.
+     * Konstruktor, der die uebergebene Datenbankdatei auf einen gueltigen Wert ueberprueft.
      * Sollte dies nicht der Fall sein, wird eine IllegalArgumentException geworfen
      *
      * @param datenbankdatei SQLite-Datenbankdatei zu der eine Verbindung aufgebaut werden soll. Die Datenbank muss NICHT existieren - kann aber.
-     * @throws IllegalArgumentException wird geworfen, wenn der übergebene Parameter null oder leer ist.
+     * @throws IllegalArgumentException wird geworfen, wenn der uebergebene Parameter null oder leer ist.
      */
     public SQLiteDatenbankverbindung(String datenbankdatei) {
         if (datenbankdatei == null || datenbankdatei.isEmpty()) {

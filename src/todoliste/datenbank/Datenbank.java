@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Klasse zur Steuerung der Datenbankvorgänge. Definiert als Singelton:
+ * Klasse zur Steuerung der Datenbankvorgaenge. Definiert als Singelton:
  * https://de.wikibooks.org/wiki/Muster:_Java:_Singleton
  */
 public class Datenbank extends SQLiteDatenbankverbindung {
@@ -22,7 +22,7 @@ public class Datenbank extends SQLiteDatenbankverbindung {
     }
 
     /**
-     * Klassenmethode, die die Instanz der Datenbankklasse zurückgibt (Fabrikmethode genannt)
+     * Klassenmethode, die die Instanz der Datenbankklasse zurueckgibt (Fabrikmethode genannt)
      *
      * @return Instanz der Datenbank-Klasse
      */
@@ -116,7 +116,7 @@ public class Datenbank extends SQLiteDatenbankverbindung {
         result = result && execute(SqlStatements.SET_VERSION + SqlStatements.VERSION + ";");
 
         // Wenn alles erfolgreich war und es keine Exception oder ein false gab,
-        // wird ein commit ausgeführt
+        // wird ein commit ausgefuehrt
         if (result) {
             commit();
         } else {

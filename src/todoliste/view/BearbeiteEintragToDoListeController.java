@@ -110,7 +110,7 @@ public class BearbeiteEintragToDoListeController {
 
 
     /**
-     * Speichert die Aenderungen in die Datenbank und schließt das Fenster
+     * Speichert die Aenderungen in die Datenbank und schliesst das Fenster
      *
      */
     @FXML

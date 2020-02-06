@@ -114,7 +114,7 @@ public class BearbeiteAktivitaetToDoListeController {
     }
 
     /**
-     * Button Aktion zum schließen des Fensters
+     * Button Aktion zum schliessen des Fensters
      */
     @FXML
     void uebernehmeAktivitaetsname() {

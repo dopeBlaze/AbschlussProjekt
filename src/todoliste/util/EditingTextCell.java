@@ -5,6 +5,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
+/**
+ * Klasse mit Methoden zum Editieren von Tabellenzellen
+ * @param <S>
+ */
 public class EditingTextCell<S> extends TableCell<S, String> {
 	
 	private TextField textField;
@@ -54,6 +58,9 @@ public class EditingTextCell<S> extends TableCell<S, String> {
         }
     }
 
+    /**
+     * Textfeld zum Editieren wird erzeugt
+     */
     private void createTextField() {
         textField = new TextField(getString());
         textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2);

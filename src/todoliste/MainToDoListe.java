@@ -9,8 +9,12 @@ import javafx.stage.Stage;
 
 import todoliste.datenbank.Datenbank;
 
-
-
+/**
+ * Abschlussprojekt ToDoListe
+ *
+ * @author Gruppe AMMOT
+ * @version 1.0.0
+ */
 public class MainToDoListe extends Application {
 
     @Override
@@ -27,7 +31,6 @@ public class MainToDoListe extends Application {
             System.exit(0);
         });
     }
-
 
     public static void main(String[] args) {
 
