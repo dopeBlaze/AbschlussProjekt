@@ -3,6 +3,7 @@ package todoliste.view;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -346,20 +347,36 @@ public class Olahauptfenstercontroller {
      */
    private void loeschen() {
 
-        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+       // Löschbestätigung abfragen
+       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+       alert.setTitle("Löschen bestätigen");
+       alert.setHeaderText(null);
+       alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
+       Optional<ButtonType> op = alert.showAndWait();
 
-        // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
-        if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
-        {
-            obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
-            AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
-        } else {
-            // Rückmeldung wenn nicht möglich
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Löschen nicht möglich!");
-            alert.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
-            alert.showAndWait();
-        }
+       // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
+       if (op.isPresent() && op.get() == ButtonType.OK) {
+
+           // Aktuellen Eintrag herausfinden
+           AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+           
+           // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
+           if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
+           {
+               obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
+               // Eintrag aus der Datenbank löschen
+               AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
+           } else {
+               // Rückmeldung wenn nicht möglich
+               Alert alert2 = new Alert(Alert.AlertType.WARNING);
+               alert2.setTitle("Löschen nicht möglich!");
+               alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+               alert2.showAndWait();
+           }
+
+           // Löschen abbrechen
+           return;
+       }
     }
 }
 
