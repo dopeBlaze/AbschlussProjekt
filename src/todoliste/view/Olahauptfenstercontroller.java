@@ -98,6 +98,27 @@ public class Olahauptfenstercontroller {
     private DatePicker dpkalender;
 
     @FXML
+    void kalenderAuswahl() {
+
+        infoTable();
+    }
+
+    @FXML
+    void buttonnachdate() {
+
+        dpkalender.setValue(dpkalender.getValue().plusDays(1));
+        infoTable();
+
+    }
+
+    @FXML
+    void buttonvordate() {
+
+        dpkalender.setValue(dpkalender.getValue().minusDays(1));
+        infoTable();
+    }
+
+    @FXML
     void buttonPause() {
         b = false;
 
@@ -249,25 +270,6 @@ public class Olahauptfenstercontroller {
         t.start();
 
     }
-
-
-
-    @FXML
-    void buttonnachdate() {
-
-        dpkalender.setValue(dpkalender.getValue().plusDays(1));
-        infoTable();
-
-    }
-
-    @FXML
-    void buttonvordate() {
-
-        dpkalender.setValue(dpkalender.getValue().minusDays(1));
-        infoTable();
-    }
-
-
 
 
     private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;

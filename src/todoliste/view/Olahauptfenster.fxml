@@ -90,6 +90,6 @@
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dpkalender" layoutX="590.0" layoutY="129.0" prefHeight="32.0" prefWidth="239.0" />
+      <DatePicker fx:id="dpkalender" layoutX="590.0" layoutY="129.0" onAction="#kalenderAuswahl" prefHeight="32.0" prefWidth="239.0" />
    </children>
 </AnchorPane>
