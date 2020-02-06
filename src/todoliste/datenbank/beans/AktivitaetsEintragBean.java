@@ -15,9 +15,6 @@ import java.util.HashMap;
  */
 public class AktivitaetsEintragBean {
 
-    // Cast ArrayList in ObservableList
-    // ObservableList<AktivitaetsEintrag> oListAktivitaeten = FXCollections.observableArrayList(arrayListAktivitaeten);
-
     private static PreparedStatement pstmtSelectAktivitaet;
     private static PreparedStatement pstmtInsertAktivitaet;
     private static PreparedStatement pstmtUpdateAktivitaet;
@@ -385,7 +382,7 @@ public class AktivitaetsEintragBean {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Ändern der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Ändern der Aktivität in die Datenbank");
         }
 
         return result;

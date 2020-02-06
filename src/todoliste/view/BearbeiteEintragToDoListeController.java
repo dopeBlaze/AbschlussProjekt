@@ -15,7 +15,9 @@ import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
-
+/**
+ * Controller von BearbeiteEintragToDoListe
+ */
 public class BearbeiteEintragToDoListeController {
 
     private static String erstellDatum;
@@ -130,6 +132,9 @@ public class BearbeiteEintragToDoListeController {
         stage.close();
     }
 
+    /**
+     * Initialisierung des Fensters
+     */
     @FXML
     void initialize() {
 

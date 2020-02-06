@@ -14,20 +14,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
-
-
+/**
+ * Controller fuer das Hauptfenster
+ */
 public class Olahauptfenstercontroller {
 
     static int me = 0;
     static int ss = 0;
     static int mm = 0;
     static int hh = 0;
+    static int gesamtZeitStart = 0;
+    static int gesamtZeitPause = 0;
+    static int gesamtZeitErledigt = 0;
+    static String idCheck;
     static boolean b = true;
 
     private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
@@ -75,6 +79,9 @@ public class Olahauptfenstercontroller {
     private Label labelmillisecond;
 
     @FXML
+    private Label labelGestarteteAktivitaet;
+
+    @FXML
     private TableView<AktivitaetsEintrag> tabelview;
 
     @FXML
@@ -98,32 +105,45 @@ public class Olahauptfenstercontroller {
     @FXML
     private TableColumn<AktivitaetsEintrag, String> tcLabel;
 
-
-
     @FXML
     private DatePicker dpkalender;
 
+    /**
+     * Bei der Auswahl des DatePickers wird die Tabelle aktualisiert.
+     */
     @FXML
     void kalenderAuswahl() {
         kalender();
         infoTable();
     }
 
+    /**
+     * Weiterschalten des Datums um einen Tag.
+     */
     @FXML
     void buttonnachdate() {
 
         dpkalender.setValue(dpkalender.getValue().plusDays(1));
+        // Aktualisierung der Tabelle
         infoTable();
 
     }
 
+    /**
+     * Zurueckschalten des Datums um einen Tag.
+     */
     @FXML
     void buttonvordate() {
 
         dpkalender.setValue(dpkalender.getValue().minusDays(1));
+        // Aktualisierung der Tabelle
         infoTable();
     }
 
+    /**
+     *Oeffnet Fenster BearbeiteAktivitaetToDoListe
+     * @throws IOException wirft IOException
+     */
     @FXML
     void buttonAktivitaesnamebearbeiten() throws IOException {
         Parent part = FXMLLoader.load(getClass().getResource("BearbeiteAktivitaetToDoListe.fxml"));
@@ -135,6 +155,10 @@ public class Olahauptfenstercontroller {
         stage.show();
     }
 
+    /**
+     *Oeffnet Fenster BearbeiteEintragToDoListe
+     * @throws IOException wirft IOException
+     */
     @FXML
     void buttonEintragbearbeiten() throws IOException {
 
@@ -142,6 +166,7 @@ public class Olahauptfenstercontroller {
             AktivitaetsEintrag selectedAktivity = tabelview.getSelectionModel().getSelectedItem();
             BearbeiteEintragToDoListeController bearbeiteEintrag = new BearbeiteEintragToDoListeController();
 
+            // Uebermittlung vom ErstellungsDatum der ausgewaehlten Aktivitaet
             bearbeiteEintrag.getDatetime(selectedAktivity.getErstellungsDatum());
 
             Parent part = FXMLLoader.load(getClass().getResource("BearbeiteEintragToDoListe.fxml"));
@@ -152,7 +177,6 @@ public class Olahauptfenstercontroller {
             stage.setScene(scene);
             stage.showAndWait();
             infoTable();
-            tabelview.refresh();
         } catch (NullPointerException e){
             // Rückmeldung wenn Fehler
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -162,11 +186,18 @@ public class Olahauptfenstercontroller {
         }
     }
 
+    /**
+     * Durch Button Aktion wird die loeschen Methode ausgefuehrt.
+     */
     @FXML
     void buttonLoeschen() {
         loeschen();
     }
 
+    /**
+     * Oeffnet Fenster NeuerEintragToDoListe
+     * @throws IOException wirft IOException
+     */
     @FXML
     void buttonNeuerEintrag() throws IOException {
         Parent part = FXMLLoader.load(getClass().getResource("NeuerEintragToDoListe.fxml"));
@@ -180,17 +211,24 @@ public class Olahauptfenstercontroller {
         tabelview.refresh();
     }
 
+    /**
+     * Durch Button Aktion wird das Programm beendet
+     * @throws IOException wirft IOException
+     */
     @FXML
     void buttonProgrammbeenden() throws IOException {
 
         ArrayList <AktivitaetsEintrag> arrayListGesamt = AktivitaetsEintragBean.getAktivitaeten();
         ArrayList <AktivitaetsEintrag> arrayListSorted = new ArrayList<>();
         for (AktivitaetsEintrag i : arrayListGesamt) {
+            // Pruefung ob Aktivitaeten in der Deadline und unerledigt sind
             if (i.getEndDatum().compareTo(dpkalender.getValue().toString()) == 0 && !i.getStatus().contains("erledigt")){
+                // Fuegt zutreffende Aktivitaeten einer Liste hinzu
                 arrayListSorted.add(i);
             }
         }
 
+        // Wenn die Liste nicht leer ist, wird ein Infofenster mit der Liste der unerledigten Aktivitaeten angezeigt
         if (!arrayListSorted.isEmpty()){
 
             Parent part = FXMLLoader.load(getClass().getResource("ZeigeInfoFenster.fxml"));
@@ -208,16 +246,26 @@ public class Olahauptfenstercontroller {
     }
 
 
+    /**
+     * Startet die Zeiterfassung der ausgewaehlten Aktivitaet
+     */
     @FXML
     void buttonStart() {
 
         try {
-            AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
-            int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
 
-            hh = (gesamtZeit - gesamtZeit % 3600) / 3600;
-            mm = (gesamtZeit % 3600 - gesamtZeit % 3600 % 60) / 60;
-            ss = gesamtZeit % 3600 % 60;
+            gesamtZeitStart = 0;
+            // Wenn die Aktivitaet schon eine Zeiterfassung hat, so wird diese Zeit im richtigen Format ausgegeben
+            AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+
+            idCheck = aktivitaetsEintrag.getErstellungsDatum();
+            labelGestarteteAktivitaet.setText(aktivitaetsEintrag.getAktivitaetsName());
+
+            gesamtZeitStart = aktivitaetsEintrag.getVerbrauchteZeit();
+
+            hh = (gesamtZeitStart - gesamtZeitStart % 3600) / 3600;
+            mm = (gesamtZeitStart % 3600 - gesamtZeitStart % 3600 % 60) / 60;
+            ss = gesamtZeitStart % 3600 % 60;
 
             b = true;
             Thread t = new Thread(() -> {
@@ -259,6 +307,7 @@ public class Olahauptfenstercontroller {
             t.start();
             aktivitaetsEintrag.setStatus("in Bearbeitung");
 
+            // Aktivierung / Deaktivierung verschiedener Oberflaechenelemente
             btStart.setDisable(true);
             btPause.setDisable(false);
             tabelview.setDisable(true);
@@ -269,6 +318,7 @@ public class Olahauptfenstercontroller {
             btLoeschen.setDisable(true);
             btvordate.setDisable(true);
             btnachdate.setDisable(true);
+            dpkalender.setDisable(true);
 
             tabelview.refresh();
 
@@ -281,12 +331,18 @@ public class Olahauptfenstercontroller {
         }
     }
 
+    /**
+     * Stoppt die Zeiterfassung der ausgewaehlten Aktivitaet
+     */
     @FXML
     void buttonPause() {
         b = false;
+        gesamtZeitPause = 0;
         AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+
         aktivitaetsEintrag.setStatus("pausiert");
 
+        // Aktivierung / Deaktivierung verschiedener Oberflaechenelemente
         btStart.setDisable(false);
         btPause.setDisable(true);
         tabelview.setDisable(false);
@@ -298,8 +354,10 @@ public class Olahauptfenstercontroller {
         btvordate.setDisable(false);
         btnachdate.setDisable(false);
 
-        int x= (hh*3600)+(mm*60)+(ss);
-        aktivitaetsEintrag.setVerbrauchteZeit(x);
+        // Gesamtzeit wird zusammengerechnet und der Aktivitaet gesetzt
+        gesamtZeitPause = (hh * 3600) + (mm * 60) + (ss);
+
+        aktivitaetsEintrag.setVerbrauchteZeit(gesamtZeitPause);
         tabelview.refresh();
 
         // Datenbank speichern
@@ -308,7 +366,7 @@ public class Olahauptfenstercontroller {
         for (AktivitaetsEintrag array : arrayData) {
 
             if (array.getErstellungsDatum().equals(aktivitaetsEintrag.getErstellungsDatum())){
-                array.setVerbrauchteZeit(x);
+                array.setVerbrauchteZeit(gesamtZeitPause);
                 array.setStatus(aktivitaetsEintrag.getStatus());
 
                 AktivitaetsEintragBean.saveAktivitaetSingle(array);
@@ -316,10 +374,14 @@ public class Olahauptfenstercontroller {
         }
     }
 
+    /**
+     * Stoppt die Zeiterfassung und setzt Status 'erledigt' der ausgewaehlten Aktivitaet
+     */
     @FXML
     void buttonErledigt() {
         try {
             b = false;
+            gesamtZeitErledigt = 0;
 
             labelhour.setText("00 :");
             labelminute.setText("00 :");
@@ -327,8 +389,10 @@ public class Olahauptfenstercontroller {
             labelmillisecond.setText("000");
 
             AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+
             aktivitaetsEintrag.setStatus("erledigt");
 
+            // Aktivierung / Deaktivierung verschiedener Oberflaechenelemente
             btStart.setDisable(false);
             btPause.setDisable(true);
             tabelview.setDisable(false);
@@ -340,8 +404,18 @@ public class Olahauptfenstercontroller {
             btvordate.setDisable(false);
             btnachdate.setDisable(false);
 
-            int x = (hh * 3600) + (mm * 60) + (ss);
-            aktivitaetsEintrag.setVerbrauchteZeit(x);
+            // Gesamtzeit wird erfasst
+            gesamtZeitErledigt = aktivitaetsEintrag.getVerbrauchteZeit();
+
+            // Wenn man Aktivitaeten nur erledigt kann es zu Fehlern fuehren
+            // Loesung bietet ein idCheck
+            // idCheck notwendig beim Wechsel zwischen den Aktivitaeten
+            if (idCheck.contains(aktivitaetsEintrag.getErstellungsDatum()) && hh >=0 && mm >= 0 && ss >= 0){
+
+                gesamtZeitErledigt = (hh * 3600) + (mm * 60) + (ss);
+            }
+
+            aktivitaetsEintrag.setVerbrauchteZeit(gesamtZeitErledigt);
 
             // Datenbank speichern
             // Ermittlung welche Aktivitaet ausgewaehlt wurde
@@ -349,7 +423,7 @@ public class Olahauptfenstercontroller {
             for (AktivitaetsEintrag array : arrayData) {
 
                 if (array.getErstellungsDatum().equals(aktivitaetsEintrag.getErstellungsDatum())){
-                    array.setVerbrauchteZeit(x);
+                    array.setVerbrauchteZeit(gesamtZeitErledigt);
                     array.setStatus(aktivitaetsEintrag.getStatus());
 
                     AktivitaetsEintragBean.saveAktivitaetSingle(array);
@@ -366,6 +440,9 @@ public class Olahauptfenstercontroller {
         }
     }
 
+    /**
+     * Initialisierung des Fensters
+     */
     @FXML
     void initialize() {
         assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -382,6 +459,7 @@ public class Olahauptfenstercontroller {
         assert labelminute != null : "fx:id=\"labelminute\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert labelsecond != null : "fx:id=\"labelsecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert labelmillisecond != null : "fx:id=\"labelmillisecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert labelGestarteteAktivitaet != null : "fx:id=\"labelGestarteteAktivitaet\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tabelview != null : "fx:id=\"tabelview\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcAktivitaet != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcStartdatum != null : "fx:id=\"tcStartdatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -392,17 +470,21 @@ public class Olahauptfenstercontroller {
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
 
+        // Deaktivierung verschiedener Oberflaechenelemente
         btPause.setDisable(true);
-
         dpkalender.getEditor().setDisable(true);
+        // Default Wert fuer den Kalender gesetzt
         dpkalender.setValue(LocalDate.now());
 
         infoTable();
     }
 
-
+    /**
+     * Methode fuer die Erstellung der TableView
+     */
     private void infoTable() {
 
+        // Nur Aktivitaeten, die dem Datum des Kalenders entsprechen werden angezeigt
         ArrayList <AktivitaetsEintrag> listGesamt = AktivitaetsEintragBean.getAktivitaeten();
         ArrayList <AktivitaetsEintrag> listSorted = new ArrayList<>();
         for (AktivitaetsEintrag i : listGesamt) {
@@ -421,39 +503,32 @@ public class Olahauptfenstercontroller {
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
-        tabelview.setEditable(true);
-        tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());
-
         tabelview.setItems(obsAktivitaetsEintrag);
-
-        tcAktivitaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
-        tcStartdatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
-        tcEnddatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setEndDatum(t.getNewValue()));
-        tcVerbrauchtezeit.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setVerbrauchteZeit(t.getNewValue()));
-        tcPrioritaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrioritaet(t.getNewValue()));
-        tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
-        tcLabel.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
-
     }
 
     /**
      * Loescht die ausgewaehlte Aktivitaet
      */
     private void loeschen() {
-        // Löschbestätigung abfragen
 
+        AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+
+        // Abfrage ob eine Aktivitaet ausgewaehlt wurde
+        if (ausgewaehlterArtikel == null){
+            // Rueckmeldung wenn Fehler
+            Alert alert3 = new Alert(Alert.AlertType.WARNING);
+            alert3.setTitle("Löschen nicht möglich!");
+            alert3.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert3.showAndWait();
+        } else {
+            // Loeschbestaetigung abfragen
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Löschen bestätigen");
             alert.setHeaderText(null);
             alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
             Optional<ButtonType> op = alert.showAndWait();
-
             // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
             if (op.isPresent() && op.get() == ButtonType.OK) {
-
-                // Aktuellen Eintrag herausfinden
-                AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
-
                 // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
                 if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0) {
                     obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
@@ -467,8 +542,7 @@ public class Olahauptfenstercontroller {
                     alert2.showAndWait();
                 }
             }
-
-
+        }
     }
 
      private void kalender(){

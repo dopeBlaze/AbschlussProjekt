@@ -11,6 +11,9 @@ import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 import java.time.LocalDate;
 
+/**
+ * Controller von NeuerEintragToDoListe
+ */
 public class NeuerEintragToDoListeController {
 
     @FXML
@@ -42,7 +45,7 @@ public class NeuerEintragToDoListeController {
 
 
     /**
-     * Neuer Eintrag wird mit den gesetzten Werten hinzugefügt
+     * Neuer Eintrag wird mit den gesetzten Werten hinzugefuegt
      */
     @FXML
     void addNeuenEintrag() {
@@ -60,7 +63,7 @@ public class NeuerEintragToDoListeController {
             // Rückmeldung wenn Fehler
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Hinzufügen nicht möglich!");
-            alert.setContentText("Aktivitaetsname fehlt!\nBitte einen Namen auswählen!");
+            alert.setContentText("Aktivitätsname fehlt!\nBitte einen Namen auswählen!");
             alert.showAndWait();
         }
     }
@@ -99,6 +102,9 @@ public class NeuerEintragToDoListeController {
         }
     }
 
+    /**
+     * Initialisierung des Fensters
+     */
     @FXML
     void initialize() {
         assert btnEintragHinzufuegen != null : "fx:id=\"btnEintragHinzufuegen\" was not injected: check your FXML file 'NeuerEintragToDoListe.fxml'.";
@@ -109,6 +115,7 @@ public class NeuerEintragToDoListeController {
         assert cbKategorie != null : "fx:id=\"cbKategorie\" was not injected: check your FXML file 'NeuerEintragToDoListe.fxml'.";
         assert cbPrioritaet != null : "fx:id=\"cbPrioritaet\" was not injected: check your FXML file 'NeuerEintragToDoListe.fxml'.";
 
+        // Defaultwerte fuer die DatePicker setzen und die Textfelder deaktivieren
         btnCalPickStart.setValue(LocalDate.now());
         btnCalPickStart.getEditor().setDisable(true);
         btnCalPickEnd.setValue(LocalDate.now());
