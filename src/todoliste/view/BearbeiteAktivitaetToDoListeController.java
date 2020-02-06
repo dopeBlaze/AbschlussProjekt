@@ -62,9 +62,8 @@ public class BearbeiteAktivitaetToDoListeController {
         AktivitaetsEintrag ausgewaehlteAktivitaet = TVAktivitaetsname.getSelectionModel().getSelectedItem();
         try{
             AktivitaetsEintragBean.deleteAktivitaetsName(ausgewaehlteAktivitaet);
-            initTable();
-            //tableData.remove(ausgewaehlteAktivitaet);
-            //TVAktivitaetsname.refresh();
+            tableData.remove(ausgewaehlteAktivitaet);
+            TVAktivitaetsname.refresh();
         } catch (IllegalArgumentException e){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Löschen nicht möglich!");
