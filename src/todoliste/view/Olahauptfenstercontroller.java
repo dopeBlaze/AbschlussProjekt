@@ -174,83 +174,93 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void buttonStart() {
-        AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
-        int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
 
-        hh = (gesamtZeit - gesamtZeit%3600)/3600;
-        mm = (gesamtZeit%3600 - gesamtZeit%3600%60)/60;
-        ss = gesamtZeit%3600%60;
+        try {
+            AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+            int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
 
-        b = true;
-        Thread t = new Thread(() -> {
-                    while(b){
-                        try {
-                            Thread.sleep(1);
-                            if (me == 1000) {
-                                me = 0;
-                                ss++;
-                            }
-                            if (ss == 60) {
-                                ss = 0;
-                                mm++;
-                            }
-                            if (mm == 60) {
-                                mm = 0;
-                                hh++;
-                            }
+            hh = (gesamtZeit - gesamtZeit%3600)/3600;
+            mm = (gesamtZeit%3600 - gesamtZeit%3600%60)/60;
+            ss = gesamtZeit%3600%60;
 
-                            me++;
-
-                            // UI-Thread soll die Oberfläche aktualisieren,
-                            // deshalb wird Platform.runLater aufgerufen
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    labelmillisecond.setText(me + "");
-                                    labelsecond.setText(ss + " :");
-                                    labelminute.setText(mm + " :");
-                                    labelhour.setText(hh + " :");
-                                }
-                            });
-
+            b = true;
+            Thread t = new Thread(() -> {
+                while(b){
+                    try {
+                        Thread.sleep(1);
+                        if (me == 1000) {
+                            me = 0;
+                            ss++;
                         }
-                        catch (Exception ex) {
-
+                        if (ss == 60) {
+                            ss = 0;
+                            mm++;
                         }
+                        if (mm == 60) {
+                            mm = 0;
+                            hh++;
+                        }
+
+                        me++;
+
+                        // UI-Thread soll die Oberfläche aktualisieren,
+                        // deshalb wird Platform.runLater aufgerufen
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                labelmillisecond.setText(me + "");
+                                labelsecond.setText(ss + " :");
+                                labelminute.setText(mm + " :");
+                                labelhour.setText(hh + " :");
+                            }
+                        });
+
                     }
-        });
+                    catch (Exception ex) {
 
-        t.start();
-        aktivitaetsEintrag.setStatus("In Bearbeitung");
+                    }
+                }
+            });
 
-        btStart.setDisable(true);
-        btPause.setDisable(false);
-        tabelview.setDisable(true);
-        btAktivitäsnamebearbeiten.setDisable(true);
-        btNeuerEintrag.setDisable(true);
-        btProgrammbeenden.setDisable(true);
-        btEintragbearbeiten.setDisable(true);
-        btLöschen.setDisable(true);
-        btvordate.setDisable(true);
-        btnachdate.setDisable(true);
+            t.start();
+            aktivitaetsEintrag.setStatus("In Bearbeitung");
 
-        tabelview.refresh();
+            btStart.setDisable(true);
+            btPause.setDisable(false);
+            tabelview.setDisable(true);
+            btAktivitäsnamebearbeiten.setDisable(true);
+            btNeuerEintrag.setDisable(true);
+            btProgrammbeenden.setDisable(true);
+            btEintragbearbeiten.setDisable(true);
+            btLöschen.setDisable(true);
+            btvordate.setDisable(true);
+            btnachdate.setDisable(true);
+
+            tabelview.refresh();
+
+        } catch (NullPointerException e){
+            // Rückmeldung wenn Fehler
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Starten nicht möglich!");
+            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void buttonErledigt() {
         b = false;
 
-        labelhour.setText("00 : ");
-        labelminute.setText("00 : ");
-        labelsecond.setText("00 : ");
-        labelmillisecond.setText("00 : ");
+        labelhour.setText("00 :");
+        labelminute.setText("00 :");
+        labelsecond.setText("00 :");
+        labelmillisecond.setText("000");
 
-        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
         aktivitaetsEintrag.setStatus("Erledigt");
 
         btStart.setDisable(false);
-        btPause.setDisable(false);
+        btPause.setDisable(true);
         tabelview.setDisable(false);
         btAktivitäsnamebearbeiten.setDisable(false);
         btNeuerEintrag.setDisable(false);
@@ -260,11 +270,10 @@ public class Olahauptfenstercontroller {
         btvordate.setDisable(false);
         btnachdate.setDisable(false);
 
-        int x= (hh*3600)+(mm*60)+(ss);
+        int x = (hh*3600)+(mm*60)+(ss);
         aktivitaetsEintrag.setVerbrauchteZeit(x);
 
         tabelview.refresh();
-
     }
 
     @FXML
@@ -314,19 +323,9 @@ public class Olahauptfenstercontroller {
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
 
-        //aktivitaetsEintrags2 = AktivitaetsEintragBean.getArtikelliste();
-        //aktivitaetsEintrags2 = FXCollections.observableArrayList(aktivitaetsEintrags);
-       /* AktivitaetsEintrag aktivitaetsEintrag1=tabelview.getSelectionModel().getSelectedItem();
-        if (aktivitaetsEintrag1.equals(aktivitaetsEintrag1)){
-            btStart.setDisable(true);
-        }
-        else {
-            btStart.setDisable(false);
-        }*/
+        btPause.setDisable(true);
         infoTable();
         refresh();
-
-
 
     }
 
