@@ -350,13 +350,6 @@ public class Olahauptfenstercontroller {
     }
 
 
-    @FXML
-    void kalender() {
-
-    }
-
-
-
     private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
     private ObservableList<AktivitaetsEintrag> aktivitaetsEintrags2;
 
@@ -393,7 +386,7 @@ public class Olahauptfenstercontroller {
         dpkalender.setValue(LocalDate.now());
 
         infoTable();
-        refresh();
+        //refresh();
 
     }
 
@@ -418,8 +411,8 @@ public class Olahauptfenstercontroller {
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
-        tabelview.setEditable(true);
-        tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        /*tabelview.setEditable(true);
+        tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());*/
 
         tabelview.setItems(obsAktivitaetsEintrag);
 
