@@ -14,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -44,7 +43,7 @@ public class Olahauptfenstercontroller {
     private Button btNeuerEintrag;
 
     @FXML
-    private Button btLöschen;
+    private Button btLoeschen;
 
     @FXML
     private Button btAktivitäsnamebearbeiten;
@@ -168,7 +167,7 @@ public class Olahauptfenstercontroller {
     }
 
     @FXML
-    void buttonLöschen() {
+    void buttonLoeschen() {
         loeschen();
     }
 
@@ -271,7 +270,7 @@ public class Olahauptfenstercontroller {
             btNeuerEintrag.setDisable(true);
             btProgrammbeenden.setDisable(true);
             btEintragbearbeiten.setDisable(true);
-            btLöschen.setDisable(true);
+            btLoeschen.setDisable(true);
             btvordate.setDisable(true);
             btnachdate.setDisable(true);
 
@@ -299,7 +298,7 @@ public class Olahauptfenstercontroller {
         btNeuerEintrag.setDisable(false);
         btProgrammbeenden.setDisable(false);
         btEintragbearbeiten.setDisable(false);
-        btLöschen.setDisable(false);
+        btLoeschen.setDisable(false);
         btvordate.setDisable(false);
         btnachdate.setDisable(false);
 
@@ -331,7 +330,7 @@ public class Olahauptfenstercontroller {
             btNeuerEintrag.setDisable(false);
             btProgrammbeenden.setDisable(false);
             btEintragbearbeiten.setDisable(false);
-            btLöschen.setDisable(false);
+            btLoeschen.setDisable(false);
             btvordate.setDisable(false);
             btnachdate.setDisable(false);
 
@@ -367,7 +366,7 @@ public class Olahauptfenstercontroller {
         assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btvordate != null : "fx:id=\"btvordate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btNeuerEintrag != null : "fx:id=\"btNeuerEintrag\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btLöschen != null : "fx:id=\"btLöschen\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert btLoeschen != null : "fx:id=\"btLöschen\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btAktivitäsnamebearbeiten != null : "fx:id=\"btAktivitäsnamebearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btEintragbearbeiten != null : "fx:id=\"btEintragbearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btProgrammbeenden != null : "fx:id=\"btProgrammbeenden\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -464,14 +463,6 @@ public class Olahauptfenstercontroller {
         t.start();
     }
 
-
-   /* public void editCommitStatus(TableColumn.CellEditEvent<AktivitaetsEintrag, String> aktivitaetsEintragStringCellEditEvent) {
-        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
-        //aktivitaetsEintrag.setStatus(aktivitaetsEintragStringCellEditEvent.getNewValue());
-        aktivitaetsEintrag.setStatus("Start");
-    }*/
-
-
     /**
      * Loescht die ausgewaehlte Aktivitaet
      */
@@ -502,9 +493,6 @@ public class Olahauptfenstercontroller {
                 alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
                 alert2.showAndWait();
             }
-
-            // Löschen abbrechen
-            return;
         }
     }
 }
