@@ -14,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
@@ -46,7 +45,7 @@ public class Olahauptfenstercontroller {
     private Button btLoeschen;
 
     @FXML
-    private Button btAktivitäsnamebearbeiten;
+    private Button btAktivitaetsnamebearbeiten;
 
     @FXML
     private Button btEintragbearbeiten;
@@ -79,7 +78,7 @@ public class Olahauptfenstercontroller {
     private TableView<AktivitaetsEintrag> tabelview;
 
     @FXML
-    private TableColumn<AktivitaetsEintrag, String> tcAktivität;
+    private TableColumn<AktivitaetsEintrag, String> tcAktivitaet;
 
     @FXML
     private TableColumn<AktivitaetsEintrag, String> tcStartdatum;
@@ -91,7 +90,7 @@ public class Olahauptfenstercontroller {
     private TableColumn<AktivitaetsEintrag, Integer> tcVerbrauchtezeit;
 
     @FXML
-    private TableColumn<AktivitaetsEintrag, String> tcPriorität;
+    private TableColumn<AktivitaetsEintrag, String> tcPrioritaet;
 
     @FXML
     private TableColumn<AktivitaetsEintrag, String> tcStatus;
@@ -266,7 +265,7 @@ public class Olahauptfenstercontroller {
             btStart.setDisable(true);
             btPause.setDisable(false);
             tabelview.setDisable(true);
-            btAktivitäsnamebearbeiten.setDisable(true);
+            btAktivitaetsnamebearbeiten.setDisable(true);
             btNeuerEintrag.setDisable(true);
             btProgrammbeenden.setDisable(true);
             btEintragbearbeiten.setDisable(true);
@@ -294,7 +293,7 @@ public class Olahauptfenstercontroller {
         btStart.setDisable(false);
         btPause.setDisable(true);
         tabelview.setDisable(false);
-        btAktivitäsnamebearbeiten.setDisable(false);
+        btAktivitaetsnamebearbeiten.setDisable(false);
         btNeuerEintrag.setDisable(false);
         btProgrammbeenden.setDisable(false);
         btEintragbearbeiten.setDisable(false);
@@ -326,7 +325,7 @@ public class Olahauptfenstercontroller {
             btStart.setDisable(false);
             btPause.setDisable(true);
             tabelview.setDisable(false);
-            btAktivitäsnamebearbeiten.setDisable(false);
+            btAktivitaetsnamebearbeiten.setDisable(false);
             btNeuerEintrag.setDisable(false);
             btProgrammbeenden.setDisable(false);
             btEintragbearbeiten.setDisable(false);
@@ -360,7 +359,7 @@ public class Olahauptfenstercontroller {
         assert btvordate != null : "fx:id=\"btvordate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btNeuerEintrag != null : "fx:id=\"btNeuerEintrag\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btLoeschen != null : "fx:id=\"btLöschen\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btAktivitäsnamebearbeiten != null : "fx:id=\"btAktivitäsnamebearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert btAktivitaetsnamebearbeiten != null : "fx:id=\"btAktivitäsnamebearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btEintragbearbeiten != null : "fx:id=\"btEintragbearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btProgrammbeenden != null : "fx:id=\"btProgrammbeenden\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btStart != null : "fx:id=\"btStart\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -371,11 +370,11 @@ public class Olahauptfenstercontroller {
         assert labelsecond != null : "fx:id=\"labelsecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert labelmillisecond != null : "fx:id=\"labelmillisecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tabelview != null : "fx:id=\"tabelview\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcAktivität != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert tcAktivitaet != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcStartdatum != null : "fx:id=\"tcStartdatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcEnddatum != null : "fx:id=\"tcEnddatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcVerbrauchtezeit != null : "fx:id=\"tcVerbrauchtezeit\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcPriorität != null : "fx:id=\"tcPriorität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert tcPrioritaet != null : "fx:id=\"tcPriorität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -403,24 +402,24 @@ public class Olahauptfenstercontroller {
 
         obsAktivitaetsEintrag = FXCollections.observableArrayList(listSorted);
 
-        tcAktivität.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
+        tcAktivitaet.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
         tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
         tcEnddatum.setCellValueFactory(new PropertyValueFactory<>("endDatum"));
         tcVerbrauchtezeit.setCellValueFactory(new PropertyValueFactory<>("verbrauchteZeit"));
-        tcPriorität.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
+        tcPrioritaet.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
-        /*tabelview.setEditable(true);
-        tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());*/
+        tabelview.setEditable(true);
+        //tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tabelview.setItems(obsAktivitaetsEintrag);
 
-        tcAktivität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
+        tcAktivitaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
         tcStartdatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
         tcEnddatum.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setEndDatum(t.getNewValue()));
         tcVerbrauchtezeit.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setVerbrauchteZeit(t.getNewValue()));
-        tcPriorität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrioritaet(t.getNewValue()));
+        tcPrioritaet.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setPrioritaet(t.getNewValue()));
         tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
         tcLabel.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
 
