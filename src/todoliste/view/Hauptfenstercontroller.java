@@ -22,7 +22,7 @@ import todoliste.model.AktivitaetsEintrag;
 /**
  * Controller fuer das Hauptfenster
  */
-public class Olahauptfenstercontroller {
+public class Hauptfenstercontroller {
 
     static int me = 0;
     static int ss = 0;
@@ -445,30 +445,30 @@ public class Olahauptfenstercontroller {
      */
     @FXML
     void initialize() {
-        assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btvordate != null : "fx:id=\"btvordate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btNeuerEintrag != null : "fx:id=\"btNeuerEintrag\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btLoeschen != null : "fx:id=\"btLoeschen\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btAktivitaetsnameBearbeiten != null : "fx:id=\"btAktivitaetsnameBearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btEintragbearbeiten != null : "fx:id=\"btEintragbearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btProgrammbeenden != null : "fx:id=\"btProgrammbeenden\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btStart != null : "fx:id=\"btStart\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btErledigt != null : "fx:id=\"btErledigt\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btPause != null : "fx:id=\"btPause\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert labelhour != null : "fx:id=\"labelhour\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert labelminute != null : "fx:id=\"labelminute\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert labelsecond != null : "fx:id=\"labelsecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert labelmillisecond != null : "fx:id=\"labelmillisecond\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert labelGestarteteAktivitaet != null : "fx:id=\"labelGestarteteAktivitaet\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tabelview != null : "fx:id=\"tabelview\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcAktivitaet != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcStartdatum != null : "fx:id=\"tcStartdatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcEnddatum != null : "fx:id=\"tcEnddatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcVerbrauchtezeit != null : "fx:id=\"tcVerbrauchtezeit\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcPrioritaet != null : "fx:id=\"tcPrioritaet\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btvordate != null : "fx:id=\"btvordate\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btNeuerEintrag != null : "fx:id=\"btNeuerEintrag\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btLoeschen != null : "fx:id=\"btLoeschen\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btAktivitaetsnameBearbeiten != null : "fx:id=\"btAktivitaetsnameBearbeiten\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btEintragbearbeiten != null : "fx:id=\"btEintragbearbeiten\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btProgrammbeenden != null : "fx:id=\"btProgrammbeenden\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btStart != null : "fx:id=\"btStart\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btErledigt != null : "fx:id=\"btErledigt\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert btPause != null : "fx:id=\"btPause\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert labelhour != null : "fx:id=\"labelhour\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert labelminute != null : "fx:id=\"labelminute\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert labelsecond != null : "fx:id=\"labelsecond\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert labelmillisecond != null : "fx:id=\"labelmillisecond\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert labelGestarteteAktivitaet != null : "fx:id=\"labelGestarteteAktivitaet\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tabelview != null : "fx:id=\"tabelview\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcAktivitaet != null : "fx:id=\"tcAktivität\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcStartdatum != null : "fx:id=\"tcStartdatum\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcEnddatum != null : "fx:id=\"tcEnddatum\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcVerbrauchtezeit != null : "fx:id=\"tcVerbrauchtezeit\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcPrioritaet != null : "fx:id=\"tcPrioritaet\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
 
         // Deaktivierung verschiedener Oberflaechenelemente
         btPause.setDisable(true);
