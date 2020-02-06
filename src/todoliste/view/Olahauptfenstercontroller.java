@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
@@ -254,6 +255,7 @@ public class Olahauptfenstercontroller {
                         });
                     }
                     catch (Exception ex) {
+                        System.out.println("Fehler");
 
                     }
                 }
@@ -287,7 +289,7 @@ public class Olahauptfenstercontroller {
     @FXML
     void buttonPause() {
         b = false;
-        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
         aktivitaetsEintrag.setStatus("Pausiert");
 
         btStart.setDisable(false);
@@ -358,8 +360,8 @@ public class Olahauptfenstercontroller {
         assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btvordate != null : "fx:id=\"btvordate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btNeuerEintrag != null : "fx:id=\"btNeuerEintrag\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btLoeschen != null : "fx:id=\"btLöschen\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btAktivitaetsnamebearbeiten != null : "fx:id=\"btAktivitäsnamebearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert btLoeschen != null : "fx:id=\"btLoeschen\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert btAktivitaetsnamebearbeiten != null : "fx:id=\"btAktivitaesnamebearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btEintragbearbeiten != null : "fx:id=\"btEintragbearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btProgrammbeenden != null : "fx:id=\"btProgrammbeenden\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btStart != null : "fx:id=\"btStart\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -374,7 +376,7 @@ public class Olahauptfenstercontroller {
         assert tcStartdatum != null : "fx:id=\"tcStartdatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcEnddatum != null : "fx:id=\"tcEnddatum\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcVerbrauchtezeit != null : "fx:id=\"tcVerbrauchtezeit\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert tcPrioritaet != null : "fx:id=\"tcPriorität\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert tcPrioritaet != null : "fx:id=\"tcPrioritaet\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -385,7 +387,7 @@ public class Olahauptfenstercontroller {
         dpkalender.setValue(LocalDate.now());
 
         infoTable();
-        //refresh();
+        refresh();
 
     }
 
@@ -411,7 +413,7 @@ public class Olahauptfenstercontroller {
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
         tabelview.setEditable(true);
-        //tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());
 
         tabelview.setItems(obsAktivitaetsEintrag);
 
