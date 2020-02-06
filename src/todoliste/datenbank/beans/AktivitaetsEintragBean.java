@@ -15,9 +15,6 @@ import java.util.HashMap;
  */
 public class AktivitaetsEintragBean {
 
-    // Cast ArrayList in ObservableList
-    // ObservableList<AktivitaetsEintrag> oListAktivitaeten = FXCollections.observableArrayList(arrayListAktivitaeten);
-
     private static PreparedStatement pstmtSelectAktivitaet;
     private static PreparedStatement pstmtInsertAktivitaet;
     private static PreparedStatement pstmtUpdateAktivitaet;
@@ -111,7 +108,7 @@ public class AktivitaetsEintragBean {
      * @return true, wenn die Speicherung erfolgreich war, false andernfalls
      */
     public static boolean saveAktivitaet(AktivitaetsEintrag zuSpeichern) {
-        boolean result = false;
+        boolean result;
 
         try {
             PreparedStatement pstmt;
@@ -153,7 +150,7 @@ public class AktivitaetsEintragBean {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Speichern der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Speichern der Aktivität in die Datenbank");
         }
 
         return result;
@@ -182,7 +179,7 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Loeschen der Aktivitaet aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Löschen der Aktivität aus der Datenbank: " + e.getLocalizedMessage());
         }
 
         return result;
@@ -234,7 +231,7 @@ public class AktivitaetsEintragBean {
      * @return true, wenn die Speicherung erfolgreich war, false andernfalls
      */
     public static boolean saveAktivitaetsName(AktivitaetsEintrag zuSpeichern) {
-        boolean result = false;
+        boolean result;
 
         try {
             PreparedStatement pstmt;
@@ -265,12 +262,12 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Loeschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Löschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
             try {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             //e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Speicher der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Speichern der Aktivität in die Datenbank");
         }
 
         return result;
@@ -299,7 +296,7 @@ public class AktivitaetsEintragBean {
             Datenbank.getInstance().commit();
 
         } catch (SQLException e) {
-            System.err.println("Fehler beim Loeschen vom Aktivitaetsnamen aus der Datenbank: " + e.getLocalizedMessage());
+            System.err.println("Fehler beim Löschen vom Aktivitätsnamen aus der Datenbank: " + e.getLocalizedMessage());
         }
 
         return result;
@@ -355,7 +352,7 @@ public class AktivitaetsEintragBean {
      * @return true, wenn die Speicherung erfolgreich war, false andernfalls
      */
     public static boolean saveAktivitaetSingle(AktivitaetsEintrag zuSpeichern) {
-        boolean result = false;
+        boolean result;
 
         try {
             PreparedStatement pstmt;
@@ -385,7 +382,7 @@ public class AktivitaetsEintragBean {
                 Datenbank.getInstance().rollback();
             } catch (SQLException ignored) {}
             e.printStackTrace();
-            throw new IllegalArgumentException("Fehler beim Ändern der Aktivitaet in die Datenbank");
+            throw new IllegalArgumentException("Fehler beim Ändern der Aktivität in die Datenbank");
         }
 
         return result;
