@@ -187,7 +187,7 @@ public class AktivitaetsEintragBean {
 
 
     /**
-     * Laedt die gesammte AktivitaetsNamenTabelle aus der Datenbank und gibt sie alls Liste von AktivitaetsNamen zurueck
+     * Laedt die gesammte AktivitaetsNamenTabelle aus der Datenbank und gibt sie als Liste von AktivitaetsNamen zurueck
      *
      * @return Liste mit allen AktivitaetsNamen
      * @throws IllegalArgumentException wird geworfen, wenn intern eine SQL- oder ClassNotFoundException aufgetreten ist.
@@ -303,8 +303,9 @@ public class AktivitaetsEintragBean {
     }
 
     /**
-     * Laedt die gesammte ToDoListe aus der Datenbank und gibt sie alls Liste von AktivitaetsEintraegen zurueck
+     * Laedt die gesammte ToDoListe aus der Datenbank und gibt sie als Liste von AktivitaetsEintraegen zurueck
      *
+     * @param zuBearbeiten das zu uebergebene Aktivitaetsobjekt
      * @return Liste mit allen AktivitaetsEintraegen
      * @throws IllegalArgumentException wird geworfen, wenn intern eine SQL- oder ClassNotFoundException aufgetreten ist.
      */

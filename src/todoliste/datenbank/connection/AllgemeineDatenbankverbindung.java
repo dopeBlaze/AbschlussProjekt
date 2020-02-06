@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public abstract class AllgemeineDatenbankverbindung {
 
     /**
-     * Connection-Objekt, welches die Datenbankverbindung enthält
+     * Connection-Objekt, welches die Datenbankverbindung enthaelt
      */
     protected Connection con;
 
@@ -39,19 +39,19 @@ public abstract class AllgemeineDatenbankverbindung {
     public void disconnect() {
         if (con != null) {
 
-            // Schließen aller PreparedStatements
+            // Schliessen aller PreparedStatements
             for (PreparedStatement pstmt : pstmtList) {
                 try {
                     pstmt.close();
 
                     /* Sollte das Statement schon geschlossen sein, wird eine
                      * Fehlermeldung geworfen. Diese wird ignoriert und mit dem
-                     * nächsten weitergemacht
+                     * naechsten weitergemacht
                      */
                 } catch (SQLException ignored) {}
             }
 
-            // Löschen aller Referenzen zu den PreparedStatements
+            // Loeschen aller Referenzen zu den PreparedStatements
             pstmtList.clear();
 
             // Datenbankverbindung trennen
@@ -65,7 +65,7 @@ public abstract class AllgemeineDatenbankverbindung {
     }
 
     /**
-     * Führt ein Commit aus. Alle noch offenen Transaktionen werden in die Datenbank geschrieben.
+     * Fuehrt ein Commit aus. Alle noch offenen Transaktionen werden in die Datenbank geschrieben.
      *
      * @throws SQLException wird geworfen, wenn ein Fehler beim Commit auftritt oder keine korrekte Verbindung zur Datenbank besteht
      */
@@ -87,9 +87,9 @@ public abstract class AllgemeineDatenbankverbindung {
     }
 
     /**
-     * Führt ein beliebiges SQL-Statement aus, und gibt etwaiige Fehler auf der Fehlerausgabe aus
-     * @param sql SQL-Statement welches ausgeführt werden soll
-     * @return gibt true zurück, wenn der Befehl ohne Fehler ausgeführt wurde, und false im Fehlerfall
+     * Fuehrt ein beliebiges SQL-Statement aus, und gibt etwaiige Fehler auf der Fehlerausgabe aus
+     * @param sql SQL-Statement welches ausgefuehrt werden soll
+     * @return gibt true zurueck, wenn der Befehl ohne Fehler ausgefuehrt wurde, und false im Fehlerfall
      */
     public boolean execute(String sql) {
         if (con == null) {
@@ -109,8 +109,8 @@ public abstract class AllgemeineDatenbankverbindung {
     }
 
     /**
-     * Führt ein beliebiges SELECT-SQL-Statement aus und gibt das ResultSet zurück
-     * @param sql SQL-Statement welches ausgeführt werden soll
+     * Fuehrt ein beliebiges SELECT-SQL-Statement aus und gibt das ResultSet zurueck
+     * @param sql SQL-Statement welches ausgefuehrt werden soll
      * @return ResultSet des Ergebnisses des SELECT-Statements
      * @throws IllegalArgumentException wird geworfen, wenn das Statement nicht korrekt ausgeführt werden konnte
      */
@@ -129,10 +129,10 @@ public abstract class AllgemeineDatenbankverbindung {
     }
 
     /**
-     * Diese Methode bereitet den übergebenen SQL-Code als PreparedStatement vor und gibt das erzeugte Objekt zurück
+     * Diese Methode bereitet den uebergebenen SQL-Code als PreparedStatement vor und gibt das erzeugte Objekt zurueck
      * @param sql SQL-Statement
-     * @return PreparedStatementzu dem übergebenen SQL-Code
-     * @throws IllegalArgumentException wird geworfen, wenn das Statement nicht korrekt ausgeführt werden konnte
+     * @return PreparedStatementzu dem uebergebenen SQL-Code
+     * @throws IllegalArgumentException wird geworfen, wenn das Statement nicht korrekt ausgefuehrt werden konnte
      */
     public PreparedStatement prepareStatement(String sql) {
         if (con == null) {

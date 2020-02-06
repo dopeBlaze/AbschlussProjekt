@@ -1,5 +1,8 @@
 package todoliste.datenbank;
 
+/**
+ * Klasse mit allen SqlStatements
+ */
 public class SqlStatements {
 
     // Aktuelle Version
@@ -35,7 +38,7 @@ public class SqlStatements {
             + ");";
     public static final String ACTIVATE_FOREIGN_KEYS = "PRAGMA foreign_keys = ON;";
 
-    // Inhalte einfügen in Tabellen
+    // Inhalte einfuegen in Tabellen
     static final String INSERT_INTO_TABLE_KATEGORIE = "INSERT INTO table_kategorie (kategoriename) VALUES (\"Privat\"), (\"Arbeit\");";
     static final String INSERT_INTO_TABLE_PRIORITAET = "INSERT INTO table_prioritaet (prioritaetname) VALUES (\"niedrig\"), (\"normal\"), (\"hoch\");";
     static final String INSERT_INTO_TABLE_STATUS = "INSERT INTO table_status (statusname) VALUES (\"nicht gestartet\"), (\"in Bearbeitung\"), (\"pausiert\"), (\"erledigt\");";

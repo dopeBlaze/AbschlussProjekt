@@ -53,14 +53,14 @@ public class NeuerEintragToDoListeController {
             AktivitaetsEintrag selected = TVAktivitaetsname.getSelectionModel().getSelectedItem();
             AktivitaetsEintrag neuerEintrag = new AktivitaetsEintrag(selected.getAktivitaetsName(), btnCalPickStart.getValue().toString(), btnCalPickEnd.getValue().toString(), 0, cbKategorie.getValue(), cbPrioritaet.getValue(), "nicht gestartet");
             AktivitaetsEintragBean.saveAktivitaet(neuerEintrag);
-            // Rückmeldung wenn erfolgreich
+            // Rueckmeldung wenn erfolgreich
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Erfolgreich!");
             alert.setContentText("Aktivität wurde hinzugefügt.");
             alert.showAndWait();
 
         } catch (NullPointerException e){
-            // Rückmeldung wenn Fehler
+            // Rueckmeldung wenn Fehler
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Hinzufügen nicht möglich!");
             alert.setContentText("Aktivitätsname fehlt!\nBitte einen Namen auswählen!");

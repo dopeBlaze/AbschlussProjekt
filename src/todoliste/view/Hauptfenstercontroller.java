@@ -103,7 +103,7 @@ public class Hauptfenstercontroller {
     private TableColumn<AktivitaetsEintrag, String> tcStatus;
 
     @FXML
-    private TableColumn<AktivitaetsEintrag, String> tcLabel;
+    private TableColumn<AktivitaetsEintrag, String> tcKategorie;
 
     @FXML
     private DatePicker dpkalender;
@@ -353,6 +353,7 @@ public class Hauptfenstercontroller {
         btLoeschen.setDisable(false);
         btvordate.setDisable(false);
         btnachdate.setDisable(false);
+        dpkalender.setDisable(false);
 
         // Gesamtzeit wird zusammengerechnet und der Aktivitaet gesetzt
         gesamtZeitPause = (hh * 3600) + (mm * 60) + (ss);
@@ -403,6 +404,7 @@ public class Hauptfenstercontroller {
             btLoeschen.setDisable(false);
             btvordate.setDisable(false);
             btnachdate.setDisable(false);
+            dpkalender.setDisable(false);
 
             // Gesamtzeit wird erfasst
             gesamtZeitErledigt = aktivitaetsEintrag.getVerbrauchteZeit();
@@ -467,7 +469,7 @@ public class Hauptfenstercontroller {
         assert tcVerbrauchtezeit != null : "fx:id=\"tcVerbrauchtezeit\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
         assert tcPrioritaet != null : "fx:id=\"tcPrioritaet\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
         assert tcStatus != null : "fx:id=\"tcStatus\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
-        assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
+        assert tcKategorie != null : "fx:id=\"tcKategorie\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Hauptfenster.fxml'.";
 
         // Deaktivierung verschiedener Oberflaechenelemente
@@ -494,14 +496,14 @@ public class Hauptfenstercontroller {
         }
 
         obsAktivitaetsEintrag = FXCollections.observableArrayList(listSorted);
-
+        //Setting the coloumns header names  according to the controller and required table
         tcAktivitaet.setCellValueFactory(new PropertyValueFactory<>("aktivitaetsName"));
         tcStartdatum.setCellValueFactory(new PropertyValueFactory<>("startDatum"));
         tcEnddatum.setCellValueFactory(new PropertyValueFactory<>("endDatum"));
         tcVerbrauchtezeit.setCellValueFactory(new PropertyValueFactory<>("verbrauchteZeit"));
         tcPrioritaet.setCellValueFactory(new PropertyValueFactory<>("prioritaet"));
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-        tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
+        tcKategorie.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
         tabelview.setItems(obsAktivitaetsEintrag);
     }
