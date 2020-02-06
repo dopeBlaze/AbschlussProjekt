@@ -132,7 +132,7 @@ public class Olahauptfenstercontroller {
         Stage stage = new Stage();
         Scene scene = new Scene(part);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Aktivitätsnamen bearbeiten");
+        stage.setTitle("Aktivitätsnamen anlegen/ bearbeiten");
         stage.setScene(scene);
         stage.show();
     }
@@ -357,7 +357,7 @@ public class Olahauptfenstercontroller {
             // Rückmeldung wenn nicht möglich
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Löschen nicht möglich!");
-            alert.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+            alert.setContentText("Die Aktivität hat schon eine erfasste Zeit!");
             alert.showAndWait();
         }
     }

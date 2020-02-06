@@ -104,7 +104,7 @@ public class BearbeiteAktivitaetToDoListeController {
         tableData = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaetsNamen());
 
         // Spalten erstellen
-        TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitaetsname");
+        TableColumn<AktivitaetsEintrag, String> tcAktivitaetsName = new TableColumn<>("Aktivitätsname");
         tcAktivitaetsName.setPrefWidth(320.0);
 
         // Zuordnung Werte <-> Model
