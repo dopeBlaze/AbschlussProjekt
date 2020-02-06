@@ -444,27 +444,27 @@ public class Olahauptfenstercontroller {
      * Loescht die ausgewaehlte Aktivitaet
      */
     private void loeschen() {
-// Löschbestätigung abfragen
+        // Loeschbestaetigung abfragen
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Löschen bestätigen");
         alert.setHeaderText(null);
         alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
         Optional<ButtonType> op = alert.showAndWait();
 
-        // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
+        // Es soll nur geloescht werden, wenn der Benutzer "Ok" angeklickt hat
         if (op.isPresent() && op.get() == ButtonType.OK) {
 
             // Aktuellen Eintrag herausfinden
             AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
 
-            // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
+            // Pruefung ob der Aktivitaet schon eine Zeit zugewiesen wurde
             if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
             {
                 obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
-                // Eintrag aus der Datenbank löschen
+                // Eintrag aus der Datenbank loeschen
                 AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
             } else {
-                // Rückmeldung wenn nicht möglich
+                // Rueckmeldung wenn nicht moeglich
                 Alert alert2 = new Alert(Alert.AlertType.WARNING);
                 alert2.setTitle("Löschen nicht möglich!");
                 alert2.setContentText("Die Aktivität hat schon eine erfasste Zeit!");
