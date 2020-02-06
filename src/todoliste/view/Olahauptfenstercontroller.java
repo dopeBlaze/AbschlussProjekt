@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import todoliste.datenbank.beans.AktivitaetsEintragBean;
@@ -27,6 +29,7 @@ public class Olahauptfenstercontroller {
     static int ss = 0;
     static int mm = 0;
     static int hh = 0;
+    static boolean tableThread = true;
     static boolean b = true;
 
     private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
@@ -98,6 +101,11 @@ public class Olahauptfenstercontroller {
     private TableColumn<AktivitaetsEintrag, String> tcLabel;
 
     @FXML
+    void editCommitStatus() {
+
+    }
+
+    @FXML
     private DatePicker dpkalender;
 
     @FXML
@@ -119,12 +127,6 @@ public class Olahauptfenstercontroller {
 
         dpkalender.setValue(dpkalender.getValue().minusDays(1));
         infoTable();
-    }
-
-    @FXML
-    void buttonPause() {
-        b = false;
-
     }
 
     @FXML
@@ -163,21 +165,6 @@ public class Olahauptfenstercontroller {
             alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
             alert.showAndWait();
         }
-    }
-
-    @FXML
-    void buttonErledigt() {
-        b = false;
-        hh = 0;
-        mm = 0;
-        ss = 0;
-        me = 0;
-
-        labelhour.setText("00 : ");
-        labelminute.setText("00 : ");
-        labelsecond.setText("00 : ");
-        labelmillisecond.setText("00 : ");
-
     }
 
     @FXML
@@ -226,24 +213,31 @@ public class Olahauptfenstercontroller {
     }
 
 
-
     @FXML
     void buttonStart() {
-        b = true;
-        Thread t = new Thread(() ->{
-            for (;;){
-                if (b){
-                    try{
+
+        try {
+            AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+            int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
+
+            hh = (gesamtZeit - gesamtZeit%3600)/3600;
+            mm = (gesamtZeit%3600 - gesamtZeit%3600%60)/60;
+            ss = gesamtZeit%3600%60;
+
+            b = true;
+            Thread t = new Thread(() -> {
+                while(b){
+                    try {
                         Thread.sleep(1);
-                        if (me == 1000){
+                        if (me == 1000) {
                             me = 0;
                             ss++;
                         }
-                        if (ss == 60){
+                        if (ss == 60) {
                             ss = 0;
                             mm++;
                         }
-                        if (mm == 60){
+                        if (mm == 60) {
                             mm = 0;
                             hh++;
                         }
@@ -254,25 +248,118 @@ public class Olahauptfenstercontroller {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                labelmillisecond.setText(" : " + me);
-                                labelsecond.setText(" : " + ss);
-                                labelminute.setText(" : " + mm);
-                                labelhour.setText(" : " + hh);
+                                labelmillisecond.setText(me + "");
+                                labelsecond.setText(ss + " :");
+                                labelminute.setText(mm + " :");
+                                labelhour.setText(hh + " :");
                             }
                         });
                     }
                     catch (Exception ex) {
 
                     }
-                } else {
-                    break;
                 }
-            }
-        });
+            });
 
-        t.start();
+            t.start();
+            aktivitaetsEintrag.setStatus("In Bearbeitung");
+
+            btStart.setDisable(true);
+            btPause.setDisable(false);
+            tabelview.setDisable(true);
+            btAktivitäsnamebearbeiten.setDisable(true);
+            btNeuerEintrag.setDisable(true);
+            btProgrammbeenden.setDisable(true);
+            btEintragbearbeiten.setDisable(true);
+            btLöschen.setDisable(true);
+            btvordate.setDisable(true);
+            btnachdate.setDisable(true);
+
+            tabelview.refresh();
+
+        } catch (NullPointerException e){
+            // Rückmeldung wenn Fehler
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Starten nicht möglich!");
+            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    void buttonPause() {
+        b = false;
+        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        aktivitaetsEintrag.setStatus("Pausiert");
+
+        btStart.setDisable(false);
+        btPause.setDisable(true);
+        tabelview.setDisable(false);
+        btAktivitäsnamebearbeiten.setDisable(false);
+        btNeuerEintrag.setDisable(false);
+        btProgrammbeenden.setDisable(false);
+        btEintragbearbeiten.setDisable(false);
+        btLöschen.setDisable(false);
+        btvordate.setDisable(false);
+        btnachdate.setDisable(false);
+
+        int x= (hh*3600)+(mm*60)+(ss);
+        aktivitaetsEintrag.setVerbrauchteZeit(x);
+        tabelview.refresh();
+
+        // Datenbank speichern
+        // AktivitaetsEintragBean.saveAktivitaet(aktivitaetsEintrag);
+    }
+
+    @FXML
+    void buttonErledigt() {
+        try {
+            b = false;
+
+            labelhour.setText("00 :");
+            labelminute.setText("00 :");
+            labelsecond.setText("00 :");
+            labelmillisecond.setText("000");
+
+            AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
+            aktivitaetsEintrag.setStatus("Erledigt");
+
+            btStart.setDisable(false);
+            btPause.setDisable(true);
+            tabelview.setDisable(false);
+            btAktivitäsnamebearbeiten.setDisable(false);
+            btNeuerEintrag.setDisable(false);
+            btProgrammbeenden.setDisable(false);
+            btEintragbearbeiten.setDisable(false);
+            btLöschen.setDisable(false);
+            btvordate.setDisable(false);
+            btnachdate.setDisable(false);
+
+            int x = (hh * 3600) + (mm * 60) + (ss);
+            aktivitaetsEintrag.setVerbrauchteZeit(x);
+
+            // Datenbank speichern
+            // AktivitaetsEintragBean.saveAktivitaet(aktivitaetsEintrag);
+            tabelview.refresh();
+        } catch (NullPointerException e){
+            // Rückmeldung wenn Fehler
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Erledigen nicht möglich!");
+            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.showAndWait();
+        }
+    }
+
+
+    @FXML
+    void kalender() {
 
     }
+
+
+
+    private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
+    private ObservableList<AktivitaetsEintrag> aktivitaetsEintrags2;
 
 
     @FXML
@@ -301,11 +388,14 @@ public class Olahauptfenstercontroller {
         assert tcLabel != null : "fx:id=\"tcLabel\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert dpkalender != null : "fx:id=\"dpkalender\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
 
+        btPause.setDisable(true);
 
         dpkalender.getEditor().setDisable(true);
         dpkalender.setValue(LocalDate.now());
 
         infoTable();
+        refresh();
+
     }
 
 
@@ -329,6 +419,9 @@ public class Olahauptfenstercontroller {
         tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcLabel.setCellValueFactory(new PropertyValueFactory<>("kategorie"));
 
+        tabelview.setEditable(true);
+        tcStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+
         tabelview.setItems(obsAktivitaetsEintrag);
 
         tcAktivität.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
@@ -341,42 +434,78 @@ public class Olahauptfenstercontroller {
 
     }
 
+   public void refresh()
+    {
+        //tabelview.refresh();
+        tableThread = true;
+        Thread t=new Thread(() ->
+        {
+
+                if (tableThread == true) {
+                    try {
+                        // UI-Thread soll die Oberfläche aktualisieren,
+                        // deshalb wird Platform.runLater aufgerufen
+                        Thread.sleep(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                infoTable();
+                            }
+                        });
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+        });
+
+
+        t.start();
+    }
+
+
+   /* public void editCommitStatus(TableColumn.CellEditEvent<AktivitaetsEintrag, String> aktivitaetsEintragStringCellEditEvent) {
+        AktivitaetsEintrag aktivitaetsEintrag=tabelview.getSelectionModel().getSelectedItem();
+        //aktivitaetsEintrag.setStatus(aktivitaetsEintragStringCellEditEvent.getNewValue());
+        aktivitaetsEintrag.setStatus("Start");
+    }*/
+
 
     /**
      * Loescht die ausgewaehlte Aktivitaet
      */
-   private void loeschen() {
+    private void loeschen() {
+// Löschbestätigung abfragen
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Löschen bestätigen");
+        alert.setHeaderText(null);
+        alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
+        Optional<ButtonType> op = alert.showAndWait();
 
-       // Löschbestätigung abfragen
-       Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-       alert.setTitle("Löschen bestätigen");
-       alert.setHeaderText(null);
-       alert.setContentText("Möchten Sie die aktuelle Aktivität wirklich löschen?");
-       Optional<ButtonType> op = alert.showAndWait();
+        // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
+        if (op.isPresent() && op.get() == ButtonType.OK) {
 
-       // Es soll nur gelöscht werden, wenn der Benutzer "Ok" angeklickt hat
-       if (op.isPresent() && op.get() == ButtonType.OK) {
+            // Aktuellen Eintrag herausfinden
+            AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
 
-           // Aktuellen Eintrag herausfinden
-           AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
+            // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
+            if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
+            {
+                obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
+                // Eintrag aus der Datenbank löschen
+                AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
+            } else {
+                // Rückmeldung wenn nicht möglich
+                Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                alert2.setTitle("Löschen nicht möglich!");
+                alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+                alert2.showAndWait();
+            }
 
-           // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
-           if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
-           {
-               obsAktivitaetsEintrag.remove(ausgewaehlterArtikel);
-               // Eintrag aus der Datenbank löschen
-               AktivitaetsEintragBean.deleteAktivitaet(ausgewaehlterArtikel);
-           } else {
-               // Rückmeldung wenn nicht möglich
-               Alert alert2 = new Alert(Alert.AlertType.WARNING);
-               alert2.setTitle("Löschen nicht möglich!");
-               alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
-               alert2.showAndWait();
-           }
-
-           // Löschen abbrechen
-           return;
-       }
+            // Löschen abbrechen
+            return;
+        }
     }
 }
 
