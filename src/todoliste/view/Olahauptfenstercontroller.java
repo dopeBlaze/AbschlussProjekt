@@ -289,7 +289,7 @@ public class Olahauptfenstercontroller {
     void buttonPause() {
         b = false;
         AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
-        aktivitaetsEintrag.setStatus("Pausiert");
+        aktivitaetsEintrag.setStatus("pausiert");
 
         btStart.setDisable(false);
         btPause.setDisable(true);
@@ -307,7 +307,17 @@ public class Olahauptfenstercontroller {
         tabelview.refresh();
 
         // Datenbank speichern
-        // AktivitaetsEintragBean.saveAktivitaet(aktivitaetsEintrag);
+        // Ermittlung welche Aktivitaet ausgewaehlt wurde
+        ArrayList <AktivitaetsEintrag> arrayData = AktivitaetsEintragBean.getAktivitaeten();
+        for (AktivitaetsEintrag array : arrayData) {
+
+            if (array.getErstellungsDatum().equals(aktivitaetsEintrag.getErstellungsDatum())){
+                array.setVerbrauchteZeit(x);
+                array.setStatus(aktivitaetsEintrag.getStatus());
+
+                AktivitaetsEintragBean.saveAktivitaetSingle(array);
+            }
+        }
     }
 
     @FXML
@@ -321,7 +331,7 @@ public class Olahauptfenstercontroller {
             labelmillisecond.setText("000");
 
             AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
-            aktivitaetsEintrag.setStatus("Erledigt");
+            aktivitaetsEintrag.setStatus("erledigt");
 
             btStart.setDisable(false);
             btPause.setDisable(true);
@@ -338,7 +348,18 @@ public class Olahauptfenstercontroller {
             aktivitaetsEintrag.setVerbrauchteZeit(x);
 
             // Datenbank speichern
-            // AktivitaetsEintragBean.saveAktivitaet(aktivitaetsEintrag);
+            // Ermittlung welche Aktivitaet ausgewaehlt wurde
+            ArrayList <AktivitaetsEintrag> arrayData = AktivitaetsEintragBean.getAktivitaeten();
+            for (AktivitaetsEintrag array : arrayData) {
+
+                if (array.getErstellungsDatum().equals(aktivitaetsEintrag.getErstellungsDatum())){
+                    array.setVerbrauchteZeit(x);
+                    array.setStatus(aktivitaetsEintrag.getStatus());
+
+                    AktivitaetsEintragBean.saveAktivitaetSingle(array);
+                }
+            }
+
             tabelview.refresh();
         } catch (NullPointerException e){
             // Rückmeldung wenn Fehler
