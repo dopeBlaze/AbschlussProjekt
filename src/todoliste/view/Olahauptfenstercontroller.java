@@ -1,5 +1,6 @@
 package todoliste.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -9,9 +10,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
 
@@ -38,6 +44,7 @@ public class Olahauptfenstercontroller {
 
     @FXML
     private Button btNeuerEintrag;
+
 
     @FXML
     private Button btLöschen;
@@ -160,6 +167,7 @@ public class Olahauptfenstercontroller {
         b=true;
         Thread t=new Thread(() ->
         {
+
             for (;;)
             {
                 if (b==true)
@@ -302,7 +310,7 @@ public class Olahauptfenstercontroller {
    public void refresh()
     {
         //tabelview.refresh();
-        tableThread = true;
+        boolean tableThread = true;
         Thread t=new Thread(() ->
         {
 
@@ -328,7 +336,7 @@ public class Olahauptfenstercontroller {
 
         t.start();
     }
-*/
+
 
 
    private void loeschen() {
