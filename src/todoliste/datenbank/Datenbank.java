@@ -65,6 +65,7 @@ public class Datenbank extends SQLiteDatenbankverbindung {
     /**
      * Upgrade-Funktion der Datenbank, um bei einer neuen Programmversion gleich auch die Datenbank
      * zu migrieren.
+     * @param oldDBVersion alte Datenbankversion
      * @throws SQLException wird geworfen bei einem Fehler im Commit oder Rollback
      */
     private void upgrade(int oldDBVersion) throws SQLException {
