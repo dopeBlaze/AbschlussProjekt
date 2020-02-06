@@ -353,6 +353,7 @@ public class Hauptfenstercontroller {
         btLoeschen.setDisable(false);
         btvordate.setDisable(false);
         btnachdate.setDisable(false);
+        dpkalender.setDisable(false);
 
         // Gesamtzeit wird zusammengerechnet und der Aktivitaet gesetzt
         gesamtZeitPause = (hh * 3600) + (mm * 60) + (ss);
@@ -403,6 +404,7 @@ public class Hauptfenstercontroller {
             btLoeschen.setDisable(false);
             btvordate.setDisable(false);
             btnachdate.setDisable(false);
+            dpkalender.setDisable(false);
 
             // Gesamtzeit wird erfasst
             gesamtZeitErledigt = aktivitaetsEintrag.getVerbrauchteZeit();
