@@ -46,7 +46,7 @@ public class Olahauptfenstercontroller {
     private Button btLoeschen;
 
     @FXML
-    private Button btAktivitaetsnamebearbeiten;
+    private Button btAktivitaetsnameBearbeiten;
 
     @FXML
     private Button btEintragbearbeiten;
@@ -219,9 +219,9 @@ public class Olahauptfenstercontroller {
             AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
             int gesamtZeit = aktivitaetsEintrag.getVerbrauchteZeit();
 
-            hh = (gesamtZeit - gesamtZeit%3600)/3600;
-            mm = (gesamtZeit%3600 - gesamtZeit%3600%60)/60;
-            ss = gesamtZeit%3600%60;
+            hh = (gesamtZeit - gesamtZeit % 3600) / 3600;
+            mm = (gesamtZeit % 3600 - gesamtZeit % 3600 % 60) / 60;
+            ss = gesamtZeit % 3600 % 60;
 
             b = true;
             Thread t = new Thread(() -> {
@@ -255,7 +255,6 @@ public class Olahauptfenstercontroller {
                         });
                     }
                     catch (Exception ex) {
-                        System.out.println("Fehler");
 
                     }
                 }
@@ -267,7 +266,7 @@ public class Olahauptfenstercontroller {
             btStart.setDisable(true);
             btPause.setDisable(false);
             tabelview.setDisable(true);
-            btAktivitaetsnamebearbeiten.setDisable(true);
+            btAktivitaetsnameBearbeiten.setDisable(true);
             btNeuerEintrag.setDisable(true);
             btProgrammbeenden.setDisable(true);
             btEintragbearbeiten.setDisable(true);
@@ -295,7 +294,7 @@ public class Olahauptfenstercontroller {
         btStart.setDisable(false);
         btPause.setDisable(true);
         tabelview.setDisable(false);
-        btAktivitaetsnamebearbeiten.setDisable(false);
+        btAktivitaetsnameBearbeiten.setDisable(false);
         btNeuerEintrag.setDisable(false);
         btProgrammbeenden.setDisable(false);
         btEintragbearbeiten.setDisable(false);
@@ -327,7 +326,7 @@ public class Olahauptfenstercontroller {
             btStart.setDisable(false);
             btPause.setDisable(true);
             tabelview.setDisable(false);
-            btAktivitaetsnamebearbeiten.setDisable(false);
+            btAktivitaetsnameBearbeiten.setDisable(false);
             btNeuerEintrag.setDisable(false);
             btProgrammbeenden.setDisable(false);
             btEintragbearbeiten.setDisable(false);
@@ -350,18 +349,13 @@ public class Olahauptfenstercontroller {
         }
     }
 
-
-    private ArrayList<AktivitaetsEintrag> aktivitaetsEintrags;
-    private ObservableList<AktivitaetsEintrag> aktivitaetsEintrags2;
-
-
     @FXML
     void initialize() {
         assert btnachdate != null : "fx:id=\"btnachdate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btvordate != null : "fx:id=\"btvordate\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btNeuerEintrag != null : "fx:id=\"btNeuerEintrag\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btLoeschen != null : "fx:id=\"btLoeschen\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
-        assert btAktivitaetsnamebearbeiten != null : "fx:id=\"btAktivitaesnamebearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
+        assert btAktivitaetsnameBearbeiten != null : "fx:id=\"btAktivitaetsnameBearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btEintragbearbeiten != null : "fx:id=\"btEintragbearbeiten\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btProgrammbeenden != null : "fx:id=\"btProgrammbeenden\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
         assert btStart != null : "fx:id=\"btStart\" was not injected: check your FXML file 'Olahauptfenster.fxml'.";
@@ -387,8 +381,6 @@ public class Olahauptfenstercontroller {
         dpkalender.setValue(LocalDate.now());
 
         infoTable();
-        refresh();
-
     }
 
 
@@ -425,36 +417,6 @@ public class Olahauptfenstercontroller {
         tcStatus.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStatus(t.getNewValue()));
         tcLabel.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
 
-    }
-
-   public void refresh()
-    {
-        //tabelview.refresh();
-        tableThread = true;
-        Thread t=new Thread(() ->
-        {
-
-                if (tableThread == true) {
-                    try {
-                        // UI-Thread soll die Oberfläche aktualisieren,
-                        // deshalb wird Platform.runLater aufgerufen
-                        Thread.sleep(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                infoTable();
-                            }
-                        });
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-        });
-
-
-        t.start();
     }
 
     /**
