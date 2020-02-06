@@ -6,12 +6,15 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
+import todoliste.datenbank.beans.AktivitaetsEintragBean;
 import todoliste.model.AktivitaetsEintrag;
 
 import javax.annotation.processing.Completion;
@@ -48,9 +51,9 @@ public class BearbeiteEintragToDoListeController {
     @FXML
     void setzteEnddatum(ActionEvent event) {
         endDatum.setShowWeekNumbers(false);
+
         LocalDate e = endDatum.getValue();
         datumVerify(e,startDatum.getValue());
-        System.out.println(e);
         if (endDatum.getValue().compareTo(startDatum.getValue()) < 0) {
             startDatum.setValue(endDatum.getValue());
         }
@@ -85,7 +88,8 @@ public class BearbeiteEintragToDoListeController {
         System.out.println(p);
     }
 
-
+    private ObservableList<AktivitaetsEintrag> datatable;
+    private FilteredList<AktivitaetsEintrag> tableFilteredData;
 
 
     @FXML
@@ -134,10 +138,16 @@ public class BearbeiteEintragToDoListeController {
         TVAktivitaetsname.getColumns().add(tc6);
 
         // Daten zuweisen
+        datatable = FXCollections.observableArrayList(AktivitaetsEintragBean.getAktivitaeten());
+        TVAktivitaetsname.setItems(datatable);
 
-        // tvExample.setItems(tableData);
 
-
+        tc1.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setErstellungsDatum(t.getNewValue()));
+        tc2.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setStartDatum(t.getNewValue()));
+        tc3.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setEndDatum(t.getNewValue()));
+        tc3.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setEndDatum(t.getNewValue()));
+        tc4.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setAktivitaetsName(t.getNewValue()));
+        tc5.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setKategorie(t.getNewValue()));
 
         kategory.setPromptText("Kategorie");
         kategory.setItems(FXCollections.observableArrayList());
