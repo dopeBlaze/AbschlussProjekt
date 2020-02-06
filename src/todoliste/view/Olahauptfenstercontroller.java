@@ -359,7 +359,7 @@ public class Olahauptfenstercontroller {
 
            // Aktuellen Eintrag herausfinden
            AktivitaetsEintrag ausgewaehlterArtikel = tabelview.getSelectionModel().getSelectedItem();
-           
+
            // Pruefung ob der Aktivitaet schon eine Zeit zugwiesen wurde
            if (ausgewaehlterArtikel.getVerbrauchteZeit() == 0)
            {
