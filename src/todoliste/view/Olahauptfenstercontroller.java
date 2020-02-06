@@ -545,6 +545,10 @@ public class Olahauptfenstercontroller {
         }
     }
 
+    /**
+     * Methode, wodurch der StartButton und der ErledigtButton deaktiviert werden,
+     * sobald man sich nicht in LocalDate.now() (Heute) befindet
+     */
      private void kalender(){
 
          if (LocalDate.now().isEqual(dpkalender.getValue())){
@@ -558,9 +562,6 @@ public class Olahauptfenstercontroller {
 
          }
      }
-
-
-
 }
 
 
