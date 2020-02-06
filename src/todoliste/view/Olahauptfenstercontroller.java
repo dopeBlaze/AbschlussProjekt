@@ -105,7 +105,7 @@ public class Olahauptfenstercontroller {
 
     @FXML
     void kalenderAuswahl() {
-        kalende();
+        kalender();
         infoTable();
     }
 
@@ -471,7 +471,7 @@ public class Olahauptfenstercontroller {
 
     }
 
-     private void kalende(){
+     private void kalender(){
 
          if (LocalDate.now().isEqual(dpkalender.getValue())){
 
