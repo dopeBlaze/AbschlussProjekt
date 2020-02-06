@@ -134,7 +134,7 @@ public class Olahauptfenstercontroller {
         Stage stage = new Stage();
         Scene scene = new Scene(part);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Aktivitätsnamen bearbeiten");
+        stage.setTitle("Aktivitätsnamen anlegen/ bearbeiten");
         stage.setScene(scene);
         stage.show();
     }
@@ -161,7 +161,7 @@ public class Olahauptfenstercontroller {
             // Rückmeldung wenn Fehler
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Bearbeiten nicht möglich!");
-            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.setContentText("Keine Aktivität ausgewählt!\nBitte eine Aktivität auswählen!");
             alert.showAndWait();
         }
     }
@@ -261,7 +261,7 @@ public class Olahauptfenstercontroller {
             });
 
             t.start();
-            aktivitaetsEintrag.setStatus("In Bearbeitung");
+            aktivitaetsEintrag.setStatus("in Bearbeitung");
 
             btStart.setDisable(true);
             btPause.setDisable(false);
@@ -280,7 +280,7 @@ public class Olahauptfenstercontroller {
             // Rückmeldung wenn Fehler
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Starten nicht möglich!");
-            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.setContentText("Keine Aktivität ausgewählt!\nBitte eine Aktivität auswählen!");
             alert.showAndWait();
         }
     }
@@ -365,7 +365,7 @@ public class Olahauptfenstercontroller {
             // Rückmeldung wenn Fehler
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Erledigen nicht möglich!");
-            alert.setContentText("Keine Aktivitaet ausgewaehlt!\nBitte eine Aktivitaet auswaehlen!");
+            alert.setContentText("Keine Aktivität ausgewählt!\nBitte eine Aktivität auswählen!");
             alert.showAndWait();
         }
     }
@@ -467,7 +467,7 @@ public class Olahauptfenstercontroller {
                 // Rückmeldung wenn nicht möglich
                 Alert alert2 = new Alert(Alert.AlertType.WARNING);
                 alert2.setTitle("Löschen nicht möglich!");
-                alert2.setContentText("Die Aktivitaet hat schon eine erfasste Zeit!");
+                alert2.setContentText("Die Aktivität hat schon eine erfasste Zeit!");
                 alert2.showAndWait();
             }
         }
