@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 /**
  * Klasse mit Methoden zum Editieren von Tabellenzellen
- * @param <S>
+ * @param <S> The type of the TableView generic type (i.e. S == TableView<S>). This should also match with the first generic type in TableColumn.
  */
 public class EditingTextCell<S> extends TableCell<S, String> {
 	
