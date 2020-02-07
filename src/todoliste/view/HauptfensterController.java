@@ -22,16 +22,16 @@ import todoliste.model.AktivitaetsEintrag;
 /**
  * Controller fuer das Hauptfenster
  */
-public class Hauptfenstercontroller {
+public class HauptfensterController {
 
-    static int me = 0;
-    static int ss = 0;
-    static int mm = 0;
-    static int hh = 0;
+    static int milliSekunden = 0;
+    static int sekunden = 0;
+    static int minuten = 0;
+    static int stunden = 0;
     static int gesamtZeitStart = 0;
     static int gesamtZeitPause = 0;
     static int gesamtZeitErledigt = 0;
-    static String idCheck;
+    static String idCheck = "";
     static boolean b = true;
 
     private ObservableList<AktivitaetsEintrag> obsAktivitaetsEintrag;
@@ -254,6 +254,7 @@ public class Hauptfenstercontroller {
 
         try {
 
+            milliSekunden = 0;
             gesamtZeitStart = 0;
             // Wenn die Aktivitaet schon eine Zeiterfassung hat, so wird diese Zeit im richtigen Format ausgegeben
             AktivitaetsEintrag aktivitaetsEintrag = tabelview.getSelectionModel().getSelectedItem();
@@ -263,38 +264,38 @@ public class Hauptfenstercontroller {
 
             gesamtZeitStart = aktivitaetsEintrag.getVerbrauchteZeit();
 
-            hh = (gesamtZeitStart - gesamtZeitStart % 3600) / 3600;
-            mm = (gesamtZeitStart % 3600 - gesamtZeitStart % 3600 % 60) / 60;
-            ss = gesamtZeitStart % 3600 % 60;
+            stunden = (gesamtZeitStart - gesamtZeitStart % 3600) / 3600;
+            minuten = (gesamtZeitStart % 3600 - gesamtZeitStart % 3600 % 60) / 60;
+            sekunden = gesamtZeitStart % 3600 % 60;
 
             b = true;
             Thread t = new Thread(() -> {
                 while(b){
                     try {
                         Thread.sleep(1);
-                        if (me == 1000) {
-                            me = 0;
-                            ss++;
+                        if (milliSekunden == 1000) {
+                            milliSekunden = 0;
+                            sekunden++;
                         }
-                        if (ss == 60) {
-                            ss = 0;
-                            mm++;
+                        if (sekunden == 60) {
+                            sekunden = 0;
+                            minuten++;
                         }
-                        if (mm == 60) {
-                            mm = 0;
-                            hh++;
+                        if (minuten == 60) {
+                            minuten = 0;
+                            stunden++;
                         }
-                        me++;
+                        milliSekunden++;
 
                         // UI-Thread soll die Oberfläche aktualisieren,
                         // deshalb wird Platform.runLater aufgerufen
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                labelmillisecond.setText(me + "");
-                                labelsecond.setText(ss + " :");
-                                labelminute.setText(mm + " :");
-                                labelhour.setText(hh + " :");
+                                labelmillisecond.setText(milliSekunden + "");
+                                labelsecond.setText(sekunden + " :");
+                                labelminute.setText(minuten + " :");
+                                labelhour.setText(stunden + " :");
                             }
                         });
                     }
@@ -356,7 +357,7 @@ public class Hauptfenstercontroller {
         dpkalender.setDisable(false);
 
         // Gesamtzeit wird zusammengerechnet und der Aktivitaet gesetzt
-        gesamtZeitPause = (hh * 3600) + (mm * 60) + (ss);
+        gesamtZeitPause = (stunden * 3600) + (minuten * 60) + (sekunden);
 
         aktivitaetsEintrag.setVerbrauchteZeit(gesamtZeitPause);
         tabelview.refresh();
@@ -412,9 +413,9 @@ public class Hauptfenstercontroller {
             // Wenn man Aktivitaeten nur erledigt kann es zu Fehlern fuehren
             // Loesung bietet ein idCheck
             // idCheck notwendig beim Wechsel zwischen den Aktivitaeten
-            if (idCheck.contains(aktivitaetsEintrag.getErstellungsDatum()) && hh >=0 && mm >= 0 && ss >= 0){
+            if (idCheck.contains(aktivitaetsEintrag.getErstellungsDatum()) && stunden >=0 && minuten >= 0 && sekunden > 0){
 
-                gesamtZeitErledigt = (hh * 3600) + (mm * 60) + (ss);
+                gesamtZeitErledigt = (stunden * 3600) + (minuten * 60) + (sekunden);
             }
 
             aktivitaetsEintrag.setVerbrauchteZeit(gesamtZeitErledigt);
